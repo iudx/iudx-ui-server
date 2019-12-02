@@ -1,0 +1,23 @@
+version: "3"
+
+networks:
+  ui-net:
+    driver: bridge
+
+services:
+
+  uiserver:
+    image: iudx/alpine_jdk8_maven_tmux:latest
+    container_name: iudx-ui-server
+    hostname: iudx-ui-server
+    restart: always
+    ports:
+      - "443:8443"
+    networks:
+      - ui-net
+    cap_add:
+      - ALL
+    volumes:
+      - ../../iudx-ui-server:/iudx-ui-server/
+    # env_file:
+      # - .env

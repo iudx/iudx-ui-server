@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="IUDX | Indian Urban Data Exchange">
+  <meta name="organization" content="RBCCPS, IISc Bangalore">
+  <meta name="keywords" content="IUDX, CATALOGUE, RBCCPS, IISc BANGALORE">
+  <meta name="author" content="Jishnu Jaykumar P (http://jishnujayakumar.github.io), Rohina Naaz">
+  <link rel="shortcut icon" href="../assets/img/custom_iudx.ico">
+  <title id="smartcity_name"></title>
+  <link href="../assets/css/swagger/swagger-ui.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+  <!-- <link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" /> -->
+  <link rel="stylesheet" href="https://openlayers.org/en/v5.3.0/css/ol.css" type="text/css">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  
+
+  <!-- https://kamranahmed.info/toast -->
+  <link rel="stylesheet" href="../assets/css/jquery.toast.css">
+  
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" type="text/css" href="../assets/css/alertify.css">
+  <link rel="stylesheet" type="text/css" href="../assets/css/common_styles.css">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+    integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+    crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+    integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+    crossorigin="anonymous"></script>
+
+  <script
+    src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css" />
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <!-- Google Fonts  -->
+  <link href="https://fonts.googleapis.com/css?family=Darker+Grotesque&display=swap" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="../assets/css/leaflet-sidebar.css"/> -->
+  
+ 
+</head>
+
+<body>
+    <div class="se-pre-con"></div>
+  <div class="container">
+    <div id="menu-bar-icon">
+      <div class="menu-icon-line"></div>
+      <div class="menu-icon-line"></div>
+      <div class="menu-icon-line"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id="text-icon">
+       <!-- <div class="text-icon-line"><strong>Click here for Geo Search ------</strong> </div> -->
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="jumbotron bg-white">
+      <div class="container">
+        <div id="point">
+          <div class="container">
+            <h2 style="font-family:roboto;font-size:30px;color:rgb(0, 102, 255);" class="center_align"><strong>Details</strong><button class="btn btn-primary" onclick="activate_batch_mode()">Go To Filters</button></h2></h2>
+            <br>
+            <br>
+            <h3 class="details-css">Click a point on the map to get the details <img height="10%" width="10%" src="../../assets/img/icons/pointing-right.png"></h3>
+            <br>
+            <br>
+            <div id="resource_item_details">
+
+            </div>
+            <div id="resource_item_special_feature_links">
+
+            </div>
+            <div id="sidebar_token_space">
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div id="_batch">
+          <h2 style="font-family:roboto;font-size:30px;color:rgb(0, 102, 255);" class="center_align"><strong>Filter
+              Results</strong><button class="btn btn-primary" onclick="showDetails()">Go To Details</button></h2>
+
+          <div style="height:100px;" class="sidebar form-group row">
+
+            <br><br>
+            
+            <label style="margin-left: -10px;"class="col-sm-10 col-form-label label-margin label-size sidebar-catergory"> <img width="10%" height="40%" src="https://image.flaticon.com/icons/svg/138/138238.svg">Tags <button style="margin-right: 24px;"class="btn btn-info bold" onclick="reset_filter('taglists')"> Clear</button><span>Select All Tags<input style="margin-left: 10px;"type="checkbox" id="ckbCheckAll"/></span></label>
+            
+            <br>
+            <fieldset id="taglist" class="sidebar_filter_param"></fieldset>
+            <br><br>
+            
+            <label class="col-sm-10 dp-contents col-form-label label-margin label-size sidebar-catergory"><img width=10% height=40% src= "../../assets/img/icons/server.png"></i> ResourceServerGroup<button class="btn btn-info bold" onclick="reset_filter('resource_server_group')">Clear</button></label>
+            <br>
+            <fieldset id="rsglist" class="sidebar_filter_param"> </fieldset>
+            <br><br>
+            
+            <label class="col-sm-10 dp-contents col-form-label label-margin label-size sidebar-catergory"><img width="10%" height="40%" src="https://image.flaticon.com/icons/svg/1692/1692466.svg"> Provider<button class="btn btn-info bold" onclick="reset_filter('provider')">Clear</button></label>
+            <br>
+            <fieldset id="providerlist" class="sidebar_filter_param"></fieldset>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  <section id="swagger_section" class="container section">
+
+    <!-- <p>Display OPENAPI JSON as HTML</p> -->
+    <br><br>
+    <button class="btn btn-primary btn-block" onclick="display_map()">Go Back</button> <br>
+    <div id="swagger_ui"></div>
+
+    <div id="normal_footer" class="normal_footer"></div>
+
+  </section>
+
+  <div id="map"></div>
+  <!-- Slideshow container -->
+  <!-- <button id= "button_slide" class="w3-button w3-red" onclick="document.getElementById('slideshow').style.display='block'">Take A Short Tour Before You Start</button> 
+<div id ="slideshow" class="slideshow-container">
+    <span id= "close_btn" onclick="this.parentElement.style.display='none'"
+    class="w3-button w3-red w3-display-topright">x</span>  -->
+    <!-- Full-width slides -->
+     <!-- <div class="mySlides">
+      <h1>Tutorial About Map</h1>
+      
+    </div>
+  
+    <div class="mySlides">
+      <h1>But man is not made for defeat. A man can be destroyed but not defeated.</h1>
+      
+    </div>
+  
+    <div class="mySlides">
+      <h1>I have not failed. I've just found 10,000 ways that won't work.</h1>
+      
+    </div> -->
+   
+    <!-- Next/prev buttons -->
+    <!-- <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+  </div> -->
+  
+  <!-- Dots/bullets/indicators -->
+  <!-- <div class="dot-container">
+    <span class="dot" onclick="currentSlide(1)"></span> 
+    <span class="dot" onclick="currentSlide(2)"></span> 
+    <span class="dot" onclick="currentSlide(3)"></span> 
+  </div> -->
+
+</body>
+
+
+
+<!-- jQuery CDN - Slim version (=without AJAX) -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script> -->
+
+<!-- Popper.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+  integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+  integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<!-- <script src="https://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script> -->
+<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+<script type="text/javascript" src="../assets/js/alertify.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+
+<script src="../assets/js/L.Control.Sidebar.js"></script>
+<!-- <script src="../assets/js/leaflet-sidebar.js"></script> -->
+<script type="text/javascript" src="../assets/js/swagger/swagger-ui-bundle.js"></script>
+<script type="text/javascript" src="../assets/js/swagger/swagger-ui-standalone-preset.js"></script>
+<script type="text/javascript" src="../assets/js/swagger_script.js"></script>
+<script type="text/javascript" src="../assets/js/jquery.toast.js"></script>
+<script type="text/javascript" src="../assets/conf.js"></script>
+<script type="text/javascript" src="../assets/js/Chart.min.js"></script>
+<script type="text/javascript" src="../assets/js/_chart_functions.js"></script>
+<script src="../assets/js/common_functions.js"></script>
+<script src="../assets/js/script.js"></script>
+<script>
+
+// var slideIndex = 1;
+// showSlides(slideIndex);
+
+// function plusSlides(n) {
+//   showSlides(slideIndex += n);
+// }
+
+// function currentSlide(n) {
+//   showSlides(slideIndex = n);
+// }
+
+// function showSlides(n) {
+//   var i;
+//   var slides = document.getElementsByClassName("mySlides");
+//   var dots = document.getElementsByClassName("dot");
+//   if (n > slides.length) {slideIndex = 1} 
+//     if (n < 1) {slideIndex = slides.length}
+//     for (i = 0; i < slides.length; i++) {
+//       slides[i].style.display = "none"; 
+//     }
+//     for (i = 0; i < dots.length; i++) {
+//       dots[i].className = dots[i].className.replace(" active", "");
+//     }
+//   slides[slideIndex-1].style.display = "block"; 
+//   dots[slideIndex-1].className += " active";
+// }
+
+
+    $(window).load(function() {
+     // Animate loader off screen
+     $(".se-pre-con").fadeOut("slow");;
+   });
+   </script>
+<script>
+  // -------------------------------------------------------
+  
+    $("#ckbCheckAll").click(function () {
+        $(".checkBoxClass").prop('checked', $(this).prop('checked'));
+        var __filter_url =  "/catalogue/v1/search?" + get_selected_values_framed_url();
+        $(".se-pre-con").fadeIn("slow");
+        $.get(__filter_url, function (data, status) {
+        markersLayer.clearLayers();
+        data = JSON.parse(data)
+        //console.log(data)
+        for (var i = data.length - 1; i >= 0; i--) {
+          // console.log(data[i])
+          if (data[i].hasOwnProperty('location')) {
+
+
+            plotGeoJSONs(data[i]["location"]["value"]["geometry"], data[i]["id"], data[i], data[i]["resourceServerGroup"]["value"], data[i]["resourceId"]["value"]);
+          } else if (data[i].hasOwnProperty('coverageRegion')) {
+
+
+            plotGeoJSONs(data[i]["coverageRegion"]["value"]["geometry"], data[i]["id"], data[i], data[i]["resourceServerGroup"]["value"], data[i]["resourceId"]["value"]);
+            // console.log("2")
+          }
+        }
+          $(".se-pre-con").fadeOut("slow");
+      });
+        
+    });
+    
+  
+
+  $(document).ready(function () {
+    // var state = document.readyState
+    // console.log(state)
+
+    $.get("/catalogue/internal_apis/list/tags", function(data) {
+      data=JSON.parse(data).sort()
+      var tlist = '<div id = "tag_filters" class="filter_box field-item">';
+      var _d;
+      for (var i = 0; i < data.length; i++) {
+        _d = data[i].toLowerCase()
+        tlist += `<label for="` + _d + `"><input type="checkbox" id="` + _d + `" name="taglists"  class="filter_input_box checkBoxClass" value="` + _d + `"> ` + _d + `</label>`;
+      }
+      tlist += '</div>';
+      $("#taglist").append(tlist);
+          $(".filter_input_box").change(function () {
+
+    var __filter_url =  "/catalogue/v1/search?" + get_selected_values_framed_url()
+    $(".se-pre-con").fadeIn("slow");
+    $.get(__filter_url, function (data, status) {
+      markersLayer.clearLayers();
+      data = JSON.parse(data)
+      //console.log(data)
+      for (var i = data.length - 1; i >= 0; i--) {
+        // console.log(data[i])
+        if (data[i].hasOwnProperty('location')) {
+          
+          
+          plotGeoJSONs(data[i]["location"]["value"]["geometry"], data[i]["id"], data[i], data[i]["resourceServerGroup"]["value"], data[i]["resourceId"]["value"]);
+        } else if (data[i].hasOwnProperty('coverageRegion')) {
+         
+          
+          plotGeoJSONs(data[i]["coverageRegion"]["value"]["geometry"], data[i]["id"], data[i], data[i]["resourceServerGroup"]["value"], data[i]["resourceId"]["value"]);
+          // console.log("2")
+        }
+      }
+      $(".se-pre-con").fadeOut("slow");
+      });
+    });
+
+    });
+
+    $.get("/catalogue/internal_apis/list/resourceServerGroup", function(data) {
+      data=JSON.parse(data).sort()
+      var rsglist = '<div id = "rsg_filters" class="filter_box field-item">';
+      var _d, _v;
+      
+      for (var i = 0; i < data.length; i++) {
+        _d = data[i].toLowerCase()
+        _v = _d.split(cat_conf['resource_server_group_head'])[1]
+        
+        rsglist += `<label for="` + _d + `"><input type="checkbox" id="` + _d + `" name="resource_server_group"  class="filter_input_box" value="` + _d + `"><img width="10%" height="10%" src="`+ getImageRsg(_v) +`"> ` + _v + `</label>`;
+      }
+      
+      rsglist += '</div>';  
+      
+      $("#rsglist").append(rsglist);
+          $(".filter_input_box").change(function () {
+
+    var __filter_url =  "/catalogue/v1/search?" + get_selected_values_framed_url()
+//     $(".se-pre-con").fadeIn("slow");
+    $.get(__filter_url, function (data, status) {
+      markersLayer.clearLayers();
+      data = JSON.parse(data)
+      //console.log(data)
+      for (var i = data.length - 1; i >= 0; i--) {
+         //console.log(data[i])
+        if (data[i].hasOwnProperty('location')) {
+          
+          
+          plotGeoJSONs(data[i]["location"]["value"]["geometry"], data[i]["id"], data[i], data[i]["resourceServerGroup"]["value"], data[i]["resourceId"]["value"]);
+        } else if (data[i].hasOwnProperty('coverageRegion')) {
+         
+          
+          plotGeoJSONs(data[i]["coverageRegion"]["value"]["geometry"], data[i]["id"], data[i], data[i]["resourceServerGroup"]["value"], data[i]["resourceId"]["value"]);
+          //console.log("2")
+        }
+      }
+//       $(".se-pre-con").fadeOut("slow");
+      });
+    });
+
+         
+    });
+
+    $.get("/catalogue/internal_apis/list/provider", function(data) {
+      data=JSON.parse(data).sort()
+      var plist = '<div id = "provider_filters" class="filter_box">';
+      var _d, _v;
+      for (var i = data.length-1; i >=0; i--) {
+          _d = data[i].toLowerCase()
+          _v = _d.split(cat_conf['provider_head'])[1]
+          plist += `<label for="` + _d + `"><input type="checkbox" id="` + _d + `" name="provider"  class="filter_input_box" value="` + _d + `"> ` + _v + `</label>`;
+      }
+      plist += '</div>';
+      $("#providerlist").append(plist);
+          $(".filter_input_box").change(function () {
+
+    var __filter_url =  "/catalogue/v1/search?" + get_selected_values_framed_url()
+//     $(".se-pre-con").fadeIn("slow");
+    $.get(__filter_url, function (data, status) {
+      markersLayer.clearLayers();
+      data = JSON.parse(data)
+      //console.log(data)
+      for (var i = data.length - 1; i >= 0; i--) {
+        // console.log(data[i])
+        if (data[i].hasOwnProperty('location')) {
+          
+          
+          plotGeoJSONs(data[i]["location"]["value"]["geometry"], data[i]["id"], data[i], data[i]["resourceServerGroup"]["value"], data[i]["resourceId"]["value"]);
+        } else if (data[i].hasOwnProperty('coverageRegion')) {
+         
+          
+          plotGeoJSONs(data[i]["coverageRegion"]["value"]["geometry"], data[i]["id"], data[i], data[i]["resourceServerGroup"]["value"], data[i]["resourceId"]["value"]);
+          //console.log("2")
+        }
+      }
+//       $(".se-pre-con").fadeOut("slow");
+      });
+    });
+
+    });
+    
+    activate_batch_mode();
+    sidebar.show();
+   
+    // $('#spinner').hide();
+
+  });
+
+</script>
+
+</html>

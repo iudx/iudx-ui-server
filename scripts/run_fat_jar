@@ -1,0 +1,3 @@
+#!/bin/sh
+cd /iudx-ui-server
+mvn clean compile exec:java

@@ -1,0 +1,5 @@
+#!/bin/sh
+cd /iudx-ui-server/scripts
+chmod a+x run_fat_jar
+tmux new-session -d -s iudx-ui-server
+tmux send-keys -t iudx-ui-server "./run_fat_jar" C-m

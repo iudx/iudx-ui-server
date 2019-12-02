@@ -1,0 +1,3 @@
+docker-compose down -v
+docker-compose up -d
+docker exec iudx-ui-server /iudx-ui-server/scripts/run_server

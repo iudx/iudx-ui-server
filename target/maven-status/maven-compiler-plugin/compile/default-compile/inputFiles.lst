@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 /iudx-ui-server/src/main/java/in/org/iudx/catalogue/ui/server/MainVerticle.java
 /iudx-ui-server/src/main/java/in/org/iudx/catalogue/ui/server/DeploymentVerticle.java
+=======
+/home/peejay/Desktop/rbccps/github/iudx-ui/src/main/java/in/org/iudx/catalogue/ui/server/MainVerticle.java
+>>>>>>> 4141f5ba03bb9dec9d83cd81b4c828b27a8a2027

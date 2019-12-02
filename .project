@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
+<<<<<<< HEAD
 	<name>iudx-ui-server</name>
+=======
+	<name>server</name>
+>>>>>>> 4141f5ba03bb9dec9d83cd81b4c828b27a8a2027
 	<comment></comment>
 	<projects>
 	</projects>

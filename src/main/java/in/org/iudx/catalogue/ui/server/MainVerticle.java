@@ -18,7 +18,6 @@ import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 
 
-
 public class MainVerticle extends AbstractVerticle {
 
   private static final Logger logger = Logger.getLogger(MainVerticle.class.getName());

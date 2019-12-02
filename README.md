@@ -14,6 +14,9 @@ Quickstart
 	- docker
 	- docker-compose
     
+#. Please insert the password corresponding to the **.jks** file (used in production) in **config.properties** file. If not done then server won't start.
+
+
 #. Start the installation::
 
     cd docker

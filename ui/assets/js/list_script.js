@@ -172,7 +172,7 @@ function get_items(_attr_name,_attr_value){
 	
 	$(".se-pre-con").fadeIn("slow");
 	
-	$.get(cat_conf['cat_base_URL']+"/search?attribute-name=("+_attr_name+")&attribute-value=("+_attr_value+")", function(data) {
+	$.get("/catalogue/v1/search?attribute-name=("+_attr_name+")&attribute-value=("+_attr_value+")", function(data) {
             // $("#searched_items").text(data);
 		data=JSON.parse(data)
 		set_data_globally(data);
@@ -255,7 +255,7 @@ function show_details(_id){
 	var id = resource_id_to_html_id(_id)
 	// console.log($("#details_section_"+id).is(':visible'))
 	if(!($("#details_section_"+id).is(':visible'))) {
-    	$.get(cat_conf['cat_base_URL']+"/items/" + _id , function(data) {
+    	$.get("/catalogue/v1/items/" + _id , function(data) {
 			data=JSON.parse(data)
 			// //console.log(data)
 			// //console.log(data[0]["resourceId"]["value"])
@@ -387,13 +387,6 @@ function json_to_htmlcard(json_obj){
 	}
 }
 
-
-function get_internal_apis_endpoint(){
-	var arr = cat_conf['cat_base_URL'].split("/")
-	arr.pop()
-	return arr.join("/")
-}
-
 /*************************************************FUNCTION DECLARATIONS START*********************************************/
 
 
@@ -412,22 +405,22 @@ $(document).ready(function(){
 	$("body").fadeIn(1000);
 	$("#landing_section").fadeIn();
 	
-	$.get(cat_conf['cat_base_URL']+"/search", function(data) {
+	$.get("/catalogue/v1/search", function(data) {
 		$("#resource_item_count").html(get_item_count(JSON.parse(data)));
 	});
 	
-	$.get(get_internal_apis_endpoint()+"/internal_apis/list/tags", function(data) {
+	$.get("/catalogue/internal_apis/list/tags", function(data) {
 		tags_set=JSON.parse(data)
 	});
 	
-	$.get(get_internal_apis_endpoint()+"/internal_apis/list/resourceServerGroup", function(data) {
+	$.get("/catalogue/internal_apis/list/resourceServerGroup", function(data) {
 		rsg_set=JSON.parse(data)
 		for (var i = rsg_set.length - 1; i >= 0; i--) {
 			rsg_set[i]=rsg_set[i].split(cat_conf['resource_server_group_head'])[1]
 		}
 	});
 	
-	$.get(get_internal_apis_endpoint()+"/internal_apis/list/provider", function(data) {
+	$.get("/catalogue/internal_apis/list/provider", function(data) {
 		provider_set=JSON.parse(data)
 		$("#provider_count").html(provider_set.length);
 		for (var i = provider_set.length - 1; i >= 0; i--) {

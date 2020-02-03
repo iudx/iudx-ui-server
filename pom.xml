@@ -31,6 +31,14 @@
 		    <artifactId>vertx-web</artifactId>
 		    <version>${stack.version}</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.vertx/vertx-junit5 -->
+<dependency>
+    <groupId>io.vertx</groupId>
+    <artifactId>vertx-junit5</artifactId>
+    <version>4.0.0-milestone4</version>
+    <scope>test</scope>
+</dependency>
+		
   </dependencies>
 
   <build>

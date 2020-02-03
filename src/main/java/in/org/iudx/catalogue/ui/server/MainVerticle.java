@@ -81,7 +81,7 @@ public class MainVerticle extends AbstractVerticle {
     router.route().handler(BodyHandler.create());
 
     router
-    .route("/")
+    .route("/c/")
     .handler(
         routingContext -> {
           HttpServerResponse response = routingContext.response();
@@ -89,14 +89,14 @@ public class MainVerticle extends AbstractVerticle {
         });
 
     router
-        .route("/map")
+        .route("/c/map")
         .handler(
             routingContext -> {
               HttpServerResponse response = routingContext.response();
               response.sendFile("ui/pages/map/index.html");
             });
     router
-        .route("/status")
+        .route("/c/status")
         .handler(
             routingContext -> {
               HttpServerResponse response = routingContext.response();

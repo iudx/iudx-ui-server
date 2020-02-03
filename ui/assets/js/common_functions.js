@@ -6,6 +6,21 @@
 // var _resourceId_data ;
 
 var tags_set = [];
+var first_get_item_call_done=false
+
+function is_attr_empty(_attr_name,_attr_value){
+    if(_attr_name === "" || _attr_value === ""){
+        _alertify("Error!!!", "Attribute-Name or Value missing");
+        return true;
+    }
+}
+
+function display_search_section(){
+    $(".section").fadeOut(200);
+    $("body").css("background-image","none");
+    $("#search_section").fadeIn(1500);
+}
+
 
 function get_icon_credits() {
 
@@ -32,17 +47,17 @@ function getImageRsg(_resourceServerGroup) {
 }
 
 function copyToClipboard(element_id) {
-	var $temp = $("<input>");
-	$("body").append($temp);
-	$temp.val($("#token_value_"+element_id).text()).select();
-	// $("#copied_"+element_id).html("Token copied!")
-	document.execCommand("copy");
-	$temp.remove();
-	_alertify("Success!!!", "Token copied!")
-	// $.sweetModal({
-	//   title: 'Token copied!',
-	//   theme: $.sweetModal.THEME_DARK
-	// });
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val($("#token_value_"+element_id).text()).select();
+    // $("#copied_"+element_id).html("Token copied!")
+    document.execCommand("copy");
+    $temp.remove();
+    _alertify("Success!!!", "Token copied!")
+    // $.sweetModal({
+    //   title: 'Token copied!',
+    //   theme: $.sweetModal.THEME_DARK
+    // });
 }
 
 // Spinner by https://tobiasahlin.com/spinkit/
@@ -621,7 +636,7 @@ function jsonPrettyHighlightToIdwithBR(jsonobj) {
 //         //     }));
 //          // markersLayer.clearLayers();
 
-// 		      $.get("/search/catalogue/attribute?bounding-type=circle&lat="+ _lat +"&long="+ _lng +"&radius="+ _radius, function(data) {
+//            $.get("/search/catalogue/attribute?bounding-type=circle&lat="+ _lat +"&long="+ _lng +"&radius="+ _radius, function(data) {
 
 //             data=JSON.parse(data)
 //             for (var i = data.length - 1; i >= 0; i--) {
@@ -742,7 +757,7 @@ function plotGeoJSONs(geoJSONObject, _id, _json_object, _resourceServerGroup, _r
                     layer.bindPopup(`<div id="pop_up_`+ resource_id_to_html_id(_id) +`"><p class="text-center" style="padding-right:7.5px;"><img src='`+
                     ((is_public) ? "../assets/img/icons/green_unlock.svg" : "../assets/img/icons/red_lock.svg")
                     +`' class='img-fluid secure_icon'></p>`+get_bullets()+` <a href='#' class='data-modal'  onclick="display_latest_data(event, this, '` + _id + `')"> Get latest-data</a><br>
-			          `+get_bullets()+` <a href="#"  class="data-modal" onclick="display_temporal_data(event, this, '`+_json_object.id+`')">Get Temporal Data</a><br>` +
+                      `+get_bullets()+` <a href="#"  class="data-modal" onclick="display_temporal_data(event, this, '`+_json_object.id+`')">Get Temporal Data</a><br>` +
                     ((is_secure) ? ` `+get_bullets()+` <a href='#' class='data-modal'  onclick="request_access_token('` + _json_object.id + `', '`+ _json_object["resourceServerGroup"]["value"] + `', '`+ _json_object["resourceId"]["value"] + `')">Request Access Token</a>` : ``
                     + `</div>`)
                     ).addTo(map);
@@ -764,8 +779,8 @@ function plotGeoJSONs(geoJSONObject, _id, _json_object, _resourceServerGroup, _r
                     var customPopup = `<div id="pop_up_`+ resource_id_to_html_id(_id) +`"><p class="text-center" style="padding-right:7.5px;"><img src='`+
                 ((is_public) ? "../assets/img/icons/green_unlock.svg" : "../assets/img/icons/red_lock.svg")
                 +`' class='img-fluid secure_icon'></p>`+get_bullets()+` <a href='#' class='data-modal'  onclick="display_latest_data(event, this, '` + _id + `')">Get latest-data</a>
-		<br> `+get_bullets()+` <a href="#"  class="data-modal" onclick="display_temporal_data(event, this, '`+_json_object.id+`')">Get Temporal Data</a><br>` +
-		`</div>`;
+        <br> `+get_bullets()+` <a href="#"  class="data-modal" onclick="display_temporal_data(event, this, '`+_json_object.id+`')">Get Temporal Data</a><br>` +
+        `</div>`;
                     var _marker = L.marker(latlng, { icon: getMarkerIcon(_resourceServerGroup) }).addTo(map);
                     _marker.itemUUID = _id;
                     // console.log(_id,this,event)
@@ -863,6 +878,17 @@ function getMarkerIcon(__rsg) {
     return L.icon(getMarkerIconOptions(__rsg.split(cat_conf['resource_server_group_head'])[1]));
 }
 
+
+function get_internal_apis_endpoint(){
+    var arr = cat_conf['cat_base_URL'].split("/")
+    arr.pop()
+    return arr.join("/")
+}
+
+function getFooterContent(){
+    return `<p>&copy; 2019 <a href="https://iudx.org.in" target="_blank">IUDX </a></p>`
+    // return `<p>&copy; 2019 <a href="https://iudx.org.in" target="_blank">IUDX </a> | Read the  <a href="`+ cat_conf['api_docs_link'] +`" target="_blank">Doc</a> <br> ` + get_icon_attribution_html("list_icon_attr") + `</p>`
+}
 
 function get_selected_values_checkbox() {
     var _tags = [];

@@ -95,6 +95,20 @@ public class MainVerticle extends AbstractVerticle {
               HttpServerResponse response = routingContext.response();
               response.sendFile("ui/pages/map/index.html");
             });
+    router
+        .route("/status")
+        .handler(
+            routingContext -> {
+              HttpServerResponse response = routingContext.response();
+              response.sendFile("ui/pages/status/index.html");
+            });
+    router
+        .route("/internal_apis/status-response")
+        .handler(
+            routingContext -> {
+              HttpServerResponse response = routingContext.response();
+              response.sendFile("response.json");
+            });
 
     //router.route("/*").handler(StaticHandler.create("ui/pages"));
     router.route("/assets/*").handler(StaticHandler.create("ui/assets"));

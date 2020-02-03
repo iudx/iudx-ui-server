@@ -2,7 +2,6 @@
 var tags_set=[]
 var rsg_set=[]
 var provider_set=[]
-var first_get_item_call_done=false
 var filters="(id,resourceServerGroup,itemDescription,onboardedBy,accessInformation,resourceId,tags,secure)"
 var page_limit = 10;
 var max_visible_pagesinpagination_bar = 10;
@@ -71,21 +70,6 @@ function populate_pagination_section(){
 
 }
 
-function display_search_section(_attr_name,_attr_value){
-	if(is_attr_empty(_attr_name,_attr_value)){
-		return;
-	}
-	display_search_section();
-	get_items(_attr_name,_attr_value);
-}
-
-function display_saved_search_section(){
-	$(".section").fadeOut(200);
-	$("body").css("background-image","none");
-	$("#search_section").fadeIn(1500);
-	// get_items();
-}
-
 
 function display_swagger_ui(_openapi_url){
 	$(".section").fadeOut(200);
@@ -105,13 +89,6 @@ function display_swagger_ui(_openapi_url){
 	],
 	layout: "StandaloneLayout"
 	})
-}
-
-function is_attr_empty(_attr_name,_attr_value){
-	if(_attr_name === "" || _attr_value === ""){
-		_alertify("Error!!!", "Attribute-Name or Value missing");
-		return true;
-	}
 }
 
 function display_search_section(){
@@ -195,41 +172,34 @@ function get_items(_attr_name,_attr_value){
 	// });
 }
 
-
-function getFooterContent(){
-	return `<p>&copy; 2019 <a href="https://iudx.org.in" target="_blank">IUDX </a></p>`
-	// return `<p>&copy; 2019 <a href="https://iudx.org.in" target="_blank">IUDX </a> | Read the  <a href="`+ cat_conf['api_docs_link'] +`" target="_blank">Doc</a> <br> ` + get_icon_attribution_html("list_icon_attr") + `</p>`
-}
-
 function set_attr_value(__attr_name,__attr_value) {
-	// ////console.log("v:",$( "#value" ).is(':visible'))
-	// ////console.log("_v:",$( "#_value" ).is(':visible'))
-	if($( "#value" ).is(':visible')){
-			$( "#value" ).autocomplete({
-				source: __attr_value,
-				select: function( event, ui ) {
-					get_items(__attr_name, ui["item"]['label'])
-				}
-				// ,
-				// select: function (e, ui) {
-				// 	alert("selected!", e);
-				// },
-				// change: function (e, ui) {
-				// 	alert("changed!", e, ui);
-				// }
-			});
- 		}
+    // ////console.log("v:",$( "#value" ).is(':visible'))
+    // ////console.log("_v:",$( "#_value" ).is(':visible'))
+    if($( "#value" ).is(':visible')){
+            $( "#value" ).autocomplete({
+                source: __attr_value,
+                select: function( event, ui ) {
+                    get_items(__attr_name, ui["item"]['label'])
+                }
+                // ,
+                // select: function (e, ui) {
+                //  alert("selected!", e);
+                // },
+                // change: function (e, ui) {
+                //  alert("changed!", e, ui);
+                // }
+            });
+        }
 
-	if($( "#_value" ).is(':visible')){
-		$( "#_value" ).autocomplete({
-			source: __attr_value,
-			select: function( event, ui ) {
-				get_items(__attr_name, ui["item"]['label'])
-			}
-		});
-	}
+    if($( "#_value" ).is(':visible')){
+        $( "#_value" ).autocomplete({
+            source: __attr_value,
+            select: function( event, ui ) {
+                get_items(__attr_name, ui["item"]['label'])
+            }
+        });
+    }
 }
-
 
 
 function get_horizontal_spaces(space_count){
@@ -387,13 +357,6 @@ function json_to_htmlcard(json_obj){
 	}
 }
 
-
-function get_internal_apis_endpoint(){
-	var arr = cat_conf['cat_base_URL'].split("/")
-	arr.pop()
-	return arr.join("/")
-}
-
 /*************************************************FUNCTION DECLARATIONS START*********************************************/
 
 
@@ -405,64 +368,6 @@ function get_internal_apis_endpoint(){
 
 /*************************************************EVENT BINDINGS START*********************************************/
 
-
-// Set up Footer, filter seen_tags_set
-$(document).ready(function(){
-	
-	$("body").fadeIn(1000);
-	$("#landing_section").fadeIn();
-	
-	$.get(cat_conf['cat_base_URL']+"/search", function(data) {
-		$("#resource_item_count").html(get_item_count(JSON.parse(data)));
-	});
-	
-	$.get(get_internal_apis_endpoint()+"/internal_apis/list/tags", function(data) {
-		tags_set=JSON.parse(data)
-	});
-	
-	$.get(get_internal_apis_endpoint()+"/internal_apis/list/resourceServerGroup", function(data) {
-		rsg_set=JSON.parse(data)
-		for (var i = rsg_set.length - 1; i >= 0; i--) {
-			rsg_set[i]=rsg_set[i].split(cat_conf['resource_server_group_head'])[1]
-		}
-	});
-	
-	$.get(get_internal_apis_endpoint()+"/internal_apis/list/provider", function(data) {
-		provider_set=JSON.parse(data)
-		$("#provider_count").html(provider_set.length);
-		for (var i = provider_set.length - 1; i >= 0; i--) {
-			provider_set[i]=provider_set[i].split(cat_conf['provider_head'])[1]
-		}
-	});
-
-	$("#landing_footer, #normal_footer").html(getFooterContent());
-
-});
-
-
-
-
-
-// Capture select on change effect for populating autosuggest with attribute values 
-$('select').on('change', function() {
-	var _arr = []
-	if(this.value == "tags"){
-		_arr = tags_set
-	}else if(this.value == "resourceServerGroup"){
-		_arr = rsg_set
-	}else if(this.value == "provider"){
-		_arr = provider_set
-	}
-	set_attr_value(this.value, _arr)
-});
-
-
-
-
-// Capture search input click
-$(".ui-menu").on('click',function(){
-	////console.log("s",this.value)
-});
 
 
 /*************************************************EVENT BINDINGS END*********************************************/

@@ -25,6 +25,7 @@ public class MainVerticle extends AbstractVerticle {
   static final int PORT = 8443;
   static String keystore;
   static String keystorePassword;
+  Router router;
   
   @Override
   public void start(Promise<Void> startPromise) throws Exception {
@@ -75,67 +76,36 @@ public class MainVerticle extends AbstractVerticle {
                     new JksOptions().setPath(keystore).setPassword(keystorePassword)));
     return server;
   }
+  
+  private void serveFile(String url, String indexHTMLFilePath) {
+	  this.router
+		  .route(url)
+		    .handler(
+		        routingContext -> {
+		          HttpServerResponse response = routingContext.response();
+		          response.sendFile(indexHTMLFilePath);
+		        });
+  }
 
   private Router defineApiRouting() {
-    Router router = Router.router(vertx);
-    router.route().handler(BodyHandler.create());
+    this.router = Router.router(vertx);
+    this.router.route().handler(BodyHandler.create());
 
     //  Routes intended for providers starts with /p/
-    router
-    .route("/p/dashboard")
-    .handler(
-        routingContext -> {
-          HttpServerResponse response = routingContext.response();
-          response.sendFile("ui/pages/dashboard/index.html");
-        });
-    
+    this.serveFile("/p/dashboard", "ui/pages/dashboard/index.html");
 
     //  Routes intended for consumers starts with /c/
-    router
-    .route("/c/")
-    .handler(
-        routingContext -> {
-          HttpServerResponse response = routingContext.response();
-          response.sendFile("ui/pages/list/index.html");
-        });
-
-    router
-        .route("/c/map")
-        .handler(
-            routingContext -> {
-              HttpServerResponse response = routingContext.response();
-              response.sendFile("ui/pages/map/index.html");
-            });
+    this.serveFile("/c/", "ui/pages/list/index.html");
+    this.serveFile("/c/map", "ui/pages/map/index.html");
     
     //  Routes intended for providers and consumers
-    
-    router
-    .route("/")
-    .handler(
-        routingContext -> {
-          HttpServerResponse response = routingContext.response();
-          response.sendFile("ui/pages/landing/index.html");
-        });
-    
-    router
-    .route("/status")
-    .handler(
-        routingContext -> {
-          HttpServerResponse response = routingContext.response();
-          response.sendFile("ui/pages/status/index.html");
-        });
-    
-    router
-    .route("/internal_apis/status-response")
-    .handler(
-        routingContext -> {
-          HttpServerResponse response = routingContext.response();
-          response.sendFile("response.json");
-        });
+    this.serveFile("/", "ui/pages/landing/index.html");
+    this.serveFile("/status", "ui/pages/status/index.html");
+    this.serveFile("/internal_apis/status-response", "ui/pages/status/index.html");
 
     //router.route("/*").handler(StaticHandler.create("ui/pages"));
-    router.route("/assets/*").handler(StaticHandler.create("ui/assets"));
-    return router;
+    this.router.route("/assets/*").handler(StaticHandler.create("ui/assets"));
+    return this.router;
   }
 
 }

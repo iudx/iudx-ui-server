@@ -225,7 +225,7 @@ function show_details(_id){
 	var id = resource_id_to_html_id(_id)
 	// console.log($("#details_section_"+id).is(':visible'))
 	if(!($("#details_section_"+id).is(':visible'))) {
-    	$.get("/catalogue/v1/items/" + _id , function(data) {
+    	$.get(cat_conf['cat_base_URL'] + "/catalogue/v1/items/" + _id , function(data) {
 			data=JSON.parse(data)
 			// //console.log(data)
 			// //console.log(data[0]["resourceId"]["value"])

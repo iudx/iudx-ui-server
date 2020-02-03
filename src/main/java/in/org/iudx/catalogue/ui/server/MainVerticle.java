@@ -80,6 +80,17 @@ public class MainVerticle extends AbstractVerticle {
     Router router = Router.router(vertx);
     router.route().handler(BodyHandler.create());
 
+    //  Routes intended for providers starts with /p/
+    router
+    .route("/p/dashboard")
+    .handler(
+        routingContext -> {
+          HttpServerResponse response = routingContext.response();
+          response.sendFile("ui/pages/dashboard/index.html");
+        });
+    
+
+    //  Routes intended for consumers starts with /c/
     router
     .route("/c/")
     .handler(
@@ -95,20 +106,32 @@ public class MainVerticle extends AbstractVerticle {
               HttpServerResponse response = routingContext.response();
               response.sendFile("ui/pages/map/index.html");
             });
+    
+    //  Routes intended for providers and consumers
+    
     router
-        .route("/c/status")
-        .handler(
-            routingContext -> {
-              HttpServerResponse response = routingContext.response();
-              response.sendFile("ui/pages/status/index.html");
-            });
+    .route("/")
+    .handler(
+        routingContext -> {
+          HttpServerResponse response = routingContext.response();
+          response.sendFile("ui/pages/landing/index.html");
+        });
+    
     router
-        .route("/internal_apis/status-response")
-        .handler(
-            routingContext -> {
-              HttpServerResponse response = routingContext.response();
-              response.sendFile("response.json");
-            });
+    .route("/status")
+    .handler(
+        routingContext -> {
+          HttpServerResponse response = routingContext.response();
+          response.sendFile("ui/pages/status/index.html");
+        });
+    
+    router
+    .route("/internal_apis/status-response")
+    .handler(
+        routingContext -> {
+          HttpServerResponse response = routingContext.response();
+          response.sendFile("response.json");
+        });
 
     //router.route("/*").handler(StaticHandler.create("ui/pages"));
     router.route("/assets/*").handler(StaticHandler.create("ui/assets"));

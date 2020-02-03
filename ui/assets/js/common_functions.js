@@ -21,7 +21,6 @@ function display_search_section(){
     $("#search_section").fadeIn(1500);
 }
 
-
 function get_icon_credits() {
 
     var str = `Various icons used in this web app have been taken from <a href="` + icon_attribution['site_link'] + `" target="_blank">` + icon_attribution['site'] + `</a> and belong to the following authors.<br><ul>`
@@ -36,6 +35,15 @@ function get_icon_credits() {
 
     _alertify("Icon Credits", str);
 }
+
+function get_redirect_url(u){
+    return window.location.origin + u
+}
+
+function redirect_to(u){
+    window.location.href = window.location.origin + u
+}
+
 
 function get_icon_attribution_html(map_icon_attr) {
     // return `<span class="` + map_icon_attr + `">Icons made by <a href="`+icon_attribution['author_link']+`" target="_blank">`+icon_attribution['author']+`</a> from <a href="`+icon_attribution['site_link']+`" target="_blank">`+icon_attribution['site']+`</a>.</span>`

@@ -149,7 +149,7 @@ function get_items(_attr_name,_attr_value){
 	
 	$(".se-pre-con").fadeIn("slow");
 	
-	$.get(cat_conf['cat_base_URL']+"/search?attribute-name=("+_attr_name+")&attribute-value=("+_attr_value+")", function(data) {
+	$.get("/catalogue/v1/search?attribute-name=("+_attr_name+")&attribute-value=("+_attr_value+")", function(data) {
             // $("#searched_items").text(data);
 		data=JSON.parse(data)
 		set_data_globally(data);
@@ -225,7 +225,7 @@ function show_details(_id){
 	var id = resource_id_to_html_id(_id)
 	// console.log($("#details_section_"+id).is(':visible'))
 	if(!($("#details_section_"+id).is(':visible'))) {
-    	$.get(cat_conf['cat_base_URL']+"/items/" + _id , function(data) {
+    	$.get("/catalogue/v1/items/" + _id , function(data) {
 			data=JSON.parse(data)
 			// //console.log(data)
 			// //console.log(data[0]["resourceId"]["value"])

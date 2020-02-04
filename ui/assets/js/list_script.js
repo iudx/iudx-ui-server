@@ -3,72 +3,13 @@ var tags_set=[]
 var rsg_set=[]
 var provider_set=[]
 var filters="(id,resourceServerGroup,itemDescription,onboardedBy,accessInformation,resourceId,tags,secure)"
-var page_limit = 10;
-var max_visible_pagesinpagination_bar = 10;
-var __DATA;
+
 /*************************************************GLOBAL VARIABLES END***********************************************/
 
 
 /*************************************************FUNCTION DECLARATIONS START*********************************************/
 
-function get_global_data(){
-	return __DATA;
-}
 
-function get_page_limit(){
-	return page_limit;
-}
-
-// To be used when UI has the ability to showcase this feature
-function set_page_limit(_page_limit){
-	page_limit = _page_limit;
-}
-
-function set_data_globally(_data){
-	__DATA = _data;
-}
-
-function min(val1, val2){
-	return Math.min(val1, val2);
-}
-
-function display_paginated_search_results(page_num){
-	var global_data = get_global_data();
-	$("#searched_items").html("");
-	var from = min(((page_num-1)*get_page_limit()),global_data.length);
-	var to = min(((page_num)*get_page_limit()-1), global_data.length);
-	for (var i=from;i < to; i++) {
-		$("#searched_items").append(json_to_htmlcard(global_data[i]));	
-	}
-	// //console.log("dislpaying item from:"+from+" to:"+to + " " + (global_data.length/get_page_limit() + ((global_data.length%get_page_limit())>0) ? 1 : 0));
-}
-
-function populate_pagination_section(){
-    // init bootpag
-    var data_length = get_global_data().length
-    $('#page-selection').bootpag({
-        total: (data_length/get_page_limit() + (((data_length%get_page_limit())>0) ? 1 : 0)),
-        maxVisible: max_visible_pagesinpagination_bar,
-        leaps: true,
-		next: '>',
-		prev: '<',
-	    firstLastUse: true,
-	    first: '<<',
-	    last: '>>',
-	    wrapClass: 'pagination',
-	    activeClass: 'page-active',
-	    disabledClass: 'disabled',
-	    nextClass: 'next',
-	    prevClass: 'prev',
-	    lastClass: 'last',
-	    firstClass: 'first'
-    }).on("page", function(event, /* page number here */ num){
-          display_paginated_search_results(num);
-    });
-
-    display_paginated_search_results(1);
-
-}
 
 
 function display_swagger_ui(_openapi_url){
@@ -95,16 +36,6 @@ function display_search_section(){
 	$(".section").fadeOut(200);
 	$("body").css("background-image","none");
 	$("#search_section").fadeIn(1500);
-}
-
-function get_item_count(__data){
-	var _c=0;
-	for (var i = __data.length - 1; i >= 0; i--) {
-		if(__data[i]['itemType']['value']=="resourceItem"){
-			_c+=1;
-		}
-	}
-	return _c;
 }
 
 /*
@@ -149,11 +80,11 @@ function get_items(_attr_name,_attr_value){
 	
 	$(".se-pre-con").fadeIn("slow");
 	
-	$.get("/catalogue/v1/search?attribute-name=("+_attr_name+")&attribute-value=("+_attr_value+")", function(data) {
+	$.get(cat_conf["cat_base_URL"] + "/search?attribute-name=("+_attr_name+")&attribute-value=("+_attr_value+")", function(data) {
             // $("#searched_items").text(data);
 		data=JSON.parse(data)
 		set_data_globally(data);
-		$("#retrieved_items_count").html("About " + get_item_count(data) + " results for " + _temp_a_v + " (Attribute: " + _attr_name + ") | <a href='/map'>Go to Map View</a>");
+		$("#retrieved_items_count").html("About " + get_item_count(data) + " results for " + _temp_a_v + " (Attribute: " + _attr_name + ") | <a href='/c/map'>Go to Map View</a>");
 		$("#searched_items").html("");
 		for (var i = 0; i < data.length; i++) {
 			$("#searched_items").append(json_to_htmlcard(data[i]));
@@ -225,7 +156,7 @@ function show_details(_id){
 	var id = resource_id_to_html_id(_id)
 	// console.log($("#details_section_"+id).is(':visible'))
 	if(!($("#details_section_"+id).is(':visible'))) {
-    	$.get(cat_conf['cat_base_URL'] + "/catalogue/v1/items/" + _id , function(data) {
+    	$.get(cat_conf['cat_base_URL'] + "/items/" + _id , function(data) {
 			data=JSON.parse(data)
 			// //console.log(data)
 			// //console.log(data[0]["resourceId"]["value"])

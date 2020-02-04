@@ -26,6 +26,14 @@ var tile_layer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voya
 tile_layer.addTo(map);
 
 
+link = L.control({ position: 'topright' });
+link.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'myclass');
+    div.innerHTML = `<span id="username"></span>`;
+    return div;
+}
+link.addTo(map);
+
 link = L.control({ position: 'bottomright' });
 link.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'myclass');

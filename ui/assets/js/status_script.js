@@ -1,3 +1,9 @@
+function set_data_globally(_data){
+	__DATA = _data;
+}
+
+
+
 function get_items(_attr_name,_attr_value){
 	if(is_attr_empty(_attr_name,_attr_value)){
 		return;
@@ -18,15 +24,11 @@ function get_items(_attr_name,_attr_value){
 	
 	$(".se-pre-con").fadeIn("slow");
 	
-
-	
-
-	
 	$.get(cat_conf['cat_base_URL']+"/search?attribute-name=("+_attr_name+")&attribute-value=("+_attr_value+")", function(data) {
             // $("#searched_items").text(data);
 		data=JSON.parse(data)
 		set_data_globally(data);
-		$("#retrieved_items_count").html("About " + get_item_count(data) + " results for " + _temp_a_v + " (Attribute: " + _attr_name + ") | <a href='/map'>Go to Map View</a>");
+		$("#retrieved_items_count").html("About " + get_item_count(data) + " results for " + _temp_a_v + " (Attribute: " + _attr_name + ") ");
 		$("#searched_items").html("");
 		for (var i = 0; i < data.length; i++) {
 			$("#searched_items").append(json_to_htmlcard(data[i]));

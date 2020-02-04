@@ -7,12 +7,84 @@
 
 var tags_set = [];
 var first_get_item_call_done=false
+var page_limit = 10;
+var max_visible_pagesinpagination_bar = 10;
+var __DATA;
+
+function get_global_data(){
+	return __DATA;
+}
+
+function get_page_limit(){
+	return page_limit;
+}
+
+// To be used when UI has the ability to showcase this feature
+function set_page_limit(_page_limit){
+	page_limit = _page_limit;
+}
+
+function set_data_globally(_data){
+	__DATA = _data;
+}
+
+function min(val1, val2){
+	return Math.min(val1, val2);
+}
 
 function is_attr_empty(_attr_name,_attr_value){
     if(_attr_name === "" || _attr_value === ""){
         _alertify("Error!!!", "Attribute-Name or Value missing");
         return true;
     }
+}
+
+function get_item_count(__data){
+	var _c=0;
+	for (var i = __data.length - 1; i >= 0; i--) {
+		if(__data[i]['itemType']['value']=="resourceItem"){
+			_c+=1;
+		}
+	}
+	return _c;
+}
+
+function display_paginated_search_results(page_num){
+	var global_data = get_global_data();
+	$("#searched_items").html("");
+	var from = min(((page_num-1)*get_page_limit()),global_data.length);
+	var to = min(((page_num)*get_page_limit()-1), global_data.length);
+	for (var i=from;i < to; i++) {
+		$("#searched_items").append(json_to_htmlcard(global_data[i]));	
+	}
+	// //console.log("dislpaying item from:"+from+" to:"+to + " " + (global_data.length/get_page_limit() + ((global_data.length%get_page_limit())>0) ? 1 : 0));
+}
+
+function populate_pagination_section(){
+    // init bootpag
+    var data_length = get_global_data().length
+    $('#page-selection').bootpag({
+        total: (data_length/get_page_limit() + (((data_length%get_page_limit())>0) ? 1 : 0)),
+        maxVisible: max_visible_pagesinpagination_bar,
+        leaps: true,
+		next: '>',
+		prev: '<',
+	    firstLastUse: true,
+	    first: '<<',
+	    last: '>>',
+	    wrapClass: 'pagination',
+	    activeClass: 'page-active',
+	    disabledClass: 'disabled',
+	    nextClass: 'next',
+	    prevClass: 'prev',
+	    lastClass: 'last',
+	    firstClass: 'first'
+    }).on("page", function(event, /* page number here */ num){
+          display_paginated_search_results(num);
+    });
+
+    display_paginated_search_results(1);
+
 }
 
 function display_search_section(){
@@ -926,7 +998,7 @@ function get_selected_values_checkbox() {
 }
 
 $(document).ready(function () {
-    $("#smartcity_name").html(cat_conf['smart_city_name'] + " IUDX | Indian Urban Data Exchange Catalogue ")
+    $("#smartcity_name").html(cat_conf['smart_city_name'] + " IUDX | Indian Urban Data Exchange")
     $("#smart_city_link").html(cat_conf['smart_city_name'])
     $("#smart_city_link").attr('href', cat_conf['smart_city_url'])
     $("#smart_iudx_city_logo").attr('src', cat_conf['smart_city_iudx_logo'])

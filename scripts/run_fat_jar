@@ -1,3 +1,4 @@
 #!/bin/sh
 cd /iudx-ui-server
-mvn clean compile exec:java
+mvn clean package && java -jar target/server-1.0.0-SNAPSHOT-fat.jar
+#mvn clean compile exec:java

@@ -10,6 +10,7 @@ public class DeploymentVerticle extends AbstractVerticle {
 
 	  private static final Logger logger = Logger.getLogger(DeploymentVerticle.class.getName());
 
+	@SuppressWarnings("deprecation")
 	@Override
 	  public void start(Future<Void> startFuture) throws Exception {
 

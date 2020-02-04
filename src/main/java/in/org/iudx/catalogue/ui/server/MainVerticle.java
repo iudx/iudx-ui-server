@@ -101,7 +101,7 @@ public class MainVerticle extends AbstractVerticle {
     //  Routes intended for providers and consumers
     this.serveFile("/", "ui/pages/landing/index.html");
     this.serveFile("/status", "ui/pages/status/index.html");
-    this.serveFile("/internal_apis/status-response", "ui/pages/status/index.html");
+    this.serveFile("/internal_apis/status-response", "response.json");
 
     //router.route("/*").handler(StaticHandler.create("ui/pages"));
     this.router.route("/assets/*").handler(StaticHandler.create("ui/assets"));

@@ -33,6 +33,11 @@ font-size:14px!important;
 	z-index: 9999;
 	background: url(../img/spinner.gif) center no-repeat #fff;
 }
+
+.iudx-instances{
+  font-size: 50px;
+}
+
 /* Slideshow container */
 .slideshow-container {
   position: relative;

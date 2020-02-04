@@ -31,10 +31,10 @@ $.post( cat_conf["auth_base_URL"] + "/certificate-info", function( data ) {
         for (let index = 0; index < iudx_instances.length; index++) {
             L.marker(iudx_instances[index]["lat_lng"])
                 .addTo(map).bindPopup(L.popup()
-                                        .setContent(iudx_instances[index]["instance_name"] 
-                                                    + "<br>"
-                                                    + "<a href=\""+get_redirect_url('/p/dashboard')+"\" > Provider Mode</a><br>"
+                                        .setContent( 
+                                                    "<a href=\""+get_redirect_url('/p/dashboard')+"\" > Provider Mode</a><br>"
                                                     + "<a href=\""+get_redirect_url('/c/')+"\" > Consumer Mode</a>"))
+                                                    .bindTooltip(iudx_instances[index]["instance_name"])
         }
     }
 });

@@ -26,7 +26,7 @@ $.post( cat_conf["auth_base_URL"] + "/certificate-info", function( data ) {
         redirect_to("/c/")
     }else{
         // _alertify(get_landing_welcome_msg(data))
-        $("username").html(`<span>` + data["id"] + `</span>`)
+        $("#username").html(`<span> Welcome, ` + data["id"] + `</span>`)
         $("#map").show();
         for (let index = 0; index < iudx_instances.length; index++) {
             L.marker(iudx_instances[index]["lat_lng"])

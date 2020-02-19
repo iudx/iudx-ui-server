@@ -300,6 +300,21 @@ a.article:hover {
     color: rgb(32, 44, 153);
 }
 
+
+.secure_icon {
+    width: 25px !important;
+}
+
+
+.se-pre-con {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(../img/spinner.gif) center no-repeat #fff;
+}
 /* ---------------------------------------------------
     card
 ----------------------------------------------------- */
@@ -328,7 +343,87 @@ button.btn.btn-dark{
 
 #setPolicyRules,
 #manageGroups,
-#audit
+#audit,
+#section-create-form,
+#confirmation_modal
  {
     display:none;
 }
+
+/* ---------------------------------------------------
+    searched items section
+----------------------------------------------------- */
+
+.col-12 {
+    
+    max-width: 39%!important;
+
+}
+
+    #searched_items{
+        margin-left: -70px;
+    }
+/* ---------------------------------------------------
+Buttons
+----------------------------------------------------- */
+.color-blue{
+    background-color:#3856b0!important;
+    border-color: #3856b0!important;
+    color:#fff
+}
+.color-green {
+    background-color:#448770!important;
+    border-color: #448770!important;
+    color:#fff!important;
+}    
+
+
+.btn-3-set{
+    margin-right: 10px!important;
+    margin-top: 5px !important; 
+    font-weight:500px !important;
+}
+/* ---------------------------------------------------
+username-color
+----------------------------------------------------- */
+
+#username{
+    color: #3856b0; 
+}
+
+
+.page {
+    display: none;
+  }
+  .page-active {
+    display: block;
+  }
+
+  .active
+ {
+    background-color:#2b2c2e;
+    color: white;
+  }
+
+  a.sidebar-options:hover{
+    background-color:#fff;
+    color: black;
+  }
+
+  /* ---------------------------------------------------
+Section Create
+----------------------------------------------------- */
+
+  .create-form-css{
+    max-width: 80%;
+    margin-left: -20%;
+  }
+
+
+  /*-------------------------------------------------------
+    Confirmation Modal
+  ---------------------------------------------------------*/
+ .modal-content{
+     background-color: black!important;
+     color:white!important;
+ }

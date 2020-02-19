@@ -3,7 +3,7 @@ const cat_conf = {
 	"smart_city_iudx_logo":"../assets/img/iudx_pscdcl.png",
 	"smart_city_name":"PSCDCL",
 	"smart_city_url":"https://punesmartcity.in/",
-	"cat_base_URL": "https://pudx.catalogue.iudx.org.in/catalogue/v1",
+	"cat_base_URL": "https://ui-test.iudx.org.in:8443/catalogue/v1",
 	"auth_base_URL": "https://auth.iudx.org.in/auth/v1",
 	"resoure_server_base_URL": "https://pudx.resourceserver.iudx.org.in/resource-server/pscdcl/v1",
 	"api_docs_link": "https://apidocs.iudx.org.in",

@@ -4,8 +4,9 @@
 
 
 
-var page_limit = 10;
+var page_limit = 5;
 var max_visible_pagesinpagination_bar = 10;
+var current_page = 1;
 var __DATA;
 
 /*----------------------------------------------
@@ -21,6 +22,7 @@ $( document ).ready(function() {
     $(".section-audit").hide(10);
     $(".section-create").hide(10);
     $("#confirmation_modal").hide(10);
+    $(".navbar").css("background-image",cat_conf["smart_city_iudx_logo"])
  });
 
  function displaySetPolicy(){
@@ -820,7 +822,7 @@ function request_access_token() {
     section-homepage-catalogue
 ---------------------------------------*/
 
-function json_to_htmlcard(json_obj){
+function json_to_htmlcard_for_provider(json_obj){
     //  console.log(json_obj);
 	if(json_obj['id'].split("/").length < 5){
 		return ``
@@ -834,7 +836,7 @@ function json_to_htmlcard(json_obj){
 		var rat_btn_html=`<button class="btn btn-success" onclick="request_access_token('` + json_obj.id + `', '`+ json_obj["resourceServerGroup"]["value"] + `', '`+ json_obj["resourceId"]["value"] + `')" style="background-color:green">Request Access Token</button>`
 		var s = json_obj["id"].split("/")
 		return `
-			<div id="card_`+ resource_id_to_html_id(json_obj['id']) +`" style="display:inline-block;" class="col-12 card-margin-top">
+			<div id="card_`+ resource_id_to_html_id(json_obj['id']) +`" class="col-12 card-margin-top">
 			<div class="card">
 			  <h5 class="card-header card-header-color">
 			  <span class="float-left" style="padding-right:7.5px;"><img src='`+
@@ -854,7 +856,7 @@ function json_to_htmlcard(json_obj){
 			    </div>
 			     <div id="token_section_`+resource_id_to_html_id(json_obj.id)+`" class="token_section"></div>
 			  </div>
-			  <div id="details_section_`+resource_id_to_html_id(json_obj.id)+`" class="details_section">
+			  <div id="details_section_`+resource_id_to_html_id(json_obj.id)+`" style="display:none" class="details_section">
 			  	<table class="table table-borderless table-dark">
 				  <thead>
 				  	<tr></tr>
@@ -871,6 +873,53 @@ function json_to_htmlcard(json_obj){
 	}
 }
 
+function set_current_page(page_num){
+    current_page = page_num
+}
+
+function get_current_page(){
+    return current_page
+}
+
+function display_paginated_search_results_provider(page_num){
+    var global_data = get_global_data();
+    $("#searched_provider_items").html("");
+    var from = min(((page_num-1)*get_page_limit()),global_data.length);
+    var to = min(((page_num)*get_page_limit()-1), global_data.length);
+    for (var i=from;i < to; i++) {
+        $("#searched_provider_items").append(json_to_htmlcard_for_provider(global_data[i]));  
+    }
+    set_current_page(page_num)
+    // //console.log("dislpaying item from:"+from+" to:"+to + " " + (global_data.length/get_page_limit() + ((global_data.length%get_page_limit())>0) ? 1 : 0));
+}
+
+function populate_pagination_section_provider(){
+    // init bootpag
+    var data_length = get_global_data().length
+    $('#page-selection').bootpag({
+        total: (data_length/get_page_limit() + (((data_length%get_page_limit())>0) ? 1 : 0)),
+        maxVisible: max_visible_pagesinpagination_bar,
+        leaps: true,
+        next: '>',
+        prev: '<',
+        firstLastUse: true,
+        first: '<<',
+        last: '>>',
+        wrapClass: 'pagination',
+        activeClass: 'page-active',
+        disabledClass: 'disabled',
+        nextClass: 'next',
+        prevClass: 'prev',
+        lastClass: 'last',
+        firstClass: 'first'
+    }).on("page", function(event, /* page number here */ num){
+          display_paginated_search_results_provider(num);
+    });
+
+    display_paginated_search_results_provider(1);
+
+}
+
 
 function get_horizontal_spaces(space_count){
 	var horizontal_space_str=""
@@ -878,50 +927,6 @@ function get_horizontal_spaces(space_count){
 		horizontal_space_str+="&nbsp;"
 	}
 	return horizontal_space_str;
-}
-
-function resource_id_to_html_id(resource_id) {
-    var replace_with = "_";
-    return resource_id.replace(/\/|\.|\s|\(|\)|\<|\>|\{|\}|\,|\"|\'|\`|\*|\;|\+|\!|\#|\%|\^|\&|\=|\₹|\$|\@/g, replace_with)
-}
-
-function display_paginated_search_results(page_num){
-	var global_data = get_global_data();
-	$("#searched_provider_items").html("");
-	var from = min(((page_num-1)*get_page_limit()),global_data.length);
-	var to = min(((page_num)*get_page_limit()-1), global_data.length);
-	for (var i=from;i < to; i++) {
-		$("#searched_provider_items").append(json_to_htmlcard(global_data[i]));	
-	}
-	// //console.log("dislpaying item from:"+from+" to:"+to + " " + (global_data.length/get_page_limit() + ((global_data.length%get_page_limit())>0) ? 1 : 0));
-}
-
-function populate_pagination_section(){
-    // init bootpag
-    var data_length = get_global_data().length
-    console.log(data_length)
-    $('#page-selection').bootpag({
-        total: (data_length/get_page_limit() + (((data_length%get_page_limit())>0) ? 1 : 0)),
-        maxVisible: max_visible_pagesinpagination_bar,
-        leaps: true,
-		next: '>',
-		prev: '<',
-	    firstLastUse: true,
-	    first: '<<',
-	    last: '>>',
-	    wrapClass: 'pagination',
-	    activeClass: 'page-active',
-	    disabledClass: 'disabled',
-	    nextClass: 'next',
-	    prevClass: 'prev',
-	    lastClass: 'last',
-	    firstClass: 'first'
-    }).on("page", function(event, /* page number here */ num){
-          display_paginated_search_results(num);
-    });
-
-    display_paginated_search_results(1);
-
 }
 
 
@@ -1001,9 +1006,20 @@ function get_modal_id(_id){
     return "#modal_"+ resource_id_to_html_id(_id)
 }
 
+function remove_deleted_item_from_global_data(id){
+    var d = get_global_data()
+    for (var i = d.length - 1; i >= 0; i--) {
+        if(d[i]["id"] == id){
+            d.splice(i, 1);
+            break
+        }
+    }
+    set_data_globally(d)
+    return get_global_data().length
+}
+
 function call_delete_api(_id){
     var modal_id = get_modal_id(_id)
-    // console.log(1)
     $.ajax({
         url: cat_conf['cat_base_URL'] + "/items/" +_id ,
         headers: {"Authorization" : "Basic cm9oaW5hOnJvaGluYXJiY2Nwcw=="},
@@ -1012,10 +1028,15 @@ function call_delete_api(_id){
             remove_modal(modal_id)
             if(e.status === 204){
                 $("#card_"+ resource_id_to_html_id(_id)).remove();
-                $('#searched_provider_items').html($('searched_provider_items').html()) 
-                toast_alert( 'Item deleted successfully', 'success', '#248c5a')
+                var html = $('searched_provider_items').html()
+                var l = remove_deleted_item_from_global_data(_id)
+                if(l == 0) {
+                    toast_alert("No more items remaining", 'warning', '#1abc9c')
+                }else if($(".details_section").length == 0){
+                    populate_pagination_section_provider()   
+                }
             }else if(e.status === 400){
-                toast_alert(xhr, 'warning', '#1abc9c')
+                toast_alert(e.responseJSON["Status"], 'warning', '#1abc9c')
             }
         }
     });

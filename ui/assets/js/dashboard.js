@@ -836,7 +836,7 @@ function json_to_htmlcard_for_provider(json_obj){
 		var rat_btn_html=`<button class="btn btn-success" onclick="request_access_token('` + json_obj.id + `', '`+ json_obj["resourceServerGroup"]["value"] + `', '`+ json_obj["resourceId"]["value"] + `')" style="background-color:green">Request Access Token</button>`
 		var s = json_obj["id"].split("/")
 		return `
-			<div id="card_`+ resource_id_to_html_id(json_obj['id']) +`" class="col-12 card-margin-top">
+			<div id="card_`+ resource_id_to_html_id(json_obj['id']) +`" class="col-12 card-margin-top" style="margin-top: 25px">
 			<div class="card">
 			  <h5 class="card-header card-header-color">
 			  <span class="float-left" style="padding-right:7.5px;"><img src='`+
@@ -851,8 +851,8 @@ function json_to_htmlcard_for_provider(json_obj){
 			    <button class="btn btn-primary color-blue btn-3-set" onclick="show_details('`+ json_obj.id +`')">Details</button>
 			    <!--button class="btn btn-success" onclick="display_swagger_ui('` + openapi_url + `')">API Details</button-->
 			    `+ ((is_public)?"":rat_btn_html) +`
-			    <a href="#" style="color:white"  class="data-modal" onclick="edit_data_from_list('`+json_obj['id']+`')"><button class="btn color-green btn-3-set">Edit</button></a>
-			    <a style="color:white"  class="data-modal" onclick="show_confirmation_modal('`+json_obj['id']+`')"><button class="btn color-green btn-3-set">Delete</button></a>
+			    <a href="#" style="color:white"  class="data-modal" onclick="edit_data_from_list('`+json_obj['id']+`')"><button class="btn color-yellow">Edit</button></a>
+			    <a style="color:white"  class="data-modal" onclick="show_confirmation_modal('`+json_obj['id']+`')"><button class="btn color-red">Delete</button></a>
 			    </div>
 			     <div id="token_section_`+resource_id_to_html_id(json_obj.id)+`" class="token_section"></div>
 			  </div>

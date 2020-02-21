@@ -13,6 +13,14 @@ var __DATA;
  Display & hide different sections 
 -----------------------------------------------*/
 
+function hide_pagination(){
+    $("#page-selection").hide();
+}
+
+function show_pagination(){
+    $("#page-selection").show();
+}
+
 $( document ).ready(function() {
     $(".section-manageGroups").hide(10);
     $(".section-setPolicyRules").hide(10);
@@ -25,6 +33,7 @@ $( document ).ready(function() {
  });
 
  function displaySetPolicy(){
+    hide_pagination()
     $(".section-audit").hide(10);
     $(".section-manageGroups").hide(10);
     $("#searched_provider_items").hide(10);
@@ -34,6 +43,7 @@ $( document ).ready(function() {
  }
 
  function displayManageGroups(){
+    hide_pagination()
     $(".section-audit").hide(10);
     $(".section-setPolicyRules").hide(10);
     $("#searched_provider_items").hide(10);
@@ -43,6 +53,7 @@ $( document ).ready(function() {
 }
 
 function displayAuditSection(){
+    hide_pagination()
     $(".section-manageGroups").hide(10);
     $(".section-setPolicyRules").hide(10);
     $("#searched_provider_items").hide(10);
@@ -52,6 +63,7 @@ function displayAuditSection(){
 }
 
 function displayProviderItems(){
+    show_pagination()
     $(".section-manageGroups").hide(10);
     $(".section-setPolicyRules").hide(10);
     $(".section-audit").hide(10);
@@ -61,6 +73,7 @@ function displayProviderItems(){
 }
 
 function displayCreateSection(){
+    hide_pagination()
     $(".section-manageGroups").hide(10);
     $(".section-setPolicyRules").hide(10);
     $(".section-audit").hide(10);

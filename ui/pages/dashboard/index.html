@@ -24,7 +24,7 @@
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
     <!-- <link rel="stylesheet" href="./assets/css/styles.css"> -->
-
+    
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <!-- Font Awesome JS -->
@@ -176,19 +176,19 @@
            <div id="page-selection" class=" pagination centerFlex" style="padding-top: 40px"><!-- Pagination goes here --></div>
 
             <section id="setPolicyRules" class="section-setPolicyRules">
-                <div class="row">
+                <!-- <div class="row"> -->
 
 
-                    <div class="card" id="step-5-card">
+                    <div class="card" id="set-policy-card">
                         <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Set Policy Rules
                         </h3>
                         <div class="card-body">
-                            <div id="table" class="table-editable">
+                            <div id="table" class="table-responsive table-editable">
                                             <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success">
                                                 <i class="fas fa-plus fa-2x" aria-hidden="true" onclick="addPolicy()"></i></a>
                                             </span>
 
-                                            <table class="table table-bordered" data-height="400" id="rulesTable">
+                                            <table class="ttable-responsive table table-bordered" data-height="400" id="rulesTable">
                                                     <thead id="thead">
                                                       <tr>
                                                             <th class="text-center" scope="col">Email-Id</th>
@@ -214,9 +214,7 @@
                     </div>
 
 
-                </div>
-
-
+                <!-- </div> -->
             </section>
 
             <section id="manageGroups" class="section-manageGroups">
@@ -226,7 +224,7 @@
                         </h3>
                         <div class="card-body">
                             <div id="consumer-table" class="table-editable">
-                                <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
+                                <span class="table-add float-right mb-3 mr-2"><a id="plus_add" href="#!" class="text-success"><i
                                             class="fas fa-plus fa-2x" aria-hidden="true"
                                             onclick="addGroups()"></i></a></span>
 
@@ -268,10 +266,10 @@
                         <div class="card-body">
                             <div class="row">
                               
-                                    <input style="width: 70%;margin-left: 18px;"type="text" name="text" id="text" placehoder="Enter time in hrs">
+                                    <input id="audit_input" style="width: 70%;margin-left: 18px;" type="text" name="text" id="text" placehoder="Enter time in hrs">
                               &nbsp;
                                
-                                    <button type="button" class="btn btn-dark">Submit</button>
+                                    <button id="audit_submit" type="button" class="btn btn-dark">Submit</button>
                                
                             </div>
                         </div>  
@@ -411,6 +409,7 @@
     crossorigin="anonymous"></script>
 <script type="text/javascript" src="../assets/js/alertify.js"></script>
 <script src="../../assets/js/common_functions.js"></script>
+<script src="../../assets/js/auth.js"></script>
 <script src="../../assets/js/dashboard.js"></script>
 <script type="text/javascript" src="../../assets/js/jquery.toast.js"></script>
 <script type="text/javascript" src="../../assets/js/jquery.bootpag.min.js"></script>
@@ -436,8 +435,15 @@
               redirect_to_with_msg("/", "Please use a valid certificate. Redirecting to home page.")
             }
         });
-    });
-</script>
+        $(window).load(function() {
+            var homeUrl = 'https://localhost.iudx.org.in:8443/p/dashboard#';
+            console.log("Reload ")
+     var currentURL = window.location.href;
+     console.log(location.href);
+     window.location.href= homeUrl;
+     
+});
+    </script>
 </body>
 
 </html>

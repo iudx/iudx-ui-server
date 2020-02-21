@@ -30,6 +30,10 @@ h1,p{
   text-align: center;
 }
 
+.toast_msg{
+  font-size: 20px !important;
+}
+
 header{
   background-color: white;
   margin-left: 0 !important;

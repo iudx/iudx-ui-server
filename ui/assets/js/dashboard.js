@@ -294,12 +294,14 @@ function call_delete_api(_id){
                 var html = $('searched_provider_items').html()
                 var l = remove_deleted_item_from_global_data(_id)
                 if(l == 0) {
-                    toast_alert("No more items remaining", 'warning', '#1abc9c')
+                    toast_alert("No more items remaining", 'warning', '#f1935c')
                 }else if($(".details_section").length == 0){
                     populate_pagination_section_provider()   
+                }else{
+                    toast_alert("Deletion successful", 'success', '#75b79e')
                 }
             }else if(e.status === 400){
-                toast_alert(e.responseJSON["Status"], 'warning', '#1abc9c')
+                toast_alert_with_header("ERROR", e.responseJSON["Status"], 'error', 'red')
             }
         }
     });

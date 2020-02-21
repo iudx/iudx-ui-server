@@ -101,7 +101,7 @@ function json_to_htmlcard(json_obj){
 
 function show_details(_id){
     var id = resource_id_to_html_id(_id)
-    console.log($("#details_section_"+id).is(':visible'))
+    // console.log($("#details_section_"+id).is(':visible'))
     if(!($("#details_section_"+id).is(':visible'))) {
         $.get(cat_conf['cat_base_URL'] + "/items/" + _id , function(data) {
             data=JSON.parse(data)
@@ -576,6 +576,21 @@ function get_filtered_url(__filter_url) {
 
 function toast_alert(__msg, __msg_type, __bg_color) {
     $.toast({
+        text: `<b class="toast_msg">` + __msg + `</b>`,
+        position: 'mid-center',
+        hideAfter: 1800,
+        loader: false,  // Whether to show loader or not. True by default
+        loaderBg: '#1abc9c',
+        bgColor: __bg_color,
+        showHideTransition: 'fade', // fade, slide or plain
+        allowToastClose: false, // Boolean value true or false
+        icon: __msg_type // Type of toast icon  
+    })
+}
+
+function toast_alert_with_header(__header, __msg, __msg_type, __bg_color) {
+    $.toast({
+        heading: __header,
         text: `<b class="toast_msg">` + __msg + `</b>`,
         position: 'mid-center',
         hideAfter: 1800,

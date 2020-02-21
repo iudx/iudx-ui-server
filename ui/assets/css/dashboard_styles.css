@@ -30,6 +30,37 @@ a:focus {
     transition: all 0.3s;
 }
 
+.centerFlex {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination>.disabled>span, .pagination>.disabled>span:hover, .pagination>.disabled>span:focus, .pagination>.disabled>a, .pagination>.disabled>a:hover, .pagination>.disabled>a:focus{
+  cursor: pointer !important;
+}
+
+.pagination>li>a{
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.btn-detail{
+    background-color: #00a8cc;
+    color: white;
+}
+
+.details_p{
+    /*text-align: center;*/
+}
+
 .color-blue{
     background-color: #007bff !important;
     color:white;

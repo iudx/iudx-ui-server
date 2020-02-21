@@ -847,11 +847,11 @@ function json_to_htmlcard_for_provider(json_obj){
 			    <strong>Onboarded-By</strong>: `+json_obj['onboardedBy']+`<br>
 			    <strong>Access</strong>: `+ (is_public ? "Public": "Requires Authentication") +`<br>
 			    <div class="btn-3-set" id="btn_`+resource_id_to_html_id(json_obj.id)+`">
-			    <button class="btn btn-primary" onclick="show_details('`+ json_obj.id +`')">Details</button>
+			    <button class="btn btn-detail" onclick="show_details('`+ json_obj.id +`')">Details</button>
 			    <!--button class="btn btn-success" onclick="display_swagger_ui('` + openapi_url + `')">API Details</button-->
 			    `+ ((is_public)?"":rat_btn_html) +`
-			    <a href="#" style="color:white"  class="data-modal" onclick="edit_data_from_list('`+json_obj['id']+`')"><button class="btn color-yellow">Edit</button></a>
-			    <a style="color:white"  class="data-modal" onclick="show_confirmation_modal('`+json_obj['id']+`')"><button class="btn color-red">Delete</button></a>
+			    <a href="#" style="color:white"  class="data-modal" onclick="edit_data_from_list('`+json_obj['id']+`')"><button class="btn btn-default">Edit</button></a>
+			    <a style="color:white"  class="data-modal" onclick="show_confirmation_modal('`+json_obj['id']+`')"><button class="btn btn-secondary">Delete</button></a>
 			    </div>
 			     <div id="token_section_`+resource_id_to_html_id(json_obj.id)+`" class="token_section"></div>
 			  </div>

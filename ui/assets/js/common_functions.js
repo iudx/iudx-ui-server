@@ -154,7 +154,7 @@ function show_details(_id){
              //    </tr>
 
                 $("#extra_links_"+id).html(`
-                <p>
+                <p class="details_p">
                     <!--<a href="`+ get_latest_data_url() +`">Latest Data</a>   |  -->
                     <a href="`+data[0]["refBaseSchema"]["value"]+`" target="_blank">Base Schema </a> |
                     <a href="`+data[0]["refDataModel"]["value"]+`" target="_blank">Data Model </a>

@@ -115,7 +115,7 @@ function json_to_htmlcard_for_provider(json_obj){
 			    <strong>Onboarded-By</strong>: `+json_obj['onboardedBy']+`<br>
 			    <strong>Access</strong>: `+ (is_public ? "Public": "Requires Authentication") +`<br>
 			    <div class="btn-3-set" id="btn_`+resource_id_to_html_id(json_obj.id)+`">
-			    <button class="btn btn-primary" onclick="show_details('`+ json_obj.id +`')">Details</button>
+			    <button class="btn btn-primary color-blue" onclick="show_details('`+ json_obj.id +`')">Details</button>
 			    <!--button class="btn btn-success" onclick="display_swagger_ui('` + openapi_url + `')">API Details</button-->
 			    `+ ((is_public)?"":rat_btn_html) +`
 			    <a href="#" style="color:white"  class="data-modal" onclick="edit_data_from_list('`+json_obj['id']+`')"><button class="btn color-green btn-success">Edit</button></a>
@@ -378,9 +378,8 @@ function create_item_by_upload(){
             var data = fileReader.result;  // data <-- in this var you have the file data in text format
             $.ajax({
               type: "POST",
-              url: cat_conf["cat_base_URL"] + "/items",
+              url: cat_conf["cat_base_URL"] + "/items?item-type=" + selected_type,
               data: JSON.stringify({
-                "type":selected_type,
                 "item": JSON.parse(data) 
               }),
               dataType: 'json',
@@ -419,9 +418,8 @@ function create_item_by_paste(){
     }else{
         $.ajax({
               type: "POST",
-              url: cat_conf["cat_base_URL"] + "/items",
+              url: cat_conf["cat_base_URL"] + "/items?item-type=" + selected_type,
               data: JSON.stringify({
-                "type":selected_type,
                 "item":JSON.parse($(id).val())
               }),
               dataType: 'json',

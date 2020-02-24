@@ -273,7 +273,7 @@ function setPolicy(rule) {
     var json_rule = { "policy": rule };
     $.ajax({
 
-        url: 'https://auth.iudx.org.in/auth/v1/acl/set',
+        url: cat_conf[auth_base_URL]+'/acl/set',
 
         type: 'POST',
 
@@ -341,7 +341,7 @@ function getPolicy() {
     // $.get("https://jsonplaceholder.typicode.com/posts", function(data) {
         $.ajax({
 
-            url: 'https://auth.iudx.org.in/auth/v1/acl',
+            url: cat_conf[auth_base_URL]+'/acl',
     
             type: 'POST',
     
@@ -564,7 +564,7 @@ function setGroups(grp, email, validity) {
     var json_rule = { "group": grp, "consumer": email, "valid-till": validity };
     $.ajax({
 
-        url: 'https://auth.iudx.org.in/auth/v1/group/add',
+        url: cat_conf[auth_base_URL]+'/group/add',
 
         type: 'POST',
 
@@ -592,7 +592,7 @@ function getGroups() {
 
     $.ajax({
 
-        url: 'https://auth.iudx.org.in/auth/v1/group/list',
+        url: cat_conf[auth_base_URL]+'/group/list',
 
         type: 'POST',
 
@@ -650,7 +650,7 @@ function deleteGroups(grp, email) {
 
     json_rule = { "group": grp, "consumer": email }
     $.ajax({
-        url: 'https://auth.iudx.org.in/auth/v1/group/delete',
+        url: cat_conf[auth_base_URL]+'/group/delete',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(json_rule),
@@ -721,7 +721,7 @@ function request_access_token() {
 
 
     $.ajax({
-        url: "https://auth.iudx.org.in/auth/v1/token",
+        url: cat_conf[auth_base_URL]+'/token',
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
@@ -783,7 +783,7 @@ function get_data_from_token() {
 
 function audit_tokens(__time){
     $.ajax({
-        url: 'https://auth.iudx.org.in/auth/v1/audit/tokens',
+        url: cat_conf[auth_base_URL]+'/audit/tokens',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({"hours": __time}),

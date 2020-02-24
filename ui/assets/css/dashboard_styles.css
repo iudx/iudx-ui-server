@@ -30,7 +30,7 @@ a:focus {
     transition: all 0.3s;
 }
 
-.color-blue{
+/* .color-blue{
     background-color: #007bff !important;
     color:white;
 }
@@ -42,7 +42,7 @@ a:focus {
 
 .color-yellow{
     background-color: #ffc107 !important;
-}
+} */
 
 .navbar {
     padding: 15px 10px;

@@ -24,7 +24,12 @@ $( document ).ready(function() {
     $(".navbar").css("background-image",cat_conf["smart_city_iudx_logo"])
  });
 
+function hide_pagination(){
+    $("#page-selection").hide();
+}
+
  function displaySetPolicy(){
+    hide_pagination();
     $(".section-audit").hide(10);
     $(".section-manageGroups").hide(10);
     $("#searched_provider_items").hide(10);
@@ -34,6 +39,7 @@ $( document ).ready(function() {
  }
 
  function displayManageGroups(){
+    hide_pagination();
     $(".section-audit").hide(10);
     $(".section-setPolicyRules").hide(10);
     $("#searched_provider_items").hide(10);
@@ -43,6 +49,7 @@ $( document ).ready(function() {
 }
 
 function displayAuditSection(){
+    hide_pagination();
     $(".section-manageGroups").hide(10);
     $(".section-setPolicyRules").hide(10);
     $("#searched_provider_items").hide(10);
@@ -52,6 +59,7 @@ function displayAuditSection(){
 }
 
 function displayProviderItems(){
+    hide_pagination();
     $(".section-manageGroups").hide(10);
     $(".section-setPolicyRules").hide(10);
     $(".section-audit").hide(10);
@@ -61,6 +69,7 @@ function displayProviderItems(){
 }
 
 function displayCreateSection(){
+    hide_pagination();
     $(".section-manageGroups").hide(10);
     $(".section-setPolicyRules").hide(10);
     $(".section-audit").hide(10);
@@ -101,8 +110,8 @@ function json_to_htmlcard_for_provider(json_obj){
 			    <button class="btn btn-primary" onclick="show_details('`+ json_obj.id +`')">Details</button>
 			    <!--button class="btn btn-success" onclick="display_swagger_ui('` + openapi_url + `')">API Details</button-->
 			    `+ ((is_public)?"":rat_btn_html) +`
-			    <a href="#" style="color:white"  class="data-modal" onclick="edit_data_from_list('`+json_obj['id']+`')"><button class="btn color-yellow">Edit</button></a>
-			    <a style="color:white"  class="data-modal" onclick="show_confirmation_modal('`+json_obj['id']+`')"><button class="btn color-red">Delete</button></a>
+			    <a href="#" style="color:white"  class="data-modal" onclick="edit_data_from_list('`+json_obj['id']+`')"><button class="btn  color-green btn-3-set color-yellow">Edit</button></a>
+			    <a style="color:white"  class="data-modal" onclick="show_confirmation_modal('`+json_obj['id']+`')"><button class="btn  color-green btn-3-set color-red ">Delete</button></a>
 			    </div>
 			     <div id="token_section_`+resource_id_to_html_id(json_obj.id)+`" class="token_section"></div>
 			  </div>

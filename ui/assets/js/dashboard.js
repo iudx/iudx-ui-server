@@ -13,6 +13,14 @@ var __DATA;
  Display & hide different sections 
 -----------------------------------------------*/
 
+function hide_pagination(){
+    $("#page-selection").hide();
+}
+
+function show_pagination(){
+    $("#page-selection").show();
+}
+
 $( document ).ready(function() {
     $(".section-manageGroups").hide(10);
     $(".section-setPolicyRules").hide(10);
@@ -29,7 +37,7 @@ function hide_pagination(){
 }
 
  function displaySetPolicy(){
-    hide_pagination();
+    hide_pagination()
     $(".section-audit").hide(10);
     $(".section-manageGroups").hide(10);
     $("#searched_provider_items").hide(10);
@@ -39,7 +47,7 @@ function hide_pagination(){
  }
 
  function displayManageGroups(){
-    hide_pagination();
+    hide_pagination()
     $(".section-audit").hide(10);
     $(".section-setPolicyRules").hide(10);
     $("#searched_provider_items").hide(10);
@@ -49,7 +57,7 @@ function hide_pagination(){
 }
 
 function displayAuditSection(){
-    hide_pagination();
+    hide_pagination()
     $(".section-manageGroups").hide(10);
     $(".section-setPolicyRules").hide(10);
     $("#searched_provider_items").hide(10);
@@ -59,7 +67,7 @@ function displayAuditSection(){
 }
 
 function displayProviderItems(){
-    hide_pagination();
+    show_pagination()
     $(".section-manageGroups").hide(10);
     $(".section-setPolicyRules").hide(10);
     $(".section-audit").hide(10);
@@ -69,7 +77,7 @@ function displayProviderItems(){
 }
 
 function displayCreateSection(){
-    hide_pagination();
+    hide_pagination()
     $(".section-manageGroups").hide(10);
     $(".section-setPolicyRules").hide(10);
     $(".section-audit").hide(10);
@@ -110,8 +118,8 @@ function json_to_htmlcard_for_provider(json_obj){
 			    <button class="btn btn-primary" onclick="show_details('`+ json_obj.id +`')">Details</button>
 			    <!--button class="btn btn-success" onclick="display_swagger_ui('` + openapi_url + `')">API Details</button-->
 			    `+ ((is_public)?"":rat_btn_html) +`
-			    <a href="#" style="color:white"  class="data-modal" onclick="edit_data_from_list('`+json_obj['id']+`')"><button class="btn  color-green btn-3-set color-yellow">Edit</button></a>
-			    <a style="color:white"  class="data-modal" onclick="show_confirmation_modal('`+json_obj['id']+`')"><button class="btn  color-green btn-3-set color-red ">Delete</button></a>
+			    <a href="#" style="color:white"  class="data-modal" onclick="edit_data_from_list('`+json_obj['id']+`')"><button class="btn color-green btn-success">Edit</button></a>
+			    <a style="color:white"  class="data-modal" onclick="show_confirmation_modal('`+json_obj['id']+`')"><button class="btn btn-secondary">Delete</button></a>
 			    </div>
 			     <div id="token_section_`+resource_id_to_html_id(json_obj.id)+`" class="token_section"></div>
 			  </div>
@@ -277,6 +285,41 @@ function remove_deleted_item_from_global_data(id){
     return get_global_data().length
 }
 
+function readURL(input) {
+  if (input.files && input.files[0]) {
+
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('.image-upload-wrap').hide();
+
+      $('.file-upload-image').attr('src', e.target.result);
+      $('.file-upload-content').show();
+
+      $('.image-title').html(input.files[0].name);
+    };
+
+    reader.readAsDataURL(input.files[0]);
+
+  } else {
+    removeUpload();
+  }
+}
+
+function removeUpload() {
+  $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+  $('.file-upload-content').hide();
+  $("#cat_json_file_input").val("")
+  $('.image-upload-wrap').show();
+}
+
+$('.image-upload-wrap').bind('dragover', function () {
+        $('.image-upload-wrap').addClass('image-dropping');
+    });
+    $('.image-upload-wrap').bind('dragleave', function () {
+        $('.image-upload-wrap').removeClass('image-dropping');
+});
+
 function call_delete_api(_id){
     var modal_id = get_modal_id(_id)
     $.ajax({
@@ -290,16 +333,229 @@ function call_delete_api(_id){
                 var html = $('searched_provider_items').html()
                 var l = remove_deleted_item_from_global_data(_id)
                 if(l == 0) {
-                    toast_alert("No more items remaining", 'warning', '#1abc9c')
+                    toast_alert_with_header("WARNING", "No more items remaining", 'warning', '#f1935c')
                 }else if($(".details_section").length == 0){
                     populate_pagination_section_provider()   
+                }else{
+                    toast_alert("Deletion successful", 'success', '#75b79e')
                 }
             }else if(e.status === 400){
-                toast_alert(e.responseJSON["Status"], 'warning', '#1abc9c')
+                toast_alert_with_header("ERROR", e.responseJSON["Status"], 'error', 'red')
             }
         }
     });
     // console.log(2)
+}
+
+function get_cat_item_types(id){
+    var _id = `cat_item_type-`+id
+    return `
+          <form>
+          <div id="`+id+`" class="form-group">
+            <label for="`+_id+`">Choose Item Type</label>
+            <select class="form-control selectpicker" id="`+_id+`">
+              <option value="resourceItem">Resource Item</option>
+              <option value="resourceGroup">Resource Group</option>
+              <option value="provider">Provider</option>
+              <option value="resourceServer">Resource Server</option>
+             </select>
+          </div>
+          </form>
+
+    `
+}
+
+function create_item_by_upload(){
+    var id = "#cat_json_file_input"
+    var selected_type = $("#cat_item_type-upload").val()
+    if($(id).val()=="")
+    {
+        toast_alert_with_header("WARNING", "Please select a JSON file", "warning", "#f1935c")
+    }else{
+        console.log("file selected", $(id).val());
+        var fileReader = new FileReader();
+        fileReader.onload = function () {
+            var data = fileReader.result;  // data <-- in this var you have the file data in text format
+            $.ajax({
+              type: "POST",
+              url: cat_conf["cat_base_URL"] + "/items",
+              data: JSON.stringify({
+                "type":selected_type,
+                "item": JSON.parse(data) 
+              }),
+              dataType: 'json',
+              contentType: 'application/json',
+              complete: function(e, xhr, settings){
+                    if(e.status === 201){
+                            
+
+
+                            toast_alert("Created successful", 'success', '#75b79e')
+                        
+                    }else if(e.status === 400){
+                        
+                        toast_alert_with_header("ERROR", e.responseJSON["Status"], 'error', 'red')
+                    
+                    }
+                }
+            });
+            console.log(data)
+        };
+        fileReader.readAsText($(id).prop('files')[0]);
+    }
+}
+
+function auto_grow(element) {
+    element.style.height = "5px";
+    element.style.height = (element.scrollHeight)+"px";
+}
+
+function create_item_by_paste(){
+    var selected_type = $("#cat_item_type-upload").val()
+    var id = "#cat_json_textarea"
+        if($(id).val()=="")
+    {
+        toast_alert_with_header("WARNING", "Textarea is empty. Please provide some json.", "warning", "#f1935c")
+    }else{
+        $.ajax({
+              type: "POST",
+              url: cat_conf["cat_base_URL"] + "/items",
+              data: JSON.stringify({
+                "type":selected_type,
+                "item":JSON.parse($(id).val())
+              }),
+              dataType: 'json',
+              contentType: 'application/json',
+              complete: function(e, xhr, settings){
+                    if(e.status === 201){    
+
+                            toast_alert("Created successful", 'success', '#75b79e')
+                        
+                    }else if(e.status === 400){
+                        
+                        toast_alert_with_header("ERROR", e.responseJSON["Status"], 'error', 'red')
+                    
+                    }
+                }
+            });
+    }
+}
+
+function get_manual_create_html(){
+    return `<br>
+                          <div class="card create-form-css">
+                      <!-- Card header -->
+                      <div class="card-header">
+                        <h3 class="mb-0">Create Items</h3>
+                      </div>
+                      <!-- Card body -->
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-lg-8">
+                            <p class="mb-0">
+                              <!-- For custom form validation messages, you’ll need to add the novalidate boolean attribute to your <code>&lt;form&gt;</code>. This disables the browser default feedback tooltips, but still provides access to the form
+                              validation APIs in JavaScript.
+                              <br><br>
+                              When attempting to submit, you’ll see the<code>:invalid</code> and <code>:valid</code> styles applied to your form controls. -->
+                              You can create new Items here.......
+                            </p>
+                          </div>
+                        </div>
+                        <hr>
+                        <form class="needs-validation" novalidate="">
+                          <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                              <label class="form-control-label" for="itemDescription">Item Description:</label>
+                              <input type="text" class="form-control" id="itemDescription" placeholder="Item Description" value="">
+                              <!-- <div class="valid-feedback">
+                                Looks good!
+                              </div> -->
+                            </div>
+                            <div class="col-md-6 mb-3">
+                              <label class="form-control-label" for="itemStatus">Device ID</label>
+                              <input type="text" class="form-control" id="itemStatus" placeholder="Item Status" value="">
+                              <!-- <div class="valid-feedback">
+                                Looks good!
+                              </div> -->
+                            </div>
+                            
+                          </div>
+                          <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                              <label class="form-control-label" for="deviceId">Item status</label>
+                              <select type="text" class="form-control" id="deviceId" placeholder="Device ID" required="">
+                                  <option>active</option>
+                                  <option>live</option>
+                                  <option>recently live</option>
+                                  <option>down</option>
+                              </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                    <label class="form-control-label" for="location">Location</label>
+                                    <input type="text" class="form-control" id="location" placeholder="Location">
+                                    <!-- <div class="invalid-feedback">
+                                      Please choose a username.
+                                    </div> -->
+                            </div>
+
+                          </div>
+                            <div class="form-row">
+                            <!-- <div class="col-md-7 mb-3"> -->
+                                <div> Device Model Info:</div>
+                            </div>
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
+                                 <div class="form-row">
+                                <div class="row">
+                                    <div class="col-md-1 mb-3">
+                                        <label class="form-control-label" for="url">Url</label>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                            <input type="text" class="form-control" id="url" placeholder="url">
+                                    </div>
+                             
+                                <!-- </div>
+                                <div class="row"> -->
+                                        <div class="col-md-1 mb-3">
+                                            <label class="form-control-label" for="model">Model</label>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                                <input type="text" class="form-control" id="model" placeholder="model">
+                                        </div>
+                                 
+                                    <!-- </div> -->
+                                    <!-- <div class="row"> -->
+                                            <div class="col-md-1 mb-3">
+                                                <label class="form-control-label" for="brand">Brand</label>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                    <input type="text" class="form-control" id="brand" placeholder="brand">
+                                            </div>
+                                     
+                                        </div>
+                            <!-- </div> -->
+                            <!-- <div class="col-md-2 mb-3">
+                              <label class="form-control-label" for="validationCustom05">Zip</label>
+                              <input type="text" class="form-control" id="validationCustom05" placeholder="Zip" required="">
+                              <div class="invalid-feedback">
+                                Please provide a valid zip.
+                              </div>
+                            </div> -->
+                          </div>
+                          <div class="form-group">
+                            <div class="custom-control custom-checkbox mb-3">
+                              <input class="custom-control-input" id="invalidCheck" type="checkbox" value="" required="">
+                              <label class="custom-control-label" for="invalidCheck">Agree to terms and conditions</label>
+                              <div class="invalid-feedback">
+                                You must agree before submitting.
+                              </div>
+                            </div>
+                          </div>
+                          <button class="btn btn-primary" type="submit">Submit form</button>
+                        </form>
+                      </div>
+                    </div>
+    `
 }
 
 function show_confirmation_modal(_id) {

@@ -283,118 +283,48 @@
 
             </section>
             <section id="section-create-form" class="section-create">
-                  <div class="card create-form-css">
-                      <!-- Card header -->
-                      <div class="card-header">
-                        <h3 class="mb-0">Create Items</h3>
-                      </div>
-                      <!-- Card body -->
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col-lg-8">
-                            <p class="mb-0">
-                              <!-- For custom form validation messages, you’ll need to add the novalidate boolean attribute to your <code>&lt;form&gt;</code>. This disables the browser default feedback tooltips, but still provides access to the form
-                              validation APIs in JavaScript.
-                              <br><br>
-                              When attempting to submit, you’ll see the<code>:invalid</code> and <code>:valid</code> styles applied to your form controls. -->
-                              You can create new Items here.......
-                            </p>
-                          </div>
+                <nav>
+                  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-manual-tab" data-toggle="tab" href="#nav-manual" role="tab" aria-controls="nav-manual" aria-selected="true">Form</a>
+                    <a class="nav-item nav-link" id="nav-upload-tab" data-toggle="tab" href="#nav-upload" role="tab" aria-controls="nav-upload" aria-selected="false">Upload</a>
+                    <a class="nav-item nav-link" id="nav-paste-tab" data-toggle="tab" href="#nav-paste" role="tab" aria-controls="nav-paste" aria-selected="false">Paste</a>
+                  </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane fade show active _tab_div" id="nav-manual" role="tabpanel" aria-labelledby="nav-manual-tab">
+                  </div>
+                  <div class="tab-pane fade _tab_div" id="nav-upload" role="tabpanel" aria-labelledby="nav-upload-tab">
+                    <br class="br-upload">
+                      <div class="image-upload-wrap">
+                        <input  id="cat_json_file_input" style="height:100%" class="file-upload-input" type='file' onchange="readURL(this);" accept="application/json" />
+                        <div class="drag-text">
+                          <h3>Drag and drop a JSON file or select JSON file</h3>
                         </div>
-                        <hr>
-                        <form class="needs-validation" novalidate="">
-                          <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                              <label class="form-control-label" for="itemDescription">Item Description:</label>
-                              <input type="text" class="form-control" id="itemDescription" placeholder="Item Description" value="">
-                              <!-- <div class="valid-feedback">
-                                Looks good!
-                              </div> -->
-                            </div>
-                            <div class="col-md-6 mb-3">
-                              <label class="form-control-label" for="itemStatus">Device ID</label>
-                              <input type="text" class="form-control" id="itemStatus" placeholder="Item Status" value="">
-                              <!-- <div class="valid-feedback">
-                                Looks good!
-                              </div> -->
-                            </div>
-                            
-                          </div>
-                          <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                              <label class="form-control-label" for="deviceId">Item status</label>
-                              <select type="text" class="form-control" id="deviceId" placeholder="Device ID" required="">
-                                  <option>active</option>
-                                  <option>live</option>
-                                  <option>recently live</option>
-                                  <option>down</option>
-                              </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                    <label class="form-control-label" for="location">Location</label>
-                                    <input type="text" class="form-control" id="location" placeholder="Location">
-                                    <!-- <div class="invalid-feedback">
-                                      Please choose a username.
-                                    </div> -->
-                            </div>
-
-                          </div>
-                            <div class="form-row">
-                            <!-- <div class="col-md-7 mb-3"> -->
-                                <div> Device Model Info:</div>
-                            </div>
-                                <div>&nbsp;</div>
-                                <div>&nbsp;</div>
-                                 <div class="form-row">
-                                <div class="row">
-                                    <div class="col-md-1 mb-3">
-                                        <label class="form-control-label" for="url">Url</label>
-                                    </div>
-                                    <div class="col-md-3 mb-3">
-                                            <input type="text" class="form-control" id="url" placeholder="url">
-                                    </div>
-                             
-                                <!-- </div>
-                                <div class="row"> -->
-                                        <div class="col-md-1 mb-3">
-                                            <label class="form-control-label" for="model">Model</label>
-                                        </div>
-                                        <div class="col-md-3 mb-3">
-                                                <input type="text" class="form-control" id="model" placeholder="model">
-                                        </div>
-                                 
-                                    <!-- </div> -->
-                                    <!-- <div class="row"> -->
-                                            <div class="col-md-1 mb-3">
-                                                <label class="form-control-label" for="brand">Brand</label>
-                                            </div>
-                                            <div class="col-md-3 mb-3">
-                                                    <input type="text" class="form-control" id="brand" placeholder="brand">
-                                            </div>
-                                     
-                                        </div>
-                            <!-- </div> -->
-                            <!-- <div class="col-md-2 mb-3">
-                              <label class="form-control-label" for="validationCustom05">Zip</label>
-                              <input type="text" class="form-control" id="validationCustom05" placeholder="Zip" required="">
-                              <div class="invalid-feedback">
-                                Please provide a valid zip.
-                              </div>
-                            </div> -->
-                          </div>
-                          <div class="form-group">
-                            <div class="custom-control custom-checkbox mb-3">
-                              <input class="custom-control-input" id="invalidCheck" type="checkbox" value="" required="">
-                              <label class="custom-control-label" for="invalidCheck">Agree to terms and conditions</label>
-                              <div class="invalid-feedback">
-                                You must agree before submitting.
-                              </div>
-                            </div>
-                          </div>
-                          <button class="btn btn-primary" type="submit">Submit form</button>
-                        </form>
                       </div>
+                      <div class="file-upload-content">
+                        <br>
+
+                        <div class="image-title-wrap">
+                          <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded JSON File</span></button>
+                        </div>
+                      </div>
+                      <div class="file-upload">
+                      <button class="file-upload-btn" type="button" onclick="create_item_by_upload()">Create</button>
+
                     </div>
+                  </div>
+                  <div class="tab-pane fade _tab_div" id="nav-paste" role="tabpanel" aria-labelledby="nav-paste-tab">
+                      <br class="br-paste">
+                      <form>
+                           <div class="form-group">
+                            <label for="cat_json_textarea">Paste JSON here</label>
+                            <textarea class="form-control" id="cat_json_textarea" oninput="auto_grow(this)"></textarea>
+                          </div>
+                          <button class="btn btn-primary" type="button" onclick="create_item_by_paste()">Create</button>
+                        </form>
+                  </div>
+                </div>
+
             </section>
         </div>
     </div>
@@ -441,13 +371,20 @@
         $(window).load(function() {
             var homeUrl = 'https://localhost.iudx.org.in:8443/p/dashboard#';
             console.log("Reload ")
-     var currentURL = window.location.href;
-     console.log(location.href);
-     window.location.href= homeUrl;
+            var currentURL = window.location.href;
+            console.log(location.href);
+            window.location.href= homeUrl;
      
-});
+        });
+
+        $("#nav-manual").html(get_manual_create_html())
+        
+        var c = ["upload", "paste"]
+        c.forEach(function(item, index){
+            $(get_cat_item_types(item)).insertAfter(".br-"+item)
+        });
     });
-    </script>
+</script>
 </body>
 
 </html>

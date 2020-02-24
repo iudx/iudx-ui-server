@@ -22,6 +22,144 @@ p {
 */
 }
 
+/* ---------------------------------------------------
+Buttons
+----------------------------------------------------- */
+.color-blue{
+    background-color:#3856b0!important;
+    border-color: #3856b0!important;
+    color:#fff
+}
+.color-green {
+    background-color:#448770!important;
+    border-color: #448770!important;
+    color:#fff!important;
+}    
+
+
+.btn-3-set{
+    margin-right: 10px!important;
+    margin-top: 5px !important; 
+    font-weight:500px !important;
+}
+
+._tab_div{
+    background-color: white !important;
+    color: black !important;
+}
+
+.file-upload {
+  background-color: #ffffff;
+  width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.file-upload-btn {
+  width: 100%;
+  margin: 0;
+  color: #fff;
+  background: #1FB264;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #15824B;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.file-upload-btn:hover {
+  background: #1AA059;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.file-upload-btn:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
+.file-upload-content {
+  display: none;
+  text-align: center;
+}
+
+.file-upload-input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.image-upload-wrap {
+  margin-top: 20px;
+  border: 4px dashed #1FB264;
+  position: relative;
+}
+
+.image-dropping,
+.image-upload-wrap:hover {
+  background-color: #1FB264;
+  border: 4px dashed #ffffff;
+}
+
+.image-title-wrap {
+  padding: 0 15px 15px 15px;
+  color: #222;
+}
+
+.drag-text {
+  text-align: center;
+}
+
+.drag-text h3 {
+  font-weight: 100;
+  text-transform: uppercase;
+  color: #15824B;
+  padding: 60px 0;
+}
+
+.file-upload-image {
+  max-height: 200px;
+  max-width: 200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.remove-image {
+  width: 200px;
+  margin: 0;
+  color: #fff;
+  background: #cd4535;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #b02818;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.remove-image:hover {
+  background: #c13b2a;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.remove-image:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
 a,
 a:hover,
 a:focus {
@@ -30,7 +168,38 @@ a:focus {
     transition: all 0.3s;
 }
 
-/* .color-blue{
+.centerFlex {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination>.disabled>span, .pagination>.disabled>span:hover, .pagination>.disabled>span:focus, .pagination>.disabled>a, .pagination>.disabled>a:hover, .pagination>.disabled>a:focus{
+  cursor: pointer !important;
+}
+
+.pagination>li>a{
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.btn-detail{
+    background-color: #00a8cc;
+    color: white;
+}
+
+.details_p{
+    /*text-align: center;*/
+}
+
+.color-blue{
     background-color: #007bff !important;
     color:white;
 }
@@ -42,7 +211,7 @@ a:focus {
 
 .color-yellow{
     background-color: #ffc107 !important;
-} */
+}
 
 .navbar {
     padding: 15px 10px;

@@ -348,7 +348,7 @@ function call_delete_api(_id){
 }
 
 function get_cat_item_types(id){
-    var _id = `cat_item_type-`+id
+    var _id = `cat_item_type-`+ id
     return `
           <form>
           <div id="`+id+`" class="form-group">

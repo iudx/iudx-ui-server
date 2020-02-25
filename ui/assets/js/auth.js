@@ -14,7 +14,9 @@ const $EXPORT = $('#export');
 $tableID.on('click', '.table-remove', function () {
 
 	$(this).parents('tr').detach();
-	row_count = row_count - 1;
+    row_count = row_count - 1;
+    console.log(row_count)
+    toast_alert('Removed successfully!!','success','#248c5a')
 });
 
 // A few jQuery helpers for exporting only
@@ -74,25 +76,25 @@ $BTN.on('click', () => {
 		// console.log(tokenVal === "undefined")//false
 
 		r = data[i]["email-id"].trim() + " can access " + data[i]["resource-id"].trim();
-		console.log(tokenVal)
+		// console.log(tokenVal)
 		tokenPeriod = $('#dropdownValue_' + i).text()
 		if (tokenVal) {
-			console.log("i m here")
+			// console.log("i m here")
 			r += " for " + tokenVal.trim() + " " + tokenPeriod.trim();
-			console.log(r)
+			// console.log(r)
 		}
 
 		if (data[i]["condition"]) {
 			r += " if " + data[i]["condition"].trim();
-			console.log(r)
+			// console.log(r)
 		}
-		console.log(r)
+		// console.log(r)
 		b.push(r);
 	}
-	console.log(b)
+	// console.log(b)
 	str1 = b.join(";");
 
-	console.log(str1)
+	// console.log(str1)
 	setPolicy(str1);
 	// getPolicy()
 	$EXPORT.text(str1);
@@ -109,18 +111,19 @@ const $BTN_GET_GRP = $('#export-btn-get-grp');
 const $EXPORT_GRP = $('#export-grp');
 
 $tableGrpID.on('click', '.table-remove', function () {
-	console.log($(this).parents('tr')[0].innerText);
+	// console.log($(this).parents('tr')[0].innerText);
 	var str = $(this).parents('tr')[0].innerText;
 	//str.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; } );
 	var stringArray = str.split(/(\s+)/);
 
-	console.log(stringArray)
+	// console.log(stringArray)
 	grp = stringArray[2];
 	email = stringArray[0]
 
 	deleteGroups(grp, email);
 	$(this).parents('tr').detach();
-	row_count_grp = row_count_grp - 1;
+    row_count_grp = row_count_grp - 1;
+    
 });
 
 // A few jQuery helpers for exporting only
@@ -152,13 +155,13 @@ $BTN_ADD_GRP.on('click', () => {
 			if (header === "")
 				header = i;
 
-			console.log(header, $td.eq(i).text())
+			// console.log(header, $td.eq(i).text())
 
 			h[header] = $td.eq(i).text();
 		});
 
 		data_grp.push(h);
-		console.log(data_grp);
+		// console.log(data_grp);
 	});
 
 	var str1 = "";
@@ -166,7 +169,7 @@ $BTN_ADD_GRP.on('click', () => {
 
 	for (var i = 0; i <= data_grp.length - 1; i++) {
 
-		console.log(data_grp[i]);
+		// console.log(data_grp[i]);
 		validity = get_validity(i)
 		// $('#txtBoxGrp_' + i).val()
 		// console.log("Gpot",tokenVal,typeof (tokenVal));
@@ -175,7 +178,7 @@ $BTN_ADD_GRP.on('click', () => {
 		email = data_grp[i]["email-id"].trim();
 		grp = data_grp[i]["group"].trim();
 
-		console.log(email, grp, validity)
+		// console.log(email, grp, validity)
 
 		str = email + "," + grp + "," + validity;
 
@@ -229,7 +232,7 @@ $BTN_GET_GRP.on('click', () => {
 
 	for (var i = 0; i <= data.length - 1; i++) {
 
-		console.log(data[i]);
+		// console.log(data[i]);
 		validity = get_validity(i)
 		// $('#txtBoxGrp_' + i).val()
 		// console.log("Gpot",tokenVal,typeof (tokenVal));
@@ -237,7 +240,7 @@ $BTN_GET_GRP.on('click', () => {
 
 		email = data[i]["email-id"].trim();
 		grp = data[i]["group"].trim();
-		console.log(email, grp, validity)
+		// console.log(email, grp, validity)
 
 
 		// if (tokenVal) {
@@ -269,11 +272,11 @@ $BTN_GET_GRP.on('click', () => {
 --------------------------------------------------------*/
 function setPolicy(rule) {
 
-    console.log(rule);
+    // console.log(rule);
     var json_rule = { "policy": rule };
     $.ajax({
 
-        url: cat_conf[auth_base_URL]+'/acl/set',
+        url: cat_conf['auth_base_URL']+'/acl/set',
 
         type: 'POST',
 
@@ -283,10 +286,11 @@ function setPolicy(rule) {
         success: function (data, textStatus, jQxhr) {
             // alert("Success! \nPolicies Set ")
             toast_alert('Policies Set!!','success','#248c5a')
-            console.log(data, textStatus, jQxhr);
+            // console.log(data, textStatus, jQxhr);
         },
         error: function (jqXhr, StatusText, errorThrown) {
-            console.log(errorThrown, jqXhr, StatusText);
+            // console.log(errorThrown, jqXhr, StatusText);
+            toast_alert('Policies Not Set','error','#248c5a')
 
         }
     });
@@ -300,7 +304,7 @@ function addPolicy() {
 
 
     // getPolicy();
-    console.log("Adding ", row_count);
+    // console.log("Adding ", row_count);
 
     $("#tbody").append(`
             <tr>
@@ -341,7 +345,7 @@ function getPolicy() {
     // $.get("https://jsonplaceholder.typicode.com/posts", function(data) {
         $.ajax({
 
-            url: cat_conf[auth_base_URL]+'/acl',
+            url: cat_conf['auth_base_URL']+'/acl',
     
             type: 'POST',
     
@@ -357,7 +361,7 @@ function getPolicy() {
                 //  console.log(policies_arr)
                 $("#tbody").html("")
                 for (i = 0; i < policies_arr.length; i++) {
-                    console.log(policies_arr[i])
+                    // console.log(policies_arr[i])
        
                     $("#tbody").append(parse_p(policies_arr[i]));
                     get_token_validiy(i);
@@ -366,7 +370,7 @@ function getPolicy() {
                 
             },
             error: function (jqXhr, StatusText, errorThrown) {
-                console.log(errorThrown, jqXhr, StatusText);
+                // console.log(errorThrown, jqXhr, StatusText);
                 alert("Error!\n" + StatusText)
     
             }
@@ -376,10 +380,10 @@ function getPolicy() {
 }
 
 function parse_p(_data) {
-    console.log(_data)
+    // console.log(_data)
     var arr_res = [];
     _resVal = _data.split("can access");
-    console.log(_resVal[0]);
+    // console.log(_resVal[0]);
     var rc = row_count
     row_count = row_count + 1
     // const str2= "";
@@ -388,7 +392,7 @@ function parse_p(_data) {
         _resVal1 = _resVal[1].split("if")
         arr_res.push(_resVal[0]);
         arr_res.push(_resVal1[0]);
-        console.log(arr_res[1])
+        // console.log(arr_res[1])
         const str = `
                       
         <td class="pt-3-half border-right" contenteditable="true">`+ arr_res[0] + `</td>
@@ -453,7 +457,7 @@ function getDropdown(_data, rc) {
 }
 
 function for_if_condition(_res, _rc) {
-    console.log(_res[1], _rc)
+    // console.log(_res[1], _rc)
     //BOTH 'for' and 'if are present
     _arr_res = [];
 
@@ -462,8 +466,8 @@ function for_if_condition(_res, _rc) {
         _res3 = _res2[1].split("if");
         _res4 = _res3[0].split(" ");
         _arr_res.push(_res3[1]);
-        console.log(_res4)
-        console.log(_res3)
+        // console.log(_res4)
+        // console.log(_res3)
         return `
             <td class="pt-3-half no-border">For</td> 
                       `+ getDropdown(_res4, _rc) + `
@@ -495,7 +499,7 @@ function for_if_condition(_res, _rc) {
     //Only  'if' is present
     if (_res[1].includes("if") && !(_res[1].includes("for"))) {
         _res2 = _res[1].split("if");
-        console.log(_res2)
+        // console.log(_res2)
         _arr_res.push(_res2[1])
 
         return `
@@ -535,7 +539,7 @@ function addGroups() {
         $("#step-6-card").css("position", "fixed");
       });
     // getGroups();
-    console.log("Adding ", row_count_grp);
+    // console.log("Adding ", row_count_grp);
 
     $("#tbody_grp").append(`
 		<tr>
@@ -560,11 +564,11 @@ function addGroups() {
 
 function setGroups(grp, email, validity) {
 
-    console.log(grp, email, validity);
+    // console.log(grp, email, validity);
     var json_rule = { "group": grp, "consumer": email, "valid-till": validity };
     $.ajax({
 
-        url: cat_conf[auth_base_URL]+'/group/add',
+        url: cat_conf['auth_base_URL']+'/group/add',
 
         type: 'POST',
 
@@ -574,12 +578,12 @@ function setGroups(grp, email, validity) {
         success: function (data, textStatus, jQxhr) {
             //alert("Success! \nGroups Added successfully ")
             toast_alert( 'Groups Added successfully', 'success', '#248c5a')
-            console.log(data, textStatus, jQxhr);
+            // console.log(data, textStatus, jQxhr);
         },
         error: function (jqXhr, StatusText, errorThrown) {
             console.log(errorThrown, jqXhr, StatusText);
             // alert("Error!\n" + StatusText)
-            toast_alert(  'Error!\n '  , 'success','#dc3545');
+            toast_alert(  'Error!\n '  , 'error','#dc3545');
 
         }
     });
@@ -592,7 +596,7 @@ function getGroups() {
 
     $.ajax({
 
-        url: cat_conf[auth_base_URL]+'/group/list',
+        url: cat_conf['auth_base_URL']+'/group/list',
 
         type: 'POST',
 
@@ -600,10 +604,10 @@ function getGroups() {
         //data: JSON.stringify(json_rule),
         success: function (data, textStatus, jQxhr) {
             // alert("Success! \nPolicies Set ")
-            console.log(data, textStatus, jQxhr);
+            // console.log(data, textStatus, jQxhr);
 
             for (i = 0; i < data.length; i++) {
-                console.log(data[i]["valid-till"])
+                // console.log(data[i]["valid-till"])
                 //var date = new Date(data[i]["valid-till"]); 
                 //var milliseconds = date.getTime();
                 // console.log(milliseconds)
@@ -637,7 +641,8 @@ function getGroups() {
             }
         },
         error: function (jqXhr, StatusText, errorThrown) {
-            console.log(errorThrown, jqXhr, StatusText);
+            // console.log(errorThrown, jqXhr, StatusText);
+            toast_alert(  'Error!\n '  , 'error','#dc3545');
 
         }
     });
@@ -650,19 +655,20 @@ function deleteGroups(grp, email) {
 
     json_rule = { "group": grp, "consumer": email }
     $.ajax({
-        url: cat_conf[auth_base_URL]+'/group/delete',
+        url: cat_conf['auth_base_URL']+'/group/delete',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(json_rule),
         success: function (data, textStatus, jQxhr) {
             // alert("Success! \nGroup(s) Deleted successfully ")
             toast_alert( 'Group(s) Deleted successfully', 'success', '##dc3545');
-            console.log(data, textStatus, jQxhr);
+            // console.log(data, textStatus, jQxhr);
             $(this).parents('tr').detach();
         },
         error: function (jqXhr, StatusText, errorThrown) {
-            console.log(errorThrown, jqXhr, StatusText);
+            // console.log(errorThrown, jqXhr, StatusText);
             alert("Error!\n" + errorThrown)
+            toast_alert(  'Error!\n '+ errorThrown  , 'error','#dc3545');
 
         }
 
@@ -671,8 +677,8 @@ function deleteGroups(grp, email) {
 }
 
 function get_validity(row_num_grp) {
-    console.log("Counting" + row_num_grp)
-    console.log($('#txtBoxGrp_' + row_num_grp).val())
+    // console.log("Counting" + row_num_grp)
+    // console.log($('#txtBoxGrp_' + row_num_grp).val())
     return $('#txtBoxGrp_' + row_num_grp).val()
 
 }
@@ -684,10 +690,10 @@ function get_token_validiy(row_num) {
     $(document).on("click", "#myDropdown_" + row_num + " li", function () {
         // alert($(this).text());
         //row_num = row_num + 1; 
-        console.log("Counting" + row_num)
+        // console.log("Counting" + row_num)
 
         var selectedValue = $(this).text();
-        console.log(selectedValue)
+        // console.log(selectedValue)
         $('#dropdownValue_' + row_num).text(selectedValue)
 
 
@@ -702,7 +708,7 @@ function get_token_validiy(row_num) {
 
 
 function request_access_token() {
-    console.log("Rohina")
+    // console.log("Rohina")
 
     // var body = {"resource-id":"rbccps.org/aa9d66a000d94a78895de8d4c0b3a67f3450e531/safetipin/safetipin/safetyIndex"};
     var body = { "request": { "resource-id": $("#r-id").val() } };
@@ -713,21 +719,21 @@ function request_access_token() {
     if ($("#methods").val().trim() !== "")
         body.methods = $("#methods").val().trim().split(",");
 
-    console.log("Sending", body);
+    // console.log("Sending", body);
     if ($("#expiration").val().trim() !== "")
         body.expiration = $("#expiration").val().trim();
 
-    console.log("Sending", body);
+    // console.log("Sending", body);
 
 
     $.ajax({
-        url: cat_conf[auth_base_URL]+'/token',
+        url:  cat_conf['auth_base_URL']+'/token',
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify(body),
         success: function (data) {
-            console.log(data)
+            // console.log(data)
             if (data["server-token"]) {
                 alert("Success! \nToken received: " + data.token + "\n" + "Server token: " + data["server-token"][body["resource-id"].split("/")[2]]);
             }
@@ -744,17 +750,19 @@ function request_access_token() {
             // Retrieve the object from storage
             var retrievedObject = localStorage.getItem('tokenList');
             for (var i = 0, len = localStorage.length; i < len; ++i) {
-                console.log(localStorage.getItem(localStorage.key(i)));
+                // console.log(localStorage.getItem(localStorage.key(i)));
             }
 
-            console.log('retrievedObject: ', JSON.parse(retrievedObject));
+            // console.log('retrievedObject: ', JSON.parse(retrievedObject));
             //   localStorage.TokenList = (JSON.stringify(data));
             $('#token_value').val(data.access_token);
-            console.log($('#token_value').val())
+            // console.log($('#token_value').val())
 
         },
         error: function (jqXHR, exception) {
-            alert("Unauthorized access! Please get a token.")
+            // alert("Unauthorized access! Please get a token.");
+            toast_alert(  'Unauthorized access! Please get a token.'  , 'error','#dc3545');
+            
         }
     });
 }
@@ -763,7 +771,7 @@ function get_data_from_token() {
 
 
     _token = $("#token_value").val();
-    console.log(_token)
+    // console.log(_token)
 
     $.ajax({
         url: "https://pune.iudx.org.in/api/1.0.0/resource/search/safetypin/18.56581555/73.77567708/10",
@@ -774,6 +782,7 @@ function get_data_from_token() {
 
             alert("Success! \nGet Data: " + data)
 
+
         },
         error: function (jqXHR, exception) {
             alert("ERR", exception)
@@ -783,7 +792,7 @@ function get_data_from_token() {
 
 function audit_tokens(__time){
     $.ajax({
-        url: cat_conf[auth_base_URL]+'/audit/tokens',
+        url: cat_conf['auth_base_URL']+'/audit/tokens',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({"hours": __time}),
@@ -794,7 +803,7 @@ function audit_tokens(__time){
             
         },
         error: function (jqXhr, StatusText, errorThrown) {
-            console.log(errorThrown, jqXhr, StatusText);
+            // console.log(errorThrown, jqXhr, StatusText);
             alert("Error!\n" + errorThrown)
 
         }

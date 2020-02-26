@@ -27,8 +27,7 @@ $( document ).ready(function() {
     $(".section-audit").hide(10);
     $(".section-create").hide(10);
     $("#confirmation_modal").hide(10);
-    getPolicy();
-    getGroups();
+    $("#contact-container").hide(10)
     $(".navbar").css("background-image",cat_conf["smart_city_iudx_logo"])
  });
 
@@ -43,6 +42,7 @@ function hide_pagination(){
     $("#searched_provider_items").hide(10);
     $(".section-create-form").hide(10);
      $("#confirmation_modal").hide(10);
+     $("#contact-container").hide(10)
      $(".section-setPolicyRules").show(10);
  }
 
@@ -52,8 +52,9 @@ function hide_pagination(){
     $(".section-setPolicyRules").hide(10);
     $("#searched_provider_items").hide(10);
     $("#section-create-form").hide(10);
-    $(".section-manageGroups").show(10);
+    $("#contact-container").hide(10)
     $("#confirmation_modal").hide(10);
+    $(".section-manageGroups").show(10);
 }
 
 function displayAuditSection(){
@@ -62,8 +63,9 @@ function displayAuditSection(){
     $(".section-setPolicyRules").hide(10);
     $("#searched_provider_items").hide(10);
     $("#section-create-form").hide(10);
-    $(".section-audit").show(10);
     $("#confirmation_modal").hide(10);
+    $("#contact-container").hide(10)
+    $(".section-audit").show(10);
 }
 
 function displayProviderItems(){
@@ -72,8 +74,9 @@ function displayProviderItems(){
     $(".section-setPolicyRules").hide(10);
     $(".section-audit").hide(10);
     $(".section-create").hide(10);
-    $("#searched_provider_items").show(10);
+    $("#contact-container").hide(10)
     $("#confirmation_modal").hide(10);
+    $("#searched_provider_items").show(10);
 }
 
 function displayCreateSection(){
@@ -82,8 +85,20 @@ function displayCreateSection(){
     $(".section-setPolicyRules").hide(10);
     $(".section-audit").hide(10);
     $("#searched_provider_items").hide(10);
-    $(".section-create").show(10);
+    $("#contact-container").hide(10)
     $("#confirmation_modal").hide(10);
+    $(".section-create").show(10);
+}
+
+function displayContactSection(){
+  hide_pagination()
+    $(".section-manageGroups").hide(10);
+    $(".section-setPolicyRules").hide(10);
+    $(".section-audit").hide(10);
+    $("#searched_provider_items").hide(10);
+    $("#confirmation_modal").hide(10);
+    $(".section-create").hide(10);
+    $("#contact-container").show(10)
 }
 
 /*-------------------------------------

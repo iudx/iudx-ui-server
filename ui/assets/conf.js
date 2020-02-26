@@ -1,3 +1,16 @@
+
+$.ajax(
+	{
+	   type:'GET',
+	   url:'https://api.myjson.com/bins/1eu9h8',
+	    success: function(data){
+		 console.log(data[0].__instanceID);
+		 console.log(data[1])
+	   }
+	}
+ );
+
+
 //General catalogue settings
 const cat_conf = {
 	"smart_city_iudx_logo":"../assets/img/iudx_pscdcl.png",

@@ -4,6 +4,11 @@
 var row_count = 0;
 var row_count_grp = 0;
 
+
+$(document).ready(function () {
+	getPolicy();
+	getGroups();
+});
 // SET POLICY RULES
 
 const $tableID = $('#table');
@@ -24,8 +29,6 @@ jQuery.fn.pop = [].pop;
 jQuery.fn.shift = [].shift;
 
 $BTN.on('click', () => {
-
-
 
 	const $rows = $tableID.find('tr:not(:hidden)');
 	const headers = [];
@@ -58,7 +61,7 @@ $BTN.on('click', () => {
 		});
 
 		data.push(h);
-		//console.log(data);
+		console.log(data);
 	});
 
 	var str1 = "";
@@ -70,7 +73,7 @@ $BTN.on('click', () => {
 
 	for (var i = 0; i <= data.length - 1; i++) {
 
-		// console.log(data[i]);
+		 console.log(data[i]);
 		tokenVal = get_token_validiy(i)
 		// console.log("Gpot",tokenVal,typeof (tokenVal));
 		// console.log(tokenVal === "undefined")//false
@@ -94,7 +97,7 @@ $BTN.on('click', () => {
 	// console.log(b)
 	str1 = b.join(";");
 
-	// console.log(str1)
+	 console.log(str1)
 	setPolicy(str1);
 	// getPolicy()
 	$EXPORT.text(str1);
@@ -240,7 +243,7 @@ $BTN_GET_GRP.on('click', () => {
 
 		email = data[i]["email-id"].trim();
 		grp = data[i]["group"].trim();
-		// console.log(email, grp, validity)
+		console.log(email, grp, validity)
 
 
 		// if (tokenVal) {
@@ -272,8 +275,9 @@ $BTN_GET_GRP.on('click', () => {
 --------------------------------------------------------*/
 function setPolicy(rule) {
 
-    // console.log(rule);
+    console.log(rule);
     var json_rule = { "policy": rule };
+
     $.ajax({
 
         url: cat_conf['auth_base_URL']+'/acl/set',
@@ -294,17 +298,14 @@ function setPolicy(rule) {
 
         }
     });
-    // if(status==='OK'){
-    // 	alert("Success! \nPolicies Set ")
-    // }
-}
+   }
 
 
 function addPolicy() {
 
 
     // getPolicy();
-    // console.log("Adding ", row_count);
+    console.log("Adding ", row_count);
 
     $("#tbody").append(`
             <tr>
@@ -337,12 +338,11 @@ function addPolicy() {
 
     get_token_validiy(row_count);
     row_count = row_count + 1;
+    console.log(row_count)
 }
 
 function getPolicy() {
 
-    // console.log("Adding get Policy", row_count);
-    // $.get("https://jsonplaceholder.typicode.com/posts", function(data) {
         $.ajax({
 
             url: cat_conf['auth_base_URL']+'/acl',
@@ -356,9 +356,9 @@ function getPolicy() {
                 
                 // console.log(data, textStatus, jQxhr);
                  policy = [];
-                // console.log(data)
+                 console.log(data)
                 policies_arr = data.policy.split(";");
-                //  console.log(policies_arr)
+                  console.log(policies_arr)
                 $("#tbody").html("")
                 for (i = 0; i < policies_arr.length; i++) {
                     // console.log(policies_arr[i])
@@ -369,18 +369,17 @@ function getPolicy() {
                 }
                 
             },
-            error: function (jqXhr, StatusText, errorThrown) {
-                // console.log(errorThrown, jqXhr, StatusText);
-                alert("Error!\n" + StatusText)
+            // error: function (jqXhr, StatusText, errorThrown) {
+            //     // console.log(errorThrown, jqXhr, StatusText);
+            //     alert("Error!\n" + StatusText)
     
-            }
+            // }
         });
     
-
 }
 
 function parse_p(_data) {
-    // console.log(_data)
+     console.log(_data)
     var arr_res = [];
     _resVal = _data.split("can access");
     // console.log(_resVal[0]);

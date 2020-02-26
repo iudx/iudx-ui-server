@@ -22,12 +22,14 @@
    
     <link rel="shortcut icon" href="../../assets/img/dashboard_icon.jpeg">
     <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
-        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" -->
+        <!-- integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous"> -->
     <!-- Our Custom CSS -->
     <!-- <link rel="stylesheet" href="./assets/css/styles.css"> -->
     
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
@@ -119,7 +121,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="sidebar-options" href="#">
+                    <a class="sidebar-options" onclick=displayContactSection() href="#contact-container">
                         <i class="fas fa-paper-plane"></i>
                         Contact
                     </a>
@@ -190,7 +192,7 @@
                                                 <i class="fas fa-plus fa-2x" aria-hidden="true" onclick="addPolicy()"></i></a>
                                             </span>
 
-                                            <table class="ttable-responsive table table-bordered" data-height="400" id="rulesTable">
+                                            <table class="table-responsive table table-bordered" data-height="400" id="rulesTable">
                                                     <thead id="thead">
                                                       <tr>
                                                             <th class="text-center" scope="col">Email-Id</th>
@@ -326,6 +328,45 @@
                 </div>
 
             </section>
+            <!-- COntacts Section -->
+            <section id="contact-container" class="bgs-purple generic-padding">
+                <div class="container">
+                <div class="row justify-content-center">
+                <div class="col-xl-9 col-lg-10 col-12 text-center color-white light-font">
+                <h1>Get in touch</h1>
+                <br>
+                <br>
+                <p>Contact us at <a href="mailto:contact@iudx.org.in">contact@iudx.org.in</a> and we will make every effort to respond promptly.</p>
+                </div>
+                </div>
+                <div class="row justify-content-center">
+                <div class="col-xl-9 col-lg-10 col-12">
+                <form id="contact-form">
+                <div class="row row-eq-height">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-12">
+                <div class="text-field"><input class="form-control mb-3" name="name" required="" type="text" placeholder="Name*"></div>
+                <div class="text-field"><input class="form-control mb-3" name="email" required="" type="email" placeholder="Email*"></div>
+                <div class="text-field input-group mb-3"><input class="form-control countrycode" maxlength="4" name="country" type="text" placeholder="+000"><br>
+                <input class="form-control mobile" name="mobile" type="text" placeholder="Mobile Number"></div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-12">
+                <div class="text-field"><input class="form-control mb-3" name="city" type="text" placeholder="Location (City)"></div>
+                <div class="text-field"><input class="form-control mb-3" name="company" type="text" placeholder="Company Name"></div>
+                <div class="text-field"><input class="form-control mb-3" name="designation" type="text" placeholder="Designation"></div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-12">
+                <div class="text-field message-field mb-3"><textarea class="form-control" name="message" rows="8" placeholder="Message"></textarea></div>
+                <div class="text-field"><button class="btn btn-md btn-secondary waves-effect waves-light" type="submit">Submit</button></div>
+                </div>
+                <div class="col-12">
+                <!-- <p class="error-msg">Mail has been sent…!</p> -->
+                </div>
+                </div>
+                </form>
+                </div>
+                </div>
+                </div>
+                </section>
         </div>
     </div>
 <script src="../assets/js/jquery-ui.js"></script>
@@ -340,6 +381,7 @@
 <script type="text/javascript" src="../assets/js/alertify.js"></script>
 <script src="../../assets/js/common_functions.js"></script>
 <script src="../../assets/js/auth.js"></script>
+
 <script src="../../assets/js/dashboard.js"></script>
 <script type="text/javascript" src="../../assets/js/jquery.toast.js"></script>
 <script type="text/javascript" src="../../assets/js/jquery.bootpag.min.js"></script>
@@ -366,9 +408,9 @@
         });
         $(window).load(function() {
             var homeUrl = 'https://localhost.iudx.org.in:8443/p/dashboard#';
-            console.log("Reload ")
+            // console.log("Reload ")
             var currentURL = window.location.href;
-            console.log(location.href);
+            // console.log(location.href);
             window.location.href= homeUrl;
      
         });

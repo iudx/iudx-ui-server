@@ -27,10 +27,13 @@ $( document ).ready(function() {
     $(".section-audit").hide(10);
     $(".section-create").hide(10);
     $("#confirmation_modal").hide(10);
-    getPolicy();
-    getGroups();
+    $("#contact-container").hide(10)
     $(".navbar").css("background-image",cat_conf["smart_city_iudx_logo"])
  });
+
+function hide_pagination(){
+    $("#page-selection").hide();
+}
 
  function displaySetPolicy(){
     hide_pagination()
@@ -39,6 +42,7 @@ $( document ).ready(function() {
     $("#searched_provider_items").hide(10);
     $(".section-create-form").hide(10);
      $("#confirmation_modal").hide(10);
+     $("#contact-container").hide(10)
      $(".section-setPolicyRules").show(10);
  }
 
@@ -48,8 +52,9 @@ $( document ).ready(function() {
     $(".section-setPolicyRules").hide(10);
     $("#searched_provider_items").hide(10);
     $("#section-create-form").hide(10);
-    $(".section-manageGroups").show(10);
+    $("#contact-container").hide(10)
     $("#confirmation_modal").hide(10);
+    $(".section-manageGroups").show(10);
 }
 
 function displayAuditSection(){
@@ -58,8 +63,9 @@ function displayAuditSection(){
     $(".section-setPolicyRules").hide(10);
     $("#searched_provider_items").hide(10);
     $("#section-create-form").hide(10);
-    $(".section-audit").show(10);
     $("#confirmation_modal").hide(10);
+    $("#contact-container").hide(10)
+    $(".section-audit").show(10);
 }
 
 function displayProviderItems(){
@@ -68,8 +74,9 @@ function displayProviderItems(){
     $(".section-setPolicyRules").hide(10);
     $(".section-audit").hide(10);
     $(".section-create").hide(10);
-    $("#searched_provider_items").show(10);
+    $("#contact-container").hide(10)
     $("#confirmation_modal").hide(10);
+    $("#searched_provider_items").show(10);
 }
 
 function displayCreateSection(){
@@ -78,8 +85,20 @@ function displayCreateSection(){
     $(".section-setPolicyRules").hide(10);
     $(".section-audit").hide(10);
     $("#searched_provider_items").hide(10);
-    $(".section-create").show(10);
+    $("#contact-container").hide(10)
     $("#confirmation_modal").hide(10);
+    $(".section-create").show(10);
+}
+
+function displayContactSection(){
+  hide_pagination()
+    $(".section-manageGroups").hide(10);
+    $(".section-setPolicyRules").hide(10);
+    $(".section-audit").hide(10);
+    $("#searched_provider_items").hide(10);
+    $("#confirmation_modal").hide(10);
+    $(".section-create").hide(10);
+    $("#contact-container").show(10)
 }
 
 /*-------------------------------------
@@ -111,10 +130,10 @@ function json_to_htmlcard_for_provider(json_obj){
 			    <strong>Onboarded-By</strong>: `+json_obj['onboardedBy']+`<br>
 			    <strong>Access</strong>: `+ (is_public ? "Public": "Requires Authentication") +`<br>
 			    <div class="btn-3-set" id="btn_`+resource_id_to_html_id(json_obj.id)+`">
-			    <button class="btn btn-detail" onclick="show_details('`+ json_obj.id +`')">Details</button>
+			    <button class="btn btn-primary color-blue" onclick="show_details('`+ json_obj.id +`')">Details</button>
 			    <!--button class="btn btn-success" onclick="display_swagger_ui('` + openapi_url + `')">API Details</button-->
 			    `+ ((is_public)?"":rat_btn_html) +`
-			    <a href="#" style="color:white"  class="data-modal" onclick="edit_data_from_list('`+json_obj['id']+`')"><button class="btn btn-default">Edit</button></a>
+			    <a href="#" style="color:white"  class="data-modal" onclick="edit_data_from_list('`+json_obj['id']+`')"><button class="btn color-green btn-success">Edit</button></a>
 			    <a style="color:white"  class="data-modal" onclick="show_confirmation_modal('`+json_obj['id']+`')"><button class="btn btn-secondary">Delete</button></a>
 			    </div>
 			     <div id="token_section_`+resource_id_to_html_id(json_obj.id)+`" class="token_section"></div>
@@ -344,7 +363,7 @@ function call_delete_api(_id){
 }
 
 function get_cat_item_types(id){
-    var _id = `cat_item_type-`+id
+    var _id = `cat_item_type-`+ id
     return `
           <form>
           <div id="`+id+`" class="form-group">
@@ -376,7 +395,6 @@ function create_item_by_upload(){
               type: "POST",
               url: cat_conf["cat_base_URL"] + "/items?item-type=" + selected_type,
               data: JSON.stringify({
-                // "type":selected_type,
                 "item": JSON.parse(data) 
               }),
               dataType: 'json',
@@ -417,7 +435,6 @@ function create_item_by_paste(){
               type: "POST",
               url: cat_conf["cat_base_URL"] + "/items?item-type=" + selected_type,
               data: JSON.stringify({
-                // "type":selected_type,
                 "item":JSON.parse($(id).val())
               }),
               dataType: 'json',

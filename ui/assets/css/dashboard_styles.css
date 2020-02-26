@@ -22,6 +22,27 @@ p {
 */
 }
 
+/* ---------------------------------------------------
+Buttons
+----------------------------------------------------- */
+.color-blue{
+    background-color:#3856b0!important;
+    border-color: #3856b0!important;
+    color:#fff
+}
+.color-green {
+    background-color:#448770!important;
+    border-color: #448770!important;
+    color:#fff!important;
+}    
+
+
+.btn-3-set{
+    margin-right: 10px!important;
+    margin-top: 5px !important; 
+    font-weight:500px !important;
+}
+
 ._tab_div{
     background-color: white !important;
     color: black !important;

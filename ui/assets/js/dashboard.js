@@ -374,9 +374,9 @@ function create_item_by_upload(){
             var data = fileReader.result;  // data <-- in this var you have the file data in text format
             $.ajax({
               type: "POST",
-              url: cat_conf["cat_base_URL"] + "/items",
+              url: cat_conf["cat_base_URL"] + "/items?item-type=" + selected_type,
               data: JSON.stringify({
-                "type":selected_type,
+                // "type":selected_type,
                 "item": JSON.parse(data) 
               }),
               dataType: 'json',
@@ -415,9 +415,9 @@ function create_item_by_paste(){
     }else{
         $.ajax({
               type: "POST",
-              url: cat_conf["cat_base_URL"] + "/items",
+              url: cat_conf["cat_base_URL"] + "/items?item-type=" + selected_type,
               data: JSON.stringify({
-                "type":selected_type,
+                // "type":selected_type,
                 "item":JSON.parse($(id).val())
               }),
               dataType: 'json',

@@ -333,6 +333,30 @@ function __get_latest_data(__url, __rid) {
 
 new Date('2015-03-04T00:00:00.000Z'); // Valid Date
 
+function call_metrics_api(__url) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            "url": __url,
+            "async": false,
+            "crossDomain": true,
+            "processData": false,
+            "method": 'POST',
+            "headers": { "Content-Type": "application/json" },
+            "data": JSON.stringify({
+                "options": "total"
+            }),
+            // dataType: 'json',
+            success: function (data) {
+                resolve(data)
+            },
+            error: function (error) {
+                reject(error)
+            },
+            timeout: 30000 // sets timeout to 30 seconds
+        })
+    })
+}
+
 function get_temporal_query_time_in_iso_8601_format(__days){
     return new Promise((resolve, reject) => {
         var today = new Date();

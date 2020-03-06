@@ -80,5 +80,5 @@ function onClick_Marker(e) {
     console.log(e.target)
     _urlId = markers.myJsonData['__instance-id']
     sessionStorage.setItem("c_url", _urlId)
-    }
+}
 

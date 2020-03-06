@@ -823,6 +823,7 @@ function displayAuditTokens(__data){
     //console.log(__data.length);
     // for(index=0;index<__data.length;index++)
     console.log(__data['as-consumer']['0'])
+    console.log(__data['as-producer']['0'])
     return `
     `
     

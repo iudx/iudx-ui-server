@@ -1,5 +1,3 @@
-
-
 var cat_conf = null
 var legends = null
 var icon_attribution = null

@@ -791,14 +791,17 @@ function get_data_from_token() {
 
 function audit_tokens(__time){
     $.ajax({
-        url: cat_conf['auth_base_URL']+'/audit/tokens',
-        type: 'POST',
+        // url: cat_conf['auth_base_URL']+'/audit/tokens',
+        url:'https://api.myjson.com/bins/afncy',
+        // type: 'POST',
+        type:'GET',
         contentType: 'application/json',
-        data: JSON.stringify({"hours": __time}),
+        // data: JSON.stringify({"hours": __time}),
         success: function (data, textStatus, jQxhr) {
             // alert("Success! \nGroup(s) Deleted successfully ")
             //toast_alert( 'Group(s) Deleted successfully', 'success', '##dc3545');
             console.log(data, textStatus, jQxhr);
+            displayAuditTokens(data);
             
         },
         error: function (jqXhr, StatusText, errorThrown) {
@@ -815,3 +818,13 @@ $("#audit_submit").click(function(){
     audit_tokens(_time);
 });
 
+function displayAuditTokens(__data){
+    console.log(__data)
+    //console.log(__data.length);
+    // for(index=0;index<__data.length;index++)
+    console.log(__data['as-consumer']['0'])
+    return `
+    `
+    
+    
+}

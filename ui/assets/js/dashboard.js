@@ -29,6 +29,7 @@ $( document ).ready(function() {
     $("#confirmation_modal").hide(10);
     $("#contact-container").hide(10)
     $(".navbar").css("background-image",cat_conf["smart_city_iudx_logo"])
+  
  });
 
 function hide_pagination(){

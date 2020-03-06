@@ -10,15 +10,17 @@ var map = L.map('map', {
     //  loadingControl: true
 });
 
-map.setView([23.2599, 77.4126], 5);
+//map.setView([23.2599, 77.4126], 5);
 //add zoom control with your options
+
+
 L.control.zoom({
     position: 'topleft'
 }).addTo(map);
 
 
 var tile_layer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '<span id="map_attr">© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions" target="_blank">CARTO</a><br>' + get_icon_attribution_html("map_icon_attr") + '</span>',
+    // attribution: '<span id="map_attr">© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions" target="_blank">CARTO</a><br>' + get_icon_attribution_html("map_icon_attr") + '</span>',
     subdomains: 'abcd',
     maxZoom: 100
 });
@@ -72,3 +74,11 @@ L.control.watermark({ position: 'bottomright' }).addTo(map);
 // }
 
 $("#map").hide();
+
+function onClick_Marker(e) {
+    var markers = e.target;
+    console.log(e.target)
+    _urlId = markers.myJsonData['__instance-id']
+    sessionStorage.setItem("c_url", _urlId)
+    }
+

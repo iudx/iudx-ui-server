@@ -1,12 +1,61 @@
+var _urlId ;
 const cert_class_threshold = 3
 
-const iudx_instances = [{
-    "instance_name": "pudx",
-    "lat_lng": [18.4939, 73.8349]
-}]
+//  const iudx_instances = [{
+//      "instance_name": "pudx",
+//      "lat_lng": [18.4939, 73.8349]
+//  }]
 
+    $(document).ready(function () {
+        // ajax call to auth for getting certificate info
+$.post( "https://auth.iudx.org.in/auth/v1/certificate-info", function( data ) {
+    sessionStorage.setItem("cert-info", JSON.stringify(data));
 
-
+    if(data['certificate-class'] < cert_class_threshold){
+        redirect_to("/c/")
+    }
+    else{
+        // _alertify(get_landing_welcome_msg(data))
+        $("#username").html(`<span> Welcome, ` + data["id"] + `</span>`)
+        $("#map").show();
+        $.get('https://catalogue.iudx.org.in/catalogue/internal_apis/getcities',function(data){
+            x= JSON.parse(data)
+            var arr=[];
+            for(i=0;i<x.length;i++){
+                // console.log(x[i])
+                // console.log(x[i]['__instance-id']);
+                // console.log(x[i]['configurations']);
+                arr[i] = x[i]['configurations']['map_default_view_lat_lng']
+                map.setView(x[i]['configurations']['map_default_view_lat_lng'], 5);
+                //arr.push()
+                console.log(arr[i]['0'])
+                var markers = new L.Marker(new L.LatLng(arr[i]['0'],arr[i]['1']))
+                map.addLayer(markers);
+                markers.bindPopup(L.popup()
+                                                .setContent( 
+                                                            "<a href=\""+get_redirect_url('/p/dashboard')+"\" > Provider Mode</a><br>"
+                                                            + "<a href=\""+get_redirect_url('/c/')+"\"> Consumer Mode </a>"))
+                                                            .bindTooltip(x[i]['configurations']['smart_city_name'])
+                                                            .on('click', onClick_Marker)
+                                                            markers.myJsonData = x[i];    
+        }
+        
+      });
+    //   console.log(arr);
+    
+  }  
+        // for (let index = 0; index < getIudxInstances().length; index++) {
+        //     console.log(getIudxInstances())
+        //     L.marker(getIudxInstances()[index]['configurations']['map_default_view_lat_lng'])
+        //         .addTo(map).bindPopup(L.popup()
+        //                                 .setContent( 
+        //                                             "<a href=\""+get_redirect_url('/p/dashboard')+"\" > Provider Mode</a><br>"
+        //                                             + "<a href=\""+get_redirect_url('/c/')+"\" > Consumer Mode</a>"))
+        //                                             .bindTooltip(getIudxInstances()[index]['configurations']['smart_city_name'])
+        // }
+});
+   
+    }); 
 function get_landing_welcome_msg(_d){
     var slt_ct = "Select any IUDX instance shown in the map."
     var msg = ""
@@ -18,23 +67,12 @@ function get_landing_welcome_msg(_d){
     return msg+"<br>"+slt_ct
 }
 
-// ajax call to auth for getting certificate info
-$.post( cat_conf["auth_base_URL"] + "/certificate-info", function( data ) {
-    sessionStorage.setItem("cert-info", JSON.stringify(data));
+ 
+// function getInstanceId(__url){
+                     
+//        url_id = __url;
+//        console.log(url_id)  
 
-    if(data['certificate-class'] < cert_class_threshold){
-        redirect_to("/c/")
-    }else{
-        // _alertify(get_landing_welcome_msg(data))
-        $("#username").html(`<span> Welcome, ` + data["id"] + `</span>`)
-        $("#map").show();
-        for (let index = 0; index < iudx_instances.length; index++) {
-            L.marker(iudx_instances[index]["lat_lng"])
-                .addTo(map).bindPopup(L.popup()
-                                        .setContent( 
-                                                    "<a href=\""+get_redirect_url('/p/dashboard')+"\" > Provider Mode</a><br>"
-                                                    + "<a href=\""+get_redirect_url('/c/')+"\" > Consumer Mode</a>"))
-                                                    .bindTooltip(iudx_instances[index]["instance_name"])
-        }
-    }
-});
+//  }
+
+   

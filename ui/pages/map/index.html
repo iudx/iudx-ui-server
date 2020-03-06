@@ -231,7 +231,7 @@
   
     $("#ckbCheckAll").click(function () {
         $(".checkBoxClass").prop('checked', $(this).prop('checked'));
-        var __filter_url =  "/catalogue/v1/search?" + get_selected_values_framed_url();
+        var __filter_url =  cat_conf['cat_base_URL']+"/catalogue/v1/search?" + get_selected_values_framed_url();
         $(".se-pre-con").fadeIn("slow");
         $.get(__filter_url, function (data, status) {
         markersLayer.clearLayers();
@@ -273,7 +273,7 @@
       $("#taglist").append(tlist);
           $(".filter_input_box").change(function () {
 
-    var __filter_url =  "/catalogue/v1/search?" + get_selected_values_framed_url()
+    var __filter_url =  cat_conf['cat_base_URL']+"/catalogue/v1/search?" + get_selected_values_framed_url()
     $(".se-pre-con").fadeIn("slow");
     $.get(__filter_url, function (data, status) {
       markersLayer.clearLayers();
@@ -301,13 +301,19 @@
     $.get(get_internal_apis_endpoint()+"/internal_apis/list/resourceServerGroup", function(data) {
       data=JSON.parse(data).sort()
       var rsglist = '<div id = "rsg_filters" class="filter_box field-item">';
-      var _d, _v;
+      var _d, _v, leg_link;
       
       for (var i = 0; i < data.length; i++) {
         _d = data[i].toLowerCase()
         _v = _d.split(cat_conf['resource_server_group_head'])[1]
         
-        rsglist += `<label for="` + _d + `"><input type="checkbox" id="` + _d + `" name="resource_server_group"  class="filter_input_box" value="` + _d + `"><img width="10%" height="10%" src="`+ getImageRsg(_v) +`"> ` + _v + `</label>`;
+        leg_link = getImageRsg(_v)
+        if(leg_link=="#"){      
+                rsglist += `<label for="` + _d + `"><input type="checkbox" id="` + _d + `" name="resource_server_group"  class="filter_input_box" value="` + _d + `">   <span class="dot" style="background-color:`+ stringToColour(_d)  +`"></span>
+` + _v + `</label>`;
+        }else{
+                rsglist += `<label for="` + _d + `"><input type="checkbox" id="` + _d + `" name="resource_server_group"  class="filter_input_box" value="` + _d + `"><img width="10%" height="10%" src="`+ leg_link +`"> ` + _v + `</label>`;
+        } 
       }
       
       rsglist += '</div>';  
@@ -315,7 +321,7 @@
       $("#rsglist").append(rsglist);
           $(".filter_input_box").change(function () {
 
-    var __filter_url =  "/catalogue/v1/search?" + get_selected_values_framed_url()
+    var __filter_url =  cat_conf['cat_base_URL']+"/catalogue/v1/search?" + get_selected_values_framed_url()
 //     $(".se-pre-con").fadeIn("slow");
     $.get(__filter_url, function (data, status) {
       markersLayer.clearLayers();
@@ -334,7 +340,7 @@
           //console.log("2")
         }
       }
-//       $(".se-pre-con").fadeOut("slow");
+//       $(".se-pre-con").fadeOut("slow");get_internal_apis_endpoint
       });
     });
 
@@ -354,7 +360,7 @@
       $("#providerlist").append(plist);
           $(".filter_input_box").change(function () {
 
-    var __filter_url =  "/catalogue/v1/search?" + get_selected_values_framed_url()
+    var __filter_url =  cat_conf['cat_base_URL']+"/catalogue/v1/search?" + get_selected_values_framed_url()
 //     $(".se-pre-con").fadeIn("slow");
     $.get(__filter_url, function (data, status) {
       markersLayer.clearLayers();

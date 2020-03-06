@@ -5,12 +5,32 @@
 // var _geoJSONObject;
 // var _resourceId_data ;
 
+
 var tags_set = [];
 var first_get_item_call_done=false
 var page_limit = 10;
 var max_visible_pagesinpagination_bar = 10;
 var __DATA;
 
+var highlightStyle = {
+    color: '#ff0000',
+    opacity:1,
+    weight: 3,
+    fillOpacity: 1,
+};
+
+var defaultStyle = {
+    color: '#000000',
+    opacity:0.5,
+    weight: 1,
+    fillOpacity: 0.7,
+};
+// var conf_URL = url_id;
+
+
+function get_conf_url(){
+    return conf_URL;
+}
 function get_global_data(){
 	return __DATA;
 }
@@ -225,20 +245,6 @@ function get_icon_credits() {
     _alertify("Icon Credits", str);
 }
 
-function get_redirect_url(u){
-    return window.location.origin + u
-}
-
-function redirect_to(u){
-    window.location.href = window.location.origin + u
-}
-
-function redirect_to_with_msg(u, msg){
-    window.location.href = window.location.origin + u
-    alert(msg)
-}
-
-
 function get_icon_attribution_html(map_icon_attr) {
     // return `<span class="` + map_icon_attr + `">Icons made by <a href="`+icon_attribution['author_link']+`" target="_blank">`+icon_attribution['author']+`</a> from <a href="`+icon_attribution['site_link']+`" target="_blank">`+icon_attribution['site']+`</a>.</span>`
     return `<span class ="` + map_icon_attr + `">Icons from <a href="` + icon_attribution['site_link'] + `" target="_blank">` + icon_attribution['site'] + `</a> | <a href="#" onclick="get_icon_credits()">Credits</a></span>`
@@ -330,8 +336,6 @@ function __get_latest_data(__url, __rid) {
         })
     })
 }
-
-new Date('2015-03-04T00:00:00.000Z'); // Valid Date
 
 function call_metrics_api(__url) {
     return new Promise((resolve, reject) => {
@@ -904,48 +908,19 @@ function onEachFeature(feature, layer) {
     layer.bindPopup(feature.properties.name);
 }
 
-function getColorsForPolygon(_resourceServerGroup) {
-
-    // var colors=["#1abc9c", '#f1c40f']//, '#9b59b6']//, '#e67e22', '#f39c12']
-    var colors = ['#1abc9c', '#f1c40f', '#FF0000', '#ffffff00', '#ffffff00'];
-
-    if (_resourceServerGroup == "crowd-sourced-changebhai" || _resourceServerGroup == "changebhai") {
-        // loop through our density intervals and generate a label with a colored square for each interval
-        //console.log("changeBhai")
-        // div.innerHTML +=  
-        // '<span style="background-color:' + colors[0] + '"></span> ' +
-        //   'ChangeBhai' + '<br>';
-        // console.log("changebhai")
-        return colors[0];
-    } else if (_resourceServerGroup == "safetipin") {
-        // div.innerHTML +=  
-        // '<span style="background-color:' + colors[1] + '"></span> ' +
-        //   'safetiPin' + '<br>';
-        // console.log("safetipin")
-        return colors[1]
-
-    } else if (_resourceServerGroup == "traffic-incidents" || _resourceServerGroup == "tomtom") {
-        // div.innerHTML +=  
-        // '<span style="background-color:' + colors[2] + '"></span> ' +
-        //   'TomTom' + '<br>';
-        // console.log("tomtom")
-        return colors[2]
-    } else if (_resourceServerGroup == "itms-mobility" | _resourceServerGroup == "pune-itms") {
-        //   console.log("itms-mobility")
-        return colors[3]
+function stringToColour(str) {
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
     }
-
-
-}
-
-
-// var color_count=-1;
-
-// function getRandomColor(){
-//  var color =  "#" + (Math.random() * 0xFFFFFF << 0).toString(16);
-//  return color;
-// }data[i]["id"]
-// function getColorForPolygon()
+    var colour = '#';
+    for (var i = 0; i < 3; i++) {
+      var value = (hash >> (i * 8)) & 0xFF;
+      colour += ('00' + value.toString(16)).substr(-2);
+    }
+          console.log(colour)
+    return colour;
+  }
 
 function get_bullets(){
     return `&#9679;`
@@ -980,9 +955,7 @@ function plotGeoJSONs(geoJSONObject, _id, _json_object, _resourceServerGroup, _r
 
             L.geoJSON(geoJSONObject, {
                 style: {
-                    // fillColor: colors[color_count],
-                    // fillColor: _color,
-                    fillColor: getColorsForPolygon(_resourceServerGroup.split(cat_conf['resource_server_group_head'])[1]),
+                    fillColor:stringToColour(_resourceServerGroup),
                     weight: 2,
                     opacity: 1,
                     // color: 'white',
@@ -990,6 +963,18 @@ function plotGeoJSONs(geoJSONObject, _id, _json_object, _resourceServerGroup, _r
                     fillOpacity: 0.5
                 },
                 onEachFeature: function (feature, layer) {
+
+                    layer.on('mouseover', function(e) {
+                        this.setStyle(highlightStyle);
+                        this.bindTooltip(`<div><p style="font-size:20px;"><strong>`+_resourceId+`</strong></p></div>`)
+                        this.bringToFront();
+                        });
+    
+                        layer.on('mouseout', function(e) {
+                        this.setStyle(defaultStyle);
+                        this.bringToBack();
+                        });
+                    
                     layer.on('click', function (e) {
 
                         activate_point_mode(_id)
@@ -1022,7 +1007,7 @@ function plotGeoJSONs(geoJSONObject, _id, _json_object, _resourceServerGroup, _r
                 +`' class='img-fluid secure_icon'></p>`+get_bullets()+` <a href='#' class='data-modal'  onclick="display_latest_data(event, this, '` + _id + `')">Get latest-data</a>
         <br> `+get_bullets()+` <a href="#"  class="data-modal" onclick="display_temporal_data(event, this, '`+_json_object.id+`')">Get Temporal Data</a><br>` +
         `</div>`;
-                    var _marker = L.marker(latlng, { icon: getMarkerIcon(_resourceServerGroup) }).addTo(map);
+                    var _marker = L.marker(latlng, { icon: getMarkerIcon(_resourceServerGroup), riseOnHover: true }).addTo(map);
                     _marker.itemUUID = _id;
                     // console.log(_id,this,event)
                     //////console.log(_marker.itemUUID); _marker.bindPopup(customPopup) _marker.bindPopup(customPopup)

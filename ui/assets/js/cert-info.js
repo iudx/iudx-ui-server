@@ -1,5 +1,5 @@
 var _urlId ;
-const cert_class_threshold = 3
+const cert_class_threshold = 4
 
 //  const iudx_instances = [{
 //      "instance_name": "pudx",

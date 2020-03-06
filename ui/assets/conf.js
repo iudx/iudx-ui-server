@@ -4,9 +4,12 @@ var icon_attribution = null
 var conf_url = '';
 
 var DEBUG = false;
-// ENABLE/DISABLE Console Logs
+// ENABLE/DISABLE Console Msgs
 if(!DEBUG){
-  console.log = function() {}
+    var methods = ["log", "debug", "warn", "info"];
+    for(var i=0;i<methods.length;i++){
+        console[methods[i]] = function(){};
+    }
 }
 
 
@@ -50,18 +53,20 @@ if(get_instance_id() == "" || get_instance_id()==null){
     }
 }
 
-conf_ajax_call('https://'+get_instance_id() +'/catalogue/internal_apis/getconfig')
-// conf_ajax_call('https://ui-test.iudx.org.in/catalogue/internal_apis/getconfig')
-	.then(data => {
-        data = JSON.parse(data)
-        console.log(data)
-		cat_conf = data[0]['configurations']
-		legends = data[0]['legends']
-		icon_attribution = data[0]['global_configuration']['icon_attribution']
-		// console.log(cat_conf, legends, icon_attribution)
-	    // _alertify("Success!!!", '<pre id="custom_alertbox">' + jsonPrettyHighlightToId(data) + '</pre>')
-	})
-	.catch(error => {
-	    // _alertify("Error!!!", '<pre id="custom_alertbox">: ' + error["statusText"] + '</pre>');
-	    console.log(error)
-    })
+if(window.location.href != window.location.origin + "/"){
+    conf_ajax_call('https://'+get_instance_id() +'/catalogue/internal_apis/getconfig')
+        // conf_ajax_call('https://ui-test.iudx.org.in/catalogue/internal_apis/getconfig')
+            .then(data => {
+                data = JSON.parse(data)
+                console.log(data)
+                cat_conf = data[0]['configurations']
+                legends = data[0]['legends']
+                icon_attribution = data[0]['global_configuration']['icon_attribution']
+                // console.log(cat_conf, legends, icon_attribution)
+                // _alertify("Success!!!", '<pre id="custom_alertbox">' + jsonPrettyHighlightToId(data) + '</pre>')
+            })
+            .catch(error => {
+                // _alertify("Error!!!", '<pre id="custom_alertbox">: ' + error["statusText"] + '</pre>');
+                console.log(error)
+            })
+}

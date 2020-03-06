@@ -964,9 +964,11 @@ function plotGeoJSONs(geoJSONObject, _id, _json_object, _resourceServerGroup, _r
                 },
                 onEachFeature: function (feature, layer) {
 
+                    layer.bindTooltip(`<div><p style="font-size:20px;"><strong>`+_resourceId+`</strong></p></div>`)
                     layer.on('mouseover', function(e) {
                         this.setStyle(highlightStyle);
-                        this.bindTooltip(`<div><p style="font-size:20px;"><strong>`+_resourceId+`</strong></p></div>`)
+                        console.log(this)
+                        // this.bindTooltip(`<div><p style="font-size:20px;"><strong>`+_resourceId+`</strong></p></div>`)
                         this.bringToFront();
                         });
     
@@ -1144,8 +1146,11 @@ function get_selected_values_checkbox() {
 }
 
 $(document).ready(function () {
-    $("#smartcity_name").html(cat_conf['smart_city_name'] + " IUDX | Indian Urban Data Exchange")
-    $("#smart_city_link").html(cat_conf['smart_city_name'])
-    $("#smart_city_link").attr('href', cat_conf['smart_city_url'])
-    $("#smart_iudx_city_logo").attr('src', cat_conf['smart_city_iudx_logo'])
+    if(window.location.href.split(window.origin)[1]!="/"){
+        $("#smart_city_link").html(cat_conf['smart_city_name'])
+        $("#smart_city_link").attr('href', cat_conf['smart_city_url'])
+        $("#smart_iudx_city_logo").attr('src', cat_conf['smart_city_iudx_logo'])
+    }else{
+        $("#smartcity_name").html(" IUDX | Indian Urban Data Exchange")
+    }
 });

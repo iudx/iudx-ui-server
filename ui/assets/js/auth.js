@@ -710,7 +710,7 @@ function request_access_token() {
     // console.log("Rohina")
 
     // var body = {"resource-id":"rbccps.org/aa9d66a000d94a78895de8d4c0b3a67f3450e531/safetipin/safetipin/safetyIndex"};
-    var body = { "request": { "resource-id": $("#r-id").val() } };
+    var body = { "request": { "id": $("#r-id").val() } };
 
     if ($("#api").val().trim() !== "")
         body.api = $("#api").val().trim();
@@ -860,7 +860,7 @@ function displayAuditTokens(__data){
   </tr>
   <tr>
   <td>resource-id</td>
-  <td>`+__data["as-consumer"]["0"].request["0"]["resource-id"]+`</td>
+  <td>`+__data["as-consumer"]["0"].request["0"]["id"]+`</td>
 </tr>
     </tbody>
   </table>
@@ -907,7 +907,7 @@ function displayAuditTokens(__data){
 </tr>
 <tr>
 <td>resource-id:</td>
-<td>`+__data["as-provider"]["0"].request["0"]["resource-id"]+`</td>
+<td>`+__data["as-provider"]["0"].request["0"]["id"]+`</td>
 </tr>
 </tbody>
   </table>

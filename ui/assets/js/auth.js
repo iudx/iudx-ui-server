@@ -798,10 +798,10 @@ function audit_tokens(__time){
         contentType: 'application/json',
         // data: JSON.stringify({"hours": __time}),
         success: function (data, textStatus, jQxhr) {
-            // alert("Success! \nGroup(s) Deleted successfully ")
+             alert("Success! \nGroup(s) Deleted successfully ")
             //toast_alert( 'Group(s) Deleted successfully', 'success', '##dc3545');
             console.log(data, textStatus, jQxhr);
-            displayAuditTokens(data);
+            $('#display-audit-tokens').html(displayAuditTokens(data));
             
         },
         error: function (jqXhr, StatusText, errorThrown) {
@@ -820,11 +820,100 @@ $("#audit_submit").click(function(){
 
 function displayAuditTokens(__data){
     console.log(__data)
-    //console.log(__data.length);
+    console.log(__data.length);
     // for(index=0;index<__data.length;index++)
-    console.log(__data['as-consumer']['0'])
-    console.log(__data['as-producer']['0'])
+    console.log(__data['as-consumer'])
+    // console.log(__data['as-producer']['0'])
+    // $("#audit").hide();
     return `
+   
+    <div class="card" >
+  <div class="card-header font-weight-bold text-uppercase">
+    As Consumer
+  </div>
+  <table class="card-table table">
+    
+    <tbody>
+      <tr>
+        <td>token-issued-at:</td>
+        <td>`+__data["as-consumer"]["0"]["token-issued-at"]+`</td>
+      </tr>
+      <tr>
+      <td>introspected:</td>
+      <td>`+__data["as-consumer"]["0"]["introspected"]+`</td>
+    </tr>
+    <tr>
+    <td>revoked:</td>
+    <td>`+__data["as-consumer"]["0"]["revoked"]+`</td>
+  </tr>
+  <tr>
+    <td>expiry:</td>
+    <td>`+__data["as-consumer"]["0"]["expiry"]+`</td>
+  </tr>
+  <tr>
+    <td>certificate-serial-number:</td>
+    <td>`+__data["as-consumer"]["0"]["certificate-serial-number"]+`</td>
+  </tr>
+  <tr>
+    <td>certificate-fingerprint:</td>
+    <td>`+__data["as-consumer"]["0"]["certificate-fingerprint"]+`</td>
+  </tr>
+  <tr>
+  <td>resource-id</td>
+  <td>`+__data["as-consumer"]["0"].request["0"]["resource-id"]+`</td>
+</tr>
+    </tbody>
+  </table>
+</div>
+
+
+    <div class="card"">
+  <div class="card-header card-header font-weight-bold text-uppercase">
+    As producer
+  </div>
+  <table class="card-table table">
+  <tbody>
+  <tr>
+    <td>consumer:</td>
+    <td>`+__data["as-provider"]["0"]["consumer"]+`</td>
+  </tr>
+  <tr>
+  <td>token-hash:</td>
+  <td>`+__data["as-provider"]["0"]["token-hash"]+`</td>
+</tr>
+<tr>
+<td>token-issued-at:</td>
+<td>`+__data["as-provider"]["0"]["token-issued-at"]+`</td>
+</tr>
+<tr>
+<td>introspected:</td>
+<td>`+__data["as-provider"]["0"]["introspected"]+`</td>
+</tr>
+<tr>
+<td>revoked:</td>
+<td>`+__data["as-provider"]["0"]["revoked"]+`</td>
+</tr>
+<tr>
+<td>expiry:</td>
+<td>`+__data["as-provider"]["0"]["expiry"]+`</td>
+</tr>
+<tr>
+<td>certificate-serial-number:</td>
+<td>`+__data["as-provider"]["0"]["certificate-serial-number"]+`</td>
+</tr>
+<tr>
+<td>certificate-fingerprint:</td>
+<td>`+__data["as-provider"]["0"]["certificate-fingerprint"]+`</td>
+</tr>
+<tr>
+<td>resource-id:</td>
+<td>`+__data["as-provider"]["0"].request["0"]["resource-id"]+`</td>
+</tr>
+</tbody>
+  </table>
+</div>
+
+
     `
     
     

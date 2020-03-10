@@ -231,7 +231,7 @@
   
     $("#ckbCheckAll").click(function () {
         $(".checkBoxClass").prop('checked', $(this).prop('checked'));
-        var __filter_url =  cat_conf['cat_base_URL']+"/catalogue/v1/search?" + get_selected_values_framed_url();
+        var __filter_url =  cat_conf['cat_base_URL']+"/search?" + get_selected_values_framed_url();
         $(".se-pre-con").fadeIn("slow");
         $.get(__filter_url, function (data, status) {
         markersLayer.clearLayers();
@@ -273,7 +273,7 @@
       $("#taglist").append(tlist);
           $(".filter_input_box").change(function () {
 
-    var __filter_url =  cat_conf['cat_base_URL']+"/catalogue/v1/search?" + get_selected_values_framed_url()
+    var __filter_url =  cat_conf['cat_base_URL']+"/search?" + get_selected_values_framed_url()
     $(".se-pre-con").fadeIn("slow");
     $.get(__filter_url, function (data, status) {
       markersLayer.clearLayers();
@@ -321,7 +321,7 @@
       $("#rsglist").append(rsglist);
           $(".filter_input_box").change(function () {
 
-    var __filter_url =  cat_conf['cat_base_URL']+"/catalogue/v1/search?" + get_selected_values_framed_url()
+    var __filter_url =  cat_conf['cat_base_URL']+"/search?" + get_selected_values_framed_url()
 //     $(".se-pre-con").fadeIn("slow");
     $.get(__filter_url, function (data, status) {
       markersLayer.clearLayers();
@@ -360,7 +360,7 @@
       $("#providerlist").append(plist);
           $(".filter_input_box").change(function () {
 
-    var __filter_url =  cat_conf['cat_base_URL']+"/catalogue/v1/search?" + get_selected_values_framed_url()
+    var __filter_url =  cat_conf['cat_base_URL']+"/search?" + get_selected_values_framed_url()
 //     $(".se-pre-con").fadeIn("slow");
     $.get(__filter_url, function (data, status) {
       markersLayer.clearLayers();

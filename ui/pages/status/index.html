@@ -218,9 +218,10 @@ $(document).ready(function(){
 $(".ui-menu").on('click',function(){
   ////console.log("s",this.value)
 });
- $(window).load(function() {
-     // Animate loader off screen
-     $(".se-pre-con").fadeOut("slow");;
-   });
+
+$(window).on('load', function(){
+  // Animate loader off screen
+  $(".se-pre-con").fadeOut("slow");;
+});
 </script>
 </html>

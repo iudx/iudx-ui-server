@@ -13,13 +13,17 @@ const cert_class_threshold = 3
         $("#map").show();
         sessionStorage.setItem("cert-info", JSON.stringify(data));
         $.get('https://catalogue.iudx.org.in/catalogue/internal_apis/getcities',function(data){
-        x= JSON.parse(data)
+        x= JSON.parse(data)   
         var arr=[];
         var markers;
         for(i=0;i<x.length;i++){
             // console.log(x[i])
             // console.log(x[i]['__instance-id']);
             // console.log(x[i]['configurations']);
+
+            if(x[i]['__instance-id'] == "ui-test.iudx.org.in")
+                continue
+
             arr[i] = x[i]['configurations']['map_default_view_lat_lng']
             map.setView(x[i]['configurations']['map_default_view_lat_lng'], 5);
             //arr.push()

@@ -27,6 +27,17 @@ function status_ajax_call(__url, __grp){
 	})
 }; 
 
+function get_color_for(status){
+	console.log(status)
+	switch(status){
+		case 'recently-active': return '#ff7315';
+		case 'recently-live': return '#ffa41b';
+		case 'live': return '#21bf73';
+		case 'down': return '#f0134d';
+		default: return  stringToColour(resource_id_to_html_id(status));
+	}
+}
+
 function get_key(dict){
 	return Object.keys(dict)[0]
 }
@@ -83,15 +94,16 @@ function get_items(_attr_name,_attr_value){
 				
 				$( "#" + resource_id_to_html_id(get_key(data[i])) ).tooltip( "option", "content", get_key(data[i]) );
 				$("#searched_items").append(`<span id="`+ resource_id_to_html_id(get_key(data[i])) 
-														+`" class="status_dot all `+r+`" style="background-color:`+stringToColour(r)
+														+`" class="status_dot all `+r+`" style="background-color:`+get_color_for(get_value(data[i]))
 														+`"title="ID: `
 														+ get_key(data[i]) +`"></span>`);
 			}
-			status_set.forEach(status => {
+			
+			Array.from(status_set).sort().forEach(status => {
 				r=resource_id_to_html_id(status)
 				console.log(r)
 				$("#status_filter").append(`<button type="button" class="btn `+ r 
-											+`" style="color:white;background-color:`+stringToColour(r)+`" onclick="show_status_for('`+r+`')">`
+											+`" style="color:white;background-color:`+get_color_for(status)+`" onclick="show_status_for('`+r+`')">`
 											+ status +`</button>`)
 			});
 
@@ -99,8 +111,7 @@ function get_items(_attr_name,_attr_value){
 
 		})
 		.catch(error => {
-			$("#retrieved_items_count").html("");
-			$("#searched_items").html(``);
+			$("#retrieved_items_count", "#searched_items").html("");
 			_alertify("Error!!!", '<pre id="custom_alertbox">: ' + error["statusText"] + '</pre>');
 			console.log(error)
 		})

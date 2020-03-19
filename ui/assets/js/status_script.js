@@ -92,11 +92,13 @@ function get_items(_attr_name,_attr_value){
 				status_set.add(get_value(data[i]))
 				r = resource_id_to_html_id(get_value(data[i]))
 				
-				$( "#" + resource_id_to_html_id(get_key(data[i])) ).tooltip( "option", "content", get_key(data[i]) );
+				$( "#" + resource_id_to_html_id(get_value(data[i]))).tooltip( "option", "content", get_key(data[i]) );
 				$("#searched_items").append(`<span id="`+ resource_id_to_html_id(get_key(data[i])) 
-														+`" class="status_dot all `+r+`" style="background-color:`+get_color_for(get_value(data[i]))
-														+`"title="ID: `
-														+ get_key(data[i]) +`"></span>`);
+														+ `" class="status_dot all `+r+`" style="background-color:`
+														+ get_color_for(get_value(data[i]))
+														+ `"title="ID: `
+														+ get_key(data[i]) 
+														+ `"></span>`);
 			}
 			
 			Array.from(status_set).sort().forEach(status => {
@@ -111,7 +113,8 @@ function get_items(_attr_name,_attr_value){
 
 		})
 		.catch(error => {
-			$("#retrieved_items_count", "#searched_items").html("");
+			$("#retrieved_items_count").html("");
+			$("#searched_items").html("")
 			_alertify("Error!!!", '<pre id="custom_alertbox">: ' + error["statusText"] + '</pre>');
 			console.log(error)
 		})

@@ -70,7 +70,7 @@
           
               <div class="col-lg-10">
                 <!-- <label for="value">Value</label> -->
-                <input type="text" class="form-control" id="value" placeholder="attribute-value" required="">
+                <input type="text" class="form-control" id="value" placeholder="Resource Server Group" required="">
                 <!-- <div class="invalid-feedback">
                   Zip code required.
                 </div> -->
@@ -80,7 +80,7 @@
               <div class="col-lg-2">
                 <!-- <label for="state">State</label> -->
                 
-                <button class="btn btn-primary btn-block" type="submit" onclick="get_items($('#attribute :selected').val(),$('#value').val())">Search</button>
+                <button class="btn btn-primary btn-block" type="submit" onclick="get_items('resourceServerGroup',$('#value').val())">Search</button>
                 
                 <!-- <button class="btn btn-primary btn-block" type="submit" onclick="display_search_section($('#attribute :selected').text(),$('#value').val())">Search</button> -->
                 
@@ -93,11 +93,12 @@
           </div>
      
             <br>
-            <br>
-            <br>
+            
           <div class="row">
             <div class="col">
-                <br><p class="lead text-muted">Also checkout the <a href="/c/map" target="_self">Geo Query Interface</a><br>
+                <!-- <br> -->
+                <p class="lead text-muted">
+                  <a href="/c/" target="_self">List View</a> | <a href="/c/map" target="_self">Geo Query Interface</a><br>
                   <!-- API Documentation can be found <a href="https://apidocs.iudx.org.in" target="_blank">here</a><br> -->
                   <a href="#" target="_blank">Getting Started</a> |
                   <a href="https://apidocs.iudx.org.in" target="_blank">API Docs</a> |
@@ -122,7 +123,7 @@
           
               <div class="col-lg-10">
                 <!-- <label for="value">Value</label> -->
-                <input type="text" class="form-control" id="_value" placeholder="attribute-value" required>
+                <input type="text" class="form-control" id="_value" placeholder="Resource Server Group" required>
                 <!-- <div class="invalid-feedback">
                   Zip code required.
                 </div> -->
@@ -131,7 +132,7 @@
             
               <div class="col-lg-2">
                 <!-- <label for="state">State</label> -->
-                <button class="btn btn-primary btn-block" type="submit" onclick="get_items($('#_attribute :selected').val(),$('#_value').val())">Search</button>
+                <button class="btn btn-primary btn-block" type="submit" onclick="get_items('resourceServerGroup',$('#_value').val())">Search</button>
                 <!-- <div class="invalid-feedback">
                   Please provide a valid state.
                 </div> -->
@@ -197,18 +198,17 @@ $(document).ready(function(){
 
   rsg_set = []
   
-  $.get("/internal_apis/status-response", function(data) {
+  $.get(cat_conf["cat_base_URL"]+"/search?item-type=resourceServerGroup&attribute-filter=(name)", function(data) {
+    data=JSON.parse(data)
     for (var i = data.length - 1; i >= 0; i--) {
-      rsg_set.push(Object.keys(data[i])[0])
+      rsg_set.push(data[i]["name"])
     }
 
-    // console.log(rsg_set)
+    console.log(rsg_set)
 
     // Populate autosuggest with rsg values 
     set_attr_value("resourceServerGroup", rsg_set)
   });
-  
-  
 
   $("#landing_footer, #normal_footer").html(getFooterContent());
 
@@ -223,5 +223,10 @@ $(window).on('load', function(){
   // Animate loader off screen
   $(".se-pre-con").fadeOut("slow");;
 });
+
+$( function() {
+    $( "#searched_items" ).tooltip();
+} );
+
 </script>
 </html>

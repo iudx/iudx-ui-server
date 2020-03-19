@@ -23,6 +23,6 @@
 hs_err_pid*
 
 # Restrict jar files to be uploaded
-target/
+target/*
 
 config.properties

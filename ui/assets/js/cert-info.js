@@ -13,7 +13,7 @@ const cert_class_threshold = 3
         $("#map").show();
         sessionStorage.setItem("cert-info", JSON.stringify(data));
         $.get('https://catalogue.iudx.org.in/catalogue/internal_apis/getcities',function(data){
-        x= JSON.parse(data)   
+        x= JSON.parse(data)    
         var arr=[];
         var markers;
         for(i=0;i<x.length;i++){
@@ -45,7 +45,8 @@ const cert_class_threshold = 3
                 marker.bindPopup(L.popup()
                 .setContent( 
                             "<a href=\""+get_redirect_url('/p/dashboard')+"\" > Provider Mode</a><br>"
-                            + "<a href=\""+get_redirect_url('/c/')+"\"> Consumer Mode </a>"))
+                            + "<a href=\""+get_redirect_url('/c/')+"\"> Consumer Mode </a><br>"
+                            + "<a href=\""+get_redirect_url('/status')+"\"> View Status </a>"))
                             .bindTooltip(x[i]['configurations']['smart_city_name'])
                             .on('click', onClick_Marker)
                             marker.myJsonData = x[i];    

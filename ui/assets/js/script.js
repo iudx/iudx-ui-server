@@ -33,7 +33,7 @@ tile_layer.addTo(map);
 var link = L.control({ position: 'bottomleft' });
 link.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'myclass');
-    div.innerHTML = `<button class="btn btn-danger" style="background-color:red" onclick="location.href='/c/'">List View</button>`;
+    div.innerHTML = `<button class="btn btn-danger" style="background-color:black"><a class="white" href="/c/" target="_self">List View</a> | <a class="white" href="/status" target="_self">Status View</a></button>`;
     return div;
 }
 link.addTo(map);

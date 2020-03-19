@@ -769,7 +769,7 @@ function request_access_token(resource_id, resourceServerGroup, rid) {
            withCredentials: true
         },
         // crossDomain: true,
-        data: JSON.stringify({"request": { "resource-id": resource_id }}),
+        data: JSON.stringify({"request": { "id": resource_id }}),
         success: function (data) {
 
             // For map view
@@ -918,7 +918,7 @@ function stringToColour(str) {
       var value = (hash >> (i * 8)) & 0xFF;
       colour += ('00' + value.toString(16)).substr(-2);
     }
-          console.log(colour)
+    console.log(colour)
     return colour;
   }
 

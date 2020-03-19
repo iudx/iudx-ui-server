@@ -84,8 +84,8 @@ function get_items(_attr_name,_attr_value){
             // $("#searched_items").text(data);
 		data=JSON.parse(data)
 		set_data_globally(data);
-		$("#retrieved_items_count").html("About " + get_item_count(data) + " results for " + _temp_a_v + " (Attribute: " + _attr_name + ") | <a href='/c/map'>Go to Map View</a>");
-		$("#searched_items").html("");
+		$("#retrieved_items_count").html("About " + get_item_count(data) + " results for " + _temp_a_v + " (Attribute: " + _attr_name + ") | Go to <a href='/c/map'>Map View</a>/<a href='/status'>Status View</a>");
+		$("#searched_items").html(`<div class="container"></div>`);
 		for (var i = 0; i < data.length; i++) {
 			$("#searched_items").append(json_to_htmlcard(data[i]));
 		}

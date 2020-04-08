@@ -3,7 +3,7 @@ var legends = null
 var icon_attribution = null
 var conf_url = '';
 
-var DEBUG = false;
+var DEBUG = true;
 // ENABLE/DISABLE Console Msgs
 if(!DEBUG){
     var methods = ["log", "debug", "warn", "info"];

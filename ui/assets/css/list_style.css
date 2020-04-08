@@ -56,10 +56,6 @@ header{
   display: none;
 }
 
-a{
-
-}
-
 .col{
   width: auto !important;
 }
@@ -69,7 +65,8 @@ a{
 }
 
 .style_list{
-  margin-top:20%;
+  /* margin-top:20%; */
+  margin-top:2%;
 }
 
 #search_section, .section{
@@ -235,3 +232,39 @@ a{
       border-radius: 5px;*/
     }
 /***************************************************************************************************************/
+
+
+
+/* sidebar */
+
+/* 
+.content {
+  min-height: 100vh;
+  height: auto;
+  transition: all 0.2s ease-in-out;
+}
+
+.button-collapse {
+ position: fixed;
+ left: 10px;
+ top: 10px;
+ z-index: 10; 
+}
+header, section {
+  padding: 20px;
+}
+.card {
+  width: 100%;
+  margin-bottom: 15px;
+  color: #000;
+}
+@media(min-width: 1440px) {
+  .content {
+    padding-left: 250px;
+  }
+}
+@media(max-width: 720px) {
+  .main-header {
+    font-size: 260%;
+  }
+} */

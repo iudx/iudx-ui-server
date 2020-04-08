@@ -213,9 +213,9 @@
 .alertify.ajs-resizable:not(.ajs-maximized) .ajs-handle {
   display: block;
 }
-.alertify.ajs-movable:not(.ajs-maximized) .ajs-header {
+/* .alertify.ajs-movable:not(.ajs-maximized) .ajs-header {
   cursor: move;
-}
+} */
 .alertify.ajs-modeless .ajs-dimmer,
 .alertify.ajs-modeless .ajs-reset {
   display: none;

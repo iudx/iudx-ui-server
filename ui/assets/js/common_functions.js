@@ -1153,4 +1153,11 @@ $(document).ready(function () {
     }else{
         $("#smartcity_name").html(" IUDX | Indian Urban Data Exchange")
     }
+
+    // Disable cache
+    $('head').append(`
+    	<meta http-equiv='cache-control' content='no-cache'>
+    	<meta http-equiv='expires' content='0'>
+    	<meta http-equiv='pragma' content='no-cache'></meta>
+    `);
 });

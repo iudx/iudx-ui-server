@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="../assets/css/jquery-ui.css">
   <link rel="stylesheet" type="text/css" href="../assets/css/alertify.css">
   <link rel="stylesheet" type="text/css" href="../assets/css/common_styles.css">
-  <link rel="stylesheet" type="text/css" href="../../assets/css/jqcloud.css">
+
   <!-- Google Fonts  -->
   <link href="https://fonts.googleapis.com/css?family=Darker+Grotesque&display=swap" rel="stylesheet">
 </head>
@@ -31,7 +31,7 @@
                 <div class="row justify-content-around">
                     <div class="col-xl-6 col-lg-6 col-md-6 col-6 align-self-center">
                         <a href="/">
-                            <img id="smart_iudx_city_logo" src="../../assets/img/iudx_pscdcl.png" class="img-fluid">
+                            <img id="smart_iudx_city_logo" src="../assets/img/iudx_pscdcl.png" class="img-fluid">
                         </a>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-6 text-right align-self-center">
@@ -58,11 +58,8 @@
                    Welcome to the IUDX compliant Catalogue of <a id="smart_city_link" href="#" target="_blank">PSCDCL</a>
               </p>
 
-            <!-- <br> -->
+            <br>
 
-            <div class="row">
-                <div id="wordCloud" style="width: 550px; height: 350px; margin-left: 280px;"></div>
-              </div>
 
           <!-- <p>
             <a href="#" class="btn btn-primary my-2">Main call to action</a>
@@ -74,8 +71,8 @@
                 <select class="custom-select d-block w-100" id="attribute" required="">
                   <!-- <option value="">Choose Attribute</option> -->
                   <option value="tags">Tag</option>
-                  <option value="resourceServerGroup">Type</option>
-                  <option value="provider">Publisher</option>
+                  <option value="resourceServerGroup">Resource Server Group</option>
+                  <option value="provider">Provider</option>
                   <!-- <option>Some attribute</option>
                   <option>Some attribute</option>
                   <option>Some attribute</option>
@@ -94,7 +91,7 @@
           
               <div class="col-lg-7">
                 <!-- <label for="value">Value</label> -->
-                <input type="text" class="form-control" id="value" placeholder="" required="">
+                <input type="text" class="form-control" id="value" placeholder="attribute-value" required="">
                 <!-- <div class="invalid-feedback">
                   Zip code required.
                 </div> -->
@@ -125,11 +122,11 @@
                   <span id="api-hits"></span><br>
                   Also checkout the <a href="/c/map" target="_self">Geo Query</a> and <a href="/status" target="_self">Status</a> Interface<br>
                   <!-- API Documentation can be found <a href="https://apidocs.iudx.org.in" target="_blank">here</a><br> -->
-                  <a href="../../assets/resources/IUDX-UserManual-v1.0.pdf" target="_blank">Getting Started</a> |
+                  <a href="#" target="_blank">Getting Started</a> |
                   <a href="https://apidocs.iudx.org.in" target="_blank">API Docs</a> |
                   <a href="https://github.com/iudx/pyIUDX" target="_blank">Python SDK</a> | 
                   <a href="https://colab.research.google.com/github/iudx/pyIUDX/blob/master/examples/pyIUDX_sample_usecases.ipynb" target="_blank">Jupyter Notebook</a> |
-                  <a href="https://www.iudx.org.in/overview-of-iudx/" target="_blank">Overview Of IUDX</a>
+                  <a href="#" target="_blank">FAQs</a>
                 </p>
             </div>
            
@@ -147,10 +144,10 @@
               <div class="col-lg-3">
                 <!-- <label for="attribute">Attributes</label> -->
                 <select class="custom-select d-block w-100" id="_attribute" required="">
-                  <!-- <option value="">Choose Attribute</option> -->
+                  <option value="">Choose Attribute</option>
                   <option value="tags">Tag</option>
-                  <option value="resourceServerGroup">Type</option>
-                  <option value="provider">Publisher</option>
+                  <option value="resourceServerGroup">Resource Server Group</option>
+                  <option value="provider">Provider</option>
                   <!-- <option>Some attribute</option>
                   <option>Some attribute</option>
                   <option>Some attribute</option>
@@ -168,7 +165,7 @@
           
               <div class="col-lg-7">
                 <!-- <label for="value">Value</label> -->
-                <input type="text" class="form-control" id="_value" placeholder="" required>
+                <input type="text" class="form-control" id="_value" placeholder="attribute-value" required>
                 <!-- <div class="invalid-feedback">
                   Zip code required.
                 </div> -->
@@ -237,9 +234,6 @@
 <script type="text/javascript" src="../assets/js/_chart_functions.js"></script>
 <script type="text/javascript" src="../assets/js/common_functions.js"></script>
 <script type="text/javascript" src="../assets/js/list_script.js"></script>
-<!-- JQcloud -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqcloud/1.0.4/jqcloud.js"></script>
-
 <script>
 
   // Set up Footer, filter seen_tags_set
@@ -248,114 +242,26 @@ $(document).ready(function(){
   $("body").fadeIn(1000);
   $("#landing_section").fadeIn();
   
-  // wordcloud starts here
-  var tag_cloud = [
-    {text:"other_ids",weight:6,handlers: {
-    click: function() {
-      get_items('tags',tag_cloud[0].text);
-    }
-    }},
-    {text:"mers",weight:1},
-    {text:"disease",weight:1},
-    {text:"ref_spans",weight:6},
-    {text:"cite_spanse",weight:6},
-    {text:"respiratory",weight:1},
-    {text:"last",weight:6},
-    {text:"abstract",weight:6},
-    {text:"start",weight:6},
-    {text:"end",weight:6},
-    {text:"ref_id",weight:6},
-    {text:"eq_spans",weight:6},
-    {text:"ref_entries",weight:6},
-    {text:"middle",weight:6},
-    {text:"text",weight:6},
-    {text:"corona",weight:1},
-    {text:"pages",weight:6},
-    {text:"back_matter",weight:6},
-    {text:"section",weight:6},
-    {text:"metadata",weight:6},
-    {text:"first",weight:6},
-    {text:"title",weight:6},
-    {text:"authors",weight:6},
-    {text:"virus",weight:1},
-    {text:"venue",weight:6},
-    {text:"bib_entries",weight:6},
-    {text:"covid-19",weight:6},
-    {text:"paper_id",weight:6},
-    {text:"issn",weight:6},
-    {text:"doi",weight:6},
-    {text:"sars",weight:1},
-    {text:"year",weight:6},
-    {text:"email",weight:6},
-    {text:"affiliation",weight:6},
-    {text:"suffix",weight:6},
-    {text:"acute respiratory syndrome",weight:1},
-    {text:"body_text",weight:6},
-    {text:"volume",weight:6}
-]
-
-// var stuff = [ {NAME:"n1",COUNT:23,HIDDEN:"1abc"},
-//              {NAME:"n2",COUNT:12,HIDDEN:"2abc"},
-//              {NAME:"n3",COUNT:22,HIDDEN:"3abc"},
-//              {NAME:"n4",COUNT:2,HIDDEN:"4abc"} ];
-// var tag_list = new Array();
-// for ( var i = 0; i < stuff.length; ++i ) {
-// 		var x = stuff[i];
-// 		tag_list.push({
-// 				text: x.NAME,
-// 				weight: x.COUNT,
-//             handlers : {click: function() { alert("it worked for" + x.NAME); }},
-// 				html: {title: x.COUNT + " varieties"}
-// 		});
-// }
-
-// $("#example").children("#wordcloud").jQCloud( tag_list );
-
-$(function() {
-        $("#wordCloud").jQCloud(tag_cloud, 
-        {
-          // shape: "rectangular",
-          autoResize: true
-        });
-      });
-
   $.get(cat_conf['cat_base_URL']+"/count", function(data) {
     $("#resource_item_count").html((JSON.parse(data))["Count"]);
   });
   
   $.get(get_internal_apis_endpoint()+"/internal_apis/list/tags", function(data) {
     tags_set=JSON.parse(data)
-    // ------------Set the placeholder value to the first value from array response for tags------------
-     $('#value').attr("placeholder", "example: "+tags_set[1] + ", " +tags_set[5] + ", " + "or "+tags_set[10]).val("").focus().blur();
-      $('#_value').attr("placeholder", "example: "+tags_set[1] + ", " +tags_set[5] + ", " + "or "+tags_set[10]).val("").focus().blur();
-    //==========  Capture select for populating autosuggest with tags attribute values 
-     if($( "#attribute" ).val() == "tags"){
-      set_attr_value($( "#attribute" ).val(), tags_set)
-    }
-      else if($( "#_attribute" ).val() == "tags"){
-        console.log("Print")
-      set_attr_value($( "#_attribute" ).val(), tags_set)
-      }
-    
   });
   
   $.get(get_internal_apis_endpoint()+"/internal_apis/list/resourceServerGroup", function(data) {
     rsg_set=JSON.parse(data)
-    console.log(rsg_set)
     for (var i = rsg_set.length - 1; i >= 0; i--) {
-       rsg_set[i]=rsg_set[i].split(cat_conf['resource_server_group_head'])[1]
+      rsg_set[i]=rsg_set[i].split(cat_conf['resource_server_group_head'])[1]
     }
   });
   
   $.get(get_internal_apis_endpoint()+"/internal_apis/list/provider", function(data) {
-     console.log(data)
     provider_set=JSON.parse(data)
-    console.log(provider_set)
     $("#provider_count").html(provider_set.length);
     for (var i = provider_set.length - 1; i >= 0; i--) {
-      console.log(cat_conf['provider_head'])
       provider_set[i]=provider_set[i].split(cat_conf['provider_head'])[1]
-      
     }
   });
 
@@ -377,41 +283,20 @@ $(function() {
 
 
 // Capture select on change effect for populating autosuggest with attribute values 
-$('#attribute').on('change', function() {
+$('select').on('change', function() {
   var _arr = []
   if(this.value == "tags"){
-    $('#value').attr("placeholder", "example: "+tags_set[1] + ", " +tags_set[5] + ", " + "or "+tags_set[10]).val("").focus().blur();
-    // $('#_value').attr("placeholder", "example: "+tags_set[1] + ", " +tags_set[5] + ", " + "or "+tags_set[10]).val("").focus().blur();
     _arr = tags_set
   }else if(this.value == "resourceServerGroup"){
-    $('#value').attr("placeholder", "example: "+rsg_set[0]).val("").focus().blur();
-    // $('#_value').attr("placeholder", "example: "+rsg_set[0]).val("").focus().blur();
     _arr = rsg_set
   }else if(this.value == "provider"){
-    $('#value').attr("placeholder", "example: "+provider_set[0]).val("").focus().blur();
-    // $('#_value').attr("placeholder", "example: "+provider_set[0]).val("").focus().blur();
     _arr = provider_set
   }
   set_attr_value(this.value, _arr)
 });
 
-$('#_attribute').on('change', function() {
-  var _arr = []
-  if(this.value == "tags"){
-    $('#_value').attr("placeholder", "example: "+tags_set[1] + ", " +tags_set[5] + ", " + "or "+tags_set[10]).val("").focus().blur();
-    // $('#_value').attr("placeholder", "example: "+tags_set[1] + ", " +tags_set[5] + ", " + "or "+tags_set[10]).val("").focus().blur();
-    _arr = tags_set
-  }else if(this.value == "resourceServerGroup"){
-    $('#_value').attr("placeholder", "example: "+rsg_set[0]).val("").focus().blur();
-    // $('#_value').attr("placeholder", "example: "+rsg_set[0]).val("").focus().blur();
-    _arr = rsg_set
-  }else if(this.value == "provider"){
-    $('#_value').attr("placeholder", "example: "+provider_set[0]).val("").focus().blur();
-    // $('#_value').attr("placeholder", "example: "+provider_set[0]).val("").focus().blur();
-    _arr = provider_set
-  }
-  set_attr_value(this.value, _arr)
-});
+
+
 
 // Capture search input click
 $(".ui-menu").on('click',function(){
@@ -420,7 +305,7 @@ $(".ui-menu").on('click',function(){
 
  $(window).load(function() {
      // Animate loader off screen
-     $(".se-pre-con").fadeOut("slow");
+     $(".se-pre-con").fadeOut("slow");;
    });
 </script>
 </html>

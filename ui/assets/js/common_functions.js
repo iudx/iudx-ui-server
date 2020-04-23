@@ -12,6 +12,7 @@ var page_limit = 10;
 var max_visible_pagesinpagination_bar = 10;
 var __DATA;
 
+// for map type=Polygon to highlight when there is overlapping of layers
 var highlightStyle = {
     color: '#ff0000',
     opacity:1,
@@ -51,13 +52,27 @@ function set_data_globally(_data){
 function min(val1, val2){
 	return Math.min(val1, val2);
 }
-
+// Checks if the attribute name & attribute value in the fields are empty
 function is_attr_empty(_attr_name,_attr_value){
+    // console.log(_attr_name,typeof(_attr_value))
     if(_attr_name === "" || _attr_value === ""){
         _alertify("Error!!!", "Attribute-Name or Value missing");
         return true;
     }
+    
 }
+
+function replace_whiteSpace(_attr_value) {
+    // console.log(/\s/g.test(_attr_value))
+    if(/\s/g.test(_attr_value)){
+		console.log(_attr_value);
+		var _attr_val = _attr_value.replace(/[ ,]+/g, ",");
+		//  _alertify("Error!!!", "Only one tag is allowed");
+        console.log(_attr_val)
+        return _attr_val;
+	}
+    return _attr_value;
+  }
 
 function get_item_count(__data){
 	var _c=0;
@@ -69,18 +84,35 @@ function get_item_count(__data){
 	return _c;
 }
 
+// Converts the json response to card format to display list of items for a particular tag, rsg or provider
 function json_to_htmlcard(json_obj){
     if(json_obj['id'].split("/").length < 5){
         return ``
     }
     else{
         var openapi_url = "blah_blah"
+        var prop = "resourceType"
         // var openapi_url = json_obj["accessInformation"]["value"][0]["accessObject"]["value"]
         // var openapi_url = json_obj["accessInformation"]["value"][0]["accessObject"]["value"]
         // //console.log(openapi_url)
         var is_public = (json_obj['secure']||[]).length === 0;
+        var is_datasetDownload ;
+        // console.log(is_datasetDownload)
         var rat_btn_html=`<button class="btn btn-success" onclick="request_access_token('` + json_obj.id + `', '`+ json_obj["resourceServerGroup"]["value"] + `', '`+ json_obj["resourceId"]["value"] + `')" style="background-color:green">Request Access Token</button>`
+        var temporal_btn_html=` <a href="#" style="color:white"  class="data-modal" onclick="display_temporal_data(event, this, '`+json_obj['id']+`')"><button class="btn btn-warning">Get Temporal Data</button></a>`
+        var sample_data_btn_html= `<a href="#" style="color:white"  class="data-modal" onclick="display_latest_data(event, this, '`+json_obj['id']+`')"><button class="btn btn-danger">Get Sample Data</button></a>`
+        var latest_data_btn_html= `<a href="#" style="color:white"  class="data-modal" onclick="display_latest_data(event, this, '`+json_obj['id']+`')"><button class="btn btn-danger">Get Latest Data</button></a>`
         var s = json_obj["id"].split("/")
+        if(json_obj.hasOwnProperty(prop)) { 
+            if(json_obj['resourceType'].value != undefined || json_obj['resourceType'].value === "datasetDownload"){
+                is_datasetDownload = true;
+            }
+        } 
+       
+        else{
+            is_datasetDownload = false;
+        } 
+
         return `
             <div class="col-12 card-margin-top">
             <div class="card">
@@ -97,8 +129,8 @@ function json_to_htmlcard(json_obj){
                 <button class="btn btn-primary" onclick="show_details('`+ json_obj.id +`')">Details</button>
                 <!--button class="btn btn-success" onclick="display_swagger_ui('` + openapi_url + `')">API Details</button-->
                 `+ ((is_public)?"":rat_btn_html) +`
-                <a href="#" style="color:white"  class="data-modal" onclick="display_latest_data(event, this, '`+json_obj['id']+`')"><button class="btn btn-danger">Get Latest Data</button></a>
-                <a href="#" style="color:white"  class="data-modal" onclick="display_temporal_data(event, this, '`+json_obj['id']+`')"><button class="btn btn-warning">Get Temporal Data</button></a>
+                
+                `+ ((is_datasetDownload)? sample_data_btn_html + " "+ `<a href="`+json_obj['datasetDownloadLink']['url']+`" class="data-modal" style="text-decoration:underline;font-size: 22px" onclick="" download>download file</a>`:latest_data_btn_html + temporal_btn_html) +`
                 </div>
                  <div id="token_section_`+resource_id_to_html_id(json_obj.id)+`" class="token_section"></div>
               </div>
@@ -119,6 +151,7 @@ function json_to_htmlcard(json_obj){
     }
 }
 
+// Displays data for Details button in html card for an item
 function show_details(_id){
     var id = resource_id_to_html_id(_id)
     // console.log($("#details_section_"+id).is(':visible'))
@@ -185,6 +218,7 @@ function show_details(_id){
     $("#details_section_"+id).toggle();
 }
 
+// Display data with pagination
 function display_paginated_search_results(page_num){
 	var global_data = get_global_data();
 	$("#searched_items").html("");
@@ -196,6 +230,7 @@ function display_paginated_search_results(page_num){
 	// //console.log("dislpaying item from:"+from+" to:"+to + " " + (global_data.length/get_page_limit() + ((global_data.length%get_page_limit())>0) ? 1 : 0));
 }
 
+// Displays pagination
 function populate_pagination_section(){
     // init bootpag
     var data_length = get_global_data().length
@@ -230,6 +265,7 @@ function display_search_section(){
     $("#search_section").fadeIn(1500);
 }
 
+// Get icon credits for the credits in map view 
 function get_icon_credits() {
 
     var str = `Various icons used in this web app have been taken from <a href="` + icon_attribution['site_link'] + `" target="_blank">` + icon_attribution['site'] + `</a> and belong to the following authors.<br><ul>`
@@ -312,6 +348,7 @@ function get_api_encoded_attribute_values(__tags, __rsg, __pvdr) {
     return "(" + str.join(",") + ")"
 }
 
+// Get latest Data with public data without token
 function __get_latest_data(__url, __rid) {
     return new Promise((resolve, reject) => {
         $.ajax({
@@ -369,6 +406,7 @@ function get_temporal_query_time_in_iso_8601_format(__days){
     })
 }
 
+// Get Temporal data for an item w.r.t time
 function __get_temporal_data(__url, __rid, __days) {
     var time;
     return new Promise((resolve, reject) => {
@@ -405,9 +443,12 @@ function __get_temporal_data(__url, __rid, __days) {
     })
 }
 
+// Get Full latest Data for a secure item with token
+
 function _get_latest_data(_resource_id, _token) {
     //console.log(_token)
-    _alertify("Getting Data...", get_spinner_html())
+     _alertify("Getting Data...", get_spinner_html())
+    // $(".se-pre-con").fadeIn("slow");
     $.ajax({
         "url": cat_conf['resoure_server_base_URL'] + "/search",
         "async": true,
@@ -432,14 +473,17 @@ function _get_latest_data(_resource_id, _token) {
     })
 }
 
+// Get alert modal with header and body msg
 function _alertify(header_msg, body_msg) {
-    alertify.alert(body_msg);
+    alertify.alert(body_msg).set({transition:'fade','movable':true}).set('resizable',true).resizeTo('550','700'); 
     $(".ajs-header").html(header_msg);
 }
 
 function display_latest_data(e, ele, _rid) {
     e.preventDefault();   // use this to NOT go to href site
-    _alertify("Getting Data...", get_spinner_html())
+     _alertify("Getting Data...", get_spinner_html())
+
+	// $(".se-pre-con").fadeIn("slow");
     __get_latest_data(cat_conf['resoure_server_base_URL'] + "/search", _rid)
         .then(data => {
             _alertify("Success!!!", '<pre id="custom_alertbox">' + jsonPrettyHighlightToId(data) + '</pre>')
@@ -448,6 +492,8 @@ function display_latest_data(e, ele, _rid) {
             _alertify("Error!!!", '<pre id="custom_alertbox">: ' + error["statusText"] + '</pre>');
             // console.log(error)
         })
+
+	// $(".se-pre-con").fadeOut("slow");
 }
 
 function get_temporal_data_alert_html(){
@@ -541,7 +587,8 @@ function formated_date(__date){
 
 function display_temporal_data(e, ele, _rid, __y_name) {
     e.preventDefault();   // use this to NOT go to href site
-    _alertify("Getting Data...", get_spinner_html())
+     _alertify("Getting Data...", get_spinner_html())
+    // $(".se-pre-con").fadeIn("slow");
     __get_temporal_data(cat_conf['resoure_server_base_URL'] + "/search", _rid, 7)
         .then(data => {
             if(data.length == 0){
@@ -592,6 +639,7 @@ function display_temporal_data(e, ele, _rid, __y_name) {
             _alertify("Error!!!", '<pre id="custom_alertbox">: ' + error["statusText"] + '</pre>');
             // console.log(error)
         })
+        // $(".se-pre-con").fadeOut("slow");
 }
 
 function get_filtered_url(__filter_url) {
@@ -1056,6 +1104,7 @@ function activate_point_mode(_id) {
 
 function resource_id_to_html_id(resource_id) {
     var replace_with = "_";
+    // console.log(resource_id.replace(/\/|\.|\s|\(|\)|\<|\>|\{|\}|\,|\"|\'|\`|\*|\;|\+|\!|\#|\%|\^|\&|\=|\₹|\$|\@/g, replace_with))
     return resource_id.replace(/\/|\.|\s|\(|\)|\<|\>|\{|\}|\,|\"|\'|\`|\*|\;|\+|\!|\#|\%|\^|\&|\=|\₹|\$|\@/g, replace_with)
 }
 
@@ -1148,13 +1197,13 @@ function get_selected_values_checkbox() {
 $(document).ready(function () {
     if(window.location.href.split(window.origin)[1]!="/"){
         $("#smart_city_link").html(cat_conf['smart_city_name'])
-        $("#smart_city_link").attr('href', cat_conf['smart_city_url'])
+        $("img#smart_iudx_city_logo").attr('href', cat_conf['smart_city_url'])
         $("#smart_iudx_city_logo").attr('src', cat_conf['smart_city_iudx_logo'])
     }else{
         $("#smartcity_name").html(" IUDX | Indian Urban Data Exchange")
     }
-
-    // Disable cache
+	
+    // Disable cache 
     $('head').append(`
     	<meta http-equiv='cache-control' content='no-cache'>
     	<meta http-equiv='expires' content='0'>

@@ -78,7 +78,7 @@ function get_items(_attr_name,_attr_value){
 	status_ajax_call(cat_conf['resoure_server_base_URL']+"/search", _attr_value)
 		.then(data => {
 			var status_set = new Set(); 
-			// data = JSON.parse(data)
+			//  data = JSON.parse(data)
 			console.log(data)
 			// data=JSON.parse(data)
 			set_data_globally(data);
@@ -103,6 +103,7 @@ function get_items(_attr_name,_attr_value){
 			
 			Array.from(status_set).sort().forEach(status => {
 				r=resource_id_to_html_id(status)
+				console.log(status)
 				console.log(r)
 				$("#status_filter").append(`<button type="button" class="btn `+ r 
 											+`" style="color:white;background-color:`+get_color_for(status)+`" onclick="show_status_for('`+r+`')">`

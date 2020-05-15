@@ -2,6 +2,7 @@ var cat_conf = null
 var legends = null
 var icon_attribution = null
 var conf_url = '';
+var instance_id = null;
 
 var DEBUG = true;
 // ENABLE/DISABLE Console Msgs
@@ -14,6 +15,7 @@ if(!DEBUG){
 
 
 function get_redirect_url(u){
+    console.log( window.location.origin)
     return window.location.origin + u
 }
 
@@ -62,6 +64,7 @@ if(window.location.href != window.location.origin + "/"){
                 cat_conf = data[0]['configurations']
                 legends = data[0]['legends']
                 icon_attribution = data[0]['global_configuration']['icon_attribution']
+                instance_id = data[0]['__instance-id']
                 // console.log(cat_conf, legends, icon_attribution)
                 // _alertify("Success!!!", '<pre id="custom_alertbox">' + jsonPrettyHighlightToId(data) + '</pre>')
             })

@@ -54,13 +54,13 @@
           
             <br>
 
-              <p class="lead text-muted">
+             <p class="lead text-muted">
                    Welcome to the IUDX compliant Catalogue of <a id="smart_city_link" href="#" target="_blank">PSCDCL</a>
-              </p>
+	     </p>
 
             <!-- <br> -->
 
-            <div class="row">
+            <div class="row" id="word">
                 <div id="wordCloud" style="width: 550px; height: 350px; margin-left: 280px;"></div>
               </div>
 
@@ -94,7 +94,7 @@
           
               <div class="col-lg-7">
                 <!-- <label for="value">Value</label> -->
-                <input type="text" class="form-control" id="value" placeholder="" required="">
+                <input type="text" class="form-control" id="value" placeholder="" required autofocus>
                 <!-- <div class="invalid-feedback">
                   Zip code required.
                 </div> -->
@@ -104,7 +104,7 @@
               <div class="col-lg-2">
                 <!-- <label for="state">State</label> -->
                 
-                <button class="btn btn-primary btn-block" type="submit" onclick="get_items($('#attribute :selected').val(),$('#value').val())">Search</button>
+                <button id="submit_btn" class="btn btn-primary btn-block" type="submit" onclick="get_items($('#attribute :selected').val(),$('#value').val())">Search</button>
                 
                 <!-- <button class="btn btn-primary btn-block" type="submit" onclick="display_search_section($('#attribute :selected').text(),$('#value').val())">Search</button> -->
                 
@@ -123,7 +123,9 @@
             <div class="col">
                   <p class="lead text-muted">
                   <span id="api-hits"></span><br>
-                  Also checkout the <a href="/c/map" target="_self">Geo Query</a> and <a href="/status" target="_self">Status</a> Interface<br>
+                  <span id="geo-query-link">
+                    <!-- Also checkout the <a href="/c/map" target="_self">Geo Query</a> and <a href="/status" target="_self">Status</a> Interface<br> -->
+                  </span> 
                   <!-- API Documentation can be found <a href="https://apidocs.iudx.org.in" target="_blank">here</a><br> -->
                   <a href="../../assets/resources/IUDX-UserManual-v1.0.pdf" target="_blank">Getting Started</a> |
                   <a href="https://apidocs.iudx.org.in" target="_blank">API Docs</a> |
@@ -168,7 +170,7 @@
           
               <div class="col-lg-7">
                 <!-- <label for="value">Value</label> -->
-                <input type="text" class="form-control" id="_value" placeholder="" required>
+                <input type="text" class="form-control" id="_value" placeholder="" required autofocus>
                 <!-- <div class="invalid-feedback">
                   Zip code required.
                 </div> -->
@@ -220,7 +222,6 @@
         </section>
 
     <!-- </div> -->
-
 </body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
@@ -250,11 +251,13 @@ $(document).ready(function(){
   
   // wordcloud starts here
   var tag_cloud = [
-    {text:"other_ids",weight:6,handlers: {
-    click: function() {
-      get_items('tags',tag_cloud[0].text);
-    }
-    }},
+    {text:"other_ids",weight:6
+    // handlers: {
+    // click: function() {
+    //   get_items('tags',tag_cloud[0].text);
+    // }
+    // }
+  },
     {text:"mers",weight:1},
     {text:"disease",weight:1},
     {text:"ref_spans",weight:6},
@@ -292,8 +295,25 @@ $(document).ready(function(){
     {text:"acute respiratory syndrome",weight:1},
     {text:"body_text",weight:6},
     {text:"volume",weight:6}
-]
+];
 
+  var tag_list = new Array();
+  for ( var i = 0; i < tag_cloud.length; ++i ) 
+  {
+    // console.log("hello tag")
+    
+      var x = tag_cloud[i];
+      //  console.log(x)
+      tag_list.push({
+            text: x.text,
+            weight: x.weight,
+            handlers : {click: function(e) { 
+              console.log(e)
+              get_items('tags',e.toElement.innerText); }},
+              html: {"class":"zoom"}
+      });
+      //  console.log(tag_list)
+  }
 // var stuff = [ {NAME:"n1",COUNT:23,HIDDEN:"1abc"},
 //              {NAME:"n2",COUNT:12,HIDDEN:"2abc"},
 //              {NAME:"n3",COUNT:22,HIDDEN:"3abc"},
@@ -311,15 +331,21 @@ $(document).ready(function(){
 
 // $("#example").children("#wordcloud").jQCloud( tag_list );
 
+if(instance_id == "covid-19.iudx.org.in"){
+  
 $(function() {
-        $("#wordCloud").jQCloud(tag_cloud, 
+        $("#wordCloud").jQCloud(tag_list, 
         {
           // shape: "rectangular",
           autoResize: true
         });
       });
-
+    }
+    else {
+      $("#wordCloud").addClass("hide-left-nav");
+    }
   $.get(cat_conf['cat_base_URL']+"/count", function(data) {
+    console.log("Count")
     $("#resource_item_count").html((JSON.parse(data))["Count"]);
   });
   
@@ -330,10 +356,12 @@ $(function() {
       $('#_value').attr("placeholder", "example: "+tags_set[1] + ", " +tags_set[5] + ", " + "or "+tags_set[10]).val("").focus().blur();
     //==========  Capture select for populating autosuggest with tags attribute values 
      if($( "#attribute" ).val() == "tags"){
+      // console.log("RRRRRRRRRRRRR1")
       set_attr_value($( "#attribute" ).val(), tags_set)
     }
-      else if($( "#_attribute" ).val() == "tags"){
-        console.log("Print")
+      if($( "#_attribute" ).val() == "tags"){
+        // console.log("RRRRRRRRRRRRR")
+        console.log($( "#_attribute" ).val())
       set_attr_value($( "#_attribute" ).val(), tags_set)
       }
     
@@ -369,6 +397,11 @@ $(function() {
   })
 
   $("#landing_footer, #normal_footer").html(getFooterContent());
+
+  if(legends !== "#"){
+    $("#geo-query-link").html("Also checkout the <a href='/c/map' target='_self'>Geo Query</a> and <a href='/status' target='_self'>Status</a> Interface<br>")
+  }
+  
 
 });
 
@@ -409,8 +442,21 @@ $('#_attribute').on('change', function() {
     $('#_value').attr("placeholder", "example: "+provider_set[0]).val("").focus().blur();
     // $('#_value').attr("placeholder", "example: "+provider_set[0]).val("").focus().blur();
     _arr = provider_set
+    console.log(_arr)
   }
   set_attr_value(this.value, _arr)
+});
+//Added for enter from the keyboard for attribute value
+$("#value").on('keyup', function (e) {
+    if (e.keyCode === 13) {
+      get_items($('#attribute :selected').val(),$('#value').val())
+    }
+});
+
+$("#_value").on('keyup', function (e) {
+    if (e.keyCode === 13) {
+      get_items($('#_attribute :selected').val(),$('#_value').val())
+    }
 });
 
 // Capture search input click
@@ -418,9 +464,19 @@ $(".ui-menu").on('click',function(){
   ////console.log("s",this.value)
 });
 
+
  $(window).load(function() {
      // Animate loader off screen
      $(".se-pre-con").fadeOut("slow");
+
+  //Added for autofocus
+  $( "#value" ).focus();
+ 
+  // if(location.href == location.origin + "\c")
+  // {
+  //   $( "#value" ).focus();
+  // $('#_value').focus();
+  // } 
    });
 </script>
 </html>

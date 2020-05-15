@@ -63,7 +63,7 @@ function is_attr_empty(_attr_name,_attr_value){
 }
 
 function replace_whiteSpace(_attr_value) {
-    // console.log(/\s/g.test(_attr_value))
+     console.log(/\s/g.test(_attr_value))
     if(/\s/g.test(_attr_value)){
 		console.log(_attr_value);
 		var _attr_val = _attr_value.replace(/[ ,]+/g, ",");
@@ -120,20 +120,20 @@ function json_to_htmlcard(json_obj){
               <span class="float-left" style="padding-right:7.5px;"><img src='`+
               ((is_public) ? "../assets/img/icons/green_unlock.svg" : "../assets/img/icons/red_lock.svg")
               +`' class='img-fluid secure_icon'></span>` + get_horizontal_spaces(3) + s.splice(2).join("/") + " <b>BY</b> " + s[0]  + `</h5>
-              <div class="card-body">
+              <div class="card-body" style="padding: 20px;">
                 <h5 class="card-title">` + json_obj["itemDescription"] + `</h5>
                 <strong>Item-ID</strong>: `+json_obj['id']+`<br>
                 <strong>Onboarded-By</strong>: `+json_obj['onboardedBy']+`<br>
-                <strong>Access</strong>: `+ (is_public ? "Public": "Requires Authentication") +`<br>
-                <div id="btn_`+resource_id_to_html_id(json_obj.id)+`">
+                <strong>Access</strong>: `+ (is_public ? "Public": "Requires Authentication") +`<br><br>
+                <div style="margin-top:-10px;" id="btn_`+resource_id_to_html_id(json_obj.id)+`">
                 <button class="btn btn-primary" onclick="show_details('`+ json_obj.id +`')">Details</button>
                 <!--button class="btn btn-success" onclick="display_swagger_ui('` + openapi_url + `')">API Details</button-->
                 `+ ((is_public)?"":rat_btn_html) +`
                 
-                `+ ((is_datasetDownload)? sample_data_btn_html + " "+ `<a href="`+json_obj['datasetDownloadLink']['url']+`" class="data-modal" style="text-decoration:underline;font-size: 22px" onclick="" download>download file</a>`:latest_data_btn_html + temporal_btn_html) +`
+                `+ ((is_datasetDownload)? sample_data_btn_html + " "+ `<a href="`+json_obj['datasetDownloadLink']['url']+`" class="data-modal" style="text-decoration:underline;font-size: 22px" onclick="" download><button class="btn btn-warning">Download file</button></a>`:latest_data_btn_html + temporal_btn_html) +`
                 </div>
                  <div id="token_section_`+resource_id_to_html_id(json_obj.id)+`" class="token_section"></div>
-              </div>
+              </br>
               <div id="details_section_`+resource_id_to_html_id(json_obj.id)+`" class="details_section">
                 <table class="table table-borderless table-dark">
                   <thead>
@@ -1045,10 +1045,11 @@ function plotGeoJSONs(geoJSONObject, _id, _json_object, _resourceServerGroup, _r
         else if (geoJSONObject["type"] == "Point") {
 
             var is_public = (_json_object['secure']||[]).length === 0;
-            // //console.log("Printing Point....")
+            // console.log("Printing Point....")
             L.geoJSON(geoJSONObject, {
                 pointToLayer: function (feature, latlng) {
-                    // console.log(_resourceServerGroup)
+                     console.log(_resourceServerGroup)
+                     console.log(latlng);
                     // return L.marker(latlng, {icon: getOfficeIcon()});
 
                     // <a href='/catalogue/v1/items/"+plot_id+"'>Get Catalogue-item-details</a><br/>
@@ -1152,6 +1153,8 @@ function getOfficeIcon() {
 
 
 function getMarkerIcon(__rsg) {
+    console.log(cat_conf['resource_server_group_head'])
+    console.log(__rsg.split(cat_conf['resource_server_group_head'])[1])
     return L.icon(getMarkerIconOptions(__rsg.split(cat_conf['resource_server_group_head'])[1]));
 }
 

@@ -6,8 +6,8 @@ var row_count_grp = 0;
 
 
 $(document).ready(function () {
-	getPolicy();
-	getGroups();
+    getPolicy();
+    getGroups();
 });
 // SET POLICY RULES
 
@@ -18,10 +18,10 @@ const $EXPORT = $('#export');
 //For removing rows from the table on clicking Remove button
 $tableID.on('click', '.table-remove', function () {
 
-	$(this).parents('tr').detach();
+    $(this).parents('tr').detach();
     row_count = row_count - 1;
     console.log(row_count)
-    toast_alert('Removed successfully!!','success','#248c5a')
+    toast_alert('Removed successfully!!', 'success', '#248c5a')
 });
 
 // A few jQuery helpers for exporting only
@@ -30,79 +30,80 @@ jQuery.fn.shift = [].shift;
 
 $BTN.on('click', () => {
 
-	const $rows = $tableID.find('tr:not(:hidden)');
-	const headers = [];
-	const data = [];
-	var str = "";
+    const $rows = $tableID.find('tr');
+    const headers = [];
+    const data = [];
+    var str = "";
 
-	// Get the headers (add special header logic here)
-	$($rows.shift()).find('th').each(function () {
+    // Get the headers (add special header logic here)
+    $($rows.shift()).find('th').each(function () {
 
-		headers.push($(this).text().toLowerCase());
-	});
+        headers.push($(this).text().toLowerCase());
+    });
 
 
 
-	// Turn all existing rows into a loopable array
-	$rows.each(function () {
-		const $td = $(this).find('td');
-		const h = {};
+    // Turn all existing rows into a loopable array
+    $rows.each(function () {
+        const $td = $(this).find('td');
+        const h = {};
 
-		// Use the headers from earlier to name our hash keys
-		headers.forEach((header, i) => {
-			// console.log($td.eq(i).innerText)
-			header = header.trim();
-			if (header === "")
-				header = i;
+        // Use the headers from earlier to name our hash keys
+        // console.log($td.eq(0).text())
+        headers.forEach((header, i) => {
+            //  console.log($td.eq(i).innerText)
+            header = header.trim();
+            if (header === "")
+                header = i;
 
-			// console.log(header,$td.eq(i).text())
 
-			h[header] = $td.eq(i).text();
-		});
+            console.log(header, $td.eq(i).text())
+            h[header] = $td.eq(i).text();
+        });
 
-		data.push(h);
-		console.log(data);
-	});
+        data.push(h);
+        console.log(data);
+    });
 
-	var str1 = "";
+    var str1 = "";
 
-	// Output the result
-	// $EXPORT.text(JSON.stringify(data));
-	var a = [];
-	var b = [];
+    // Output the result
+    // $EXPORT.text(JSON.stringify(data));
+    var a = [];
+    var b = [];
 
-	for (var i = 0; i <= data.length - 1; i++) {
+    for (var i = 0; i <= data.length - 1; i++) {
 
-		 console.log(data[i]);
-		tokenVal = get_token_validiy(i)
-		// console.log("Gpot",tokenVal,typeof (tokenVal));
-		// console.log(tokenVal === "undefined")//false
+        console.log(data[i]);
+        tokenVal = get_token_validiy(i)
+        // console.log("Gpot",tokenVal,typeof (tokenVal));
+        // console.log(tokenVal === "undefined")//false
 
-		r = data[i]["email-id"].trim() + " can access " + data[i]["resource-id"].trim();
-		// console.log(tokenVal)
-		tokenPeriod = $('#dropdownValue_' + i).text()
-		if (tokenVal) {
-			// console.log("i m here")
-			r += " for " + tokenVal.trim() + " " + tokenPeriod.trim();
-			// console.log(r)
-		}
+        r = data[i]["email-id"].trim() + " can access " + data[i]["resource-id"].trim();
+        // console.log(tokenVal)
+        tokenPeriod = $('#dropdownValue_' + i).text()
+        if (tokenVal) {
+            // console.log("i m here")
+            r += " for " + tokenVal.trim() + " " + tokenPeriod.trim();
+            // console.log(r)
+        }
 
-		if (data[i]["condition"]) {
-			r += " if " + data[i]["condition"].trim();
-			// console.log(r)
-		}
-		// console.log(r)
-		b.push(r);
-	}
-	// console.log(b)
-	str1 = b.join(";");
+        if (data[i]["condition"]) {
+            r += " if " + data[i]["condition"].trim();
+            // console.log(r)
+        }
+        // console.log(r)
+        b.push(r);
+    }
+    // console.log(b)
+    str1 = b.join(";");
 
-	 console.log(str1)
-	setPolicy(str1);
-	// getPolicy()
-	$EXPORT.text(str1);
-	// console.log("a = ",a)
-	// console.log("b = ",b)
+    console.log(str1)
+    setPolicy(str1);
+    // getPolicy()
+    // $EXPORT.text(str1);
+    // console.log("a = ",a)
+    // console.log("b = ",b)
 
 });
 
@@ -114,19 +115,19 @@ const $BTN_GET_GRP = $('#export-btn-get-grp');
 const $EXPORT_GRP = $('#export-grp');
 
 $tableGrpID.on('click', '.table-remove', function () {
-	// console.log($(this).parents('tr')[0].innerText);
-	var str = $(this).parents('tr')[0].innerText;
-	//str.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; } );
-	var stringArray = str.split(/(\s+)/);
+    // console.log($(this).parents('tr')[0].innerText);
+    var str = $(this).parents('tr')[0].innerText;
+    //str.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; } );
+    var stringArray = str.split(/(\s+)/);
 
-	// console.log(stringArray)
-	grp = stringArray[2];
-	email = stringArray[0]
+    // console.log(stringArray)
+    grp = stringArray[2];
+    email = stringArray[0]
 
-	deleteGroups(grp, email);
-	$(this).parents('tr').detach();
+    deleteGroups(grp, email);
+    $(this).parents('tr').detach();
     row_count_grp = row_count_grp - 1;
-    
+
 });
 
 // A few jQuery helpers for exporting only
@@ -135,135 +136,135 @@ jQuery.fn.shift = [].shift;
 
 $BTN_ADD_GRP.on('click', () => {
 
-	const $rows = $tableGrpID.find('tr:not(:hidden)');
-	const headers_grp = [];
-	const data_grp = [];
-	var str = "";
+    const $rows = $tableGrpID.find('tr:not(:hidden)');
+    const headers_grp = [];
+    const data_grp = [];
+    var str = "";
 
-	// Get the headers (add special header logic here)
-	$($rows.shift()).find('th').each(function () {
+    // Get the headers (add special header logic here)
+    $($rows.shift()).find('th').each(function () {
 
-		headers_grp.push($(this).text().toLowerCase());
-	});
+        headers_grp.push($(this).text().toLowerCase());
+    });
 
-	// Turn all existing rows into a loopable array
-	$rows.each(function () {
-		const $td = $(this).find('td');
-		const h = {};
+    // Turn all existing rows into a loopable array
+    $rows.each(function () {
+        const $td = $(this).find('td');
+        const h = {};
 
-		// Use the headers from earlier to name our hash keys
-		headers_grp.forEach((header, i) => {
-			// console.log($td.eq(i).innerText)
-			header = header.trim();
-			if (header === "")
-				header = i;
+        // Use the headers from earlier to name our hash keys
+        headers_grp.forEach((header, i) => {
+            // console.log($td.eq(i).innerText)
+            header = header.trim();
+            if (header === "")
+                header = i;
 
-			// console.log(header, $td.eq(i).text())
+            // console.log(header, $td.eq(i).text())
 
-			h[header] = $td.eq(i).text();
-		});
+            h[header] = $td.eq(i).text();
+        });
 
-		data_grp.push(h);
-		// console.log(data_grp);
-	});
+        data_grp.push(h);
+        // console.log(data_grp);
+    });
 
-	var str1 = "";
+    var str1 = "";
 
 
-	for (var i = 0; i <= data_grp.length - 1; i++) {
+    for (var i = 0; i <= data_grp.length - 1; i++) {
 
-		// console.log(data_grp[i]);
-		validity = get_validity(i)
-		// $('#txtBoxGrp_' + i).val()
-		// console.log("Gpot",tokenVal,typeof (tokenVal));
-		// console.log(tokenVal === "undefined")//false
+        // console.log(data_grp[i]);
+        validity = get_validity(i)
+        // $('#txtBoxGrp_' + i).val()
+        // console.log("Gpot",tokenVal,typeof (tokenVal));
+        // console.log(tokenVal === "undefined")//false
 
-		email = data_grp[i]["email-id"].trim();
-		grp = data_grp[i]["group"].trim();
+        email = data_grp[i]["email-id"].trim();
+        grp = data_grp[i]["group"].trim();
 
-		// console.log(email, grp, validity)
+        // console.log(email, grp, validity)
 
-		str = email + "," + grp + "," + validity;
+        str = email + "," + grp + "," + validity;
 
-	}
+    }
 
-	setGroups(grp, email, validity);
-	// getPolicy()
-	$EXPORT_GRP.text("Added group " + grp + " for consumer email " + email + " valid-till :" + validity);
+    setGroups(grp, email, validity);
+    // getPolicy()
+    // $EXPORT_GRP.text("Added group " + grp + " for consumer email " + email + " valid-till :" + validity);
 
 });
 
 $BTN_GET_GRP.on('click', () => {
 
-	const $rows = $tableGrpID.find('tr:not(:hidden)');
-	const headers = [];
-	const data = [];
-	var str = "";
+    const $rows = $tableGrpID.find('tr:not(:hidden)');
+    const headers = [];
+    const data = [];
+    var str = "";
 
-	// Get the headers (add special header logic here)
-	$($rows.shift()).find('th').each(function () {
+    // Get the headers (add special header logic here)
+    $($rows.shift()).find('th').each(function () {
 
-		headers.push($(this).text().toLowerCase());
-	});
+        headers.push($(this).text().toLowerCase());
+    });
 
-	// Turn all existing rows into a loopable array
-	$rows.each(function () {
-		const $td = $(this).find('td');
-		const h = {};
+    // Turn all existing rows into a loopable array
+    $rows.each(function () {
+        const $td = $(this).find('td');
+        const h = {};
 
-		// Use the headers from earlier to name our hash keys
-		headers.forEach((header, i) => {
-			// console.log($td.eq(i).innerText)
-			header = header.trim();
-			if (header === "")
-				header = i;
+        // Use the headers from earlier to name our hash keys
+        headers.forEach((header, i) => {
+            // console.log($td.eq(i).innerText)
+            header = header.trim();
+            if (header === "")
+                header = i;
 
-			// console.log(header,$td.eq(i).text())
+            // console.log(header,$td.eq(i).text())
 
-			h[header] = $td.eq(i).text();
-		});
+            h[header] = $td.eq(i).text();
+        });
 
-		data.push(h);
-		//console.log(data);
-	});
+        data.push(h);
+        //console.log(data);
+    });
 
-	var str1 = "";
-
-
-	var a = [];
-	var b = [];
-
-	for (var i = 0; i <= data.length - 1; i++) {
-
-		// console.log(data[i]);
-		validity = get_validity(i)
-		// $('#txtBoxGrp_' + i).val()
-		// console.log("Gpot",tokenVal,typeof (tokenVal));
-		// console.log(tokenVal === "undefined")//false
-
-		email = data[i]["email-id"].trim();
-		grp = data[i]["group"].trim();
-		console.log(email, grp, validity)
+    var str1 = "";
 
 
-		// if (tokenVal) {
-		// console.log("i m here")
-		// 	r += " for " + tokenVal.trim() + " " + tokenPeriod.trim();
-		// 	console.log(r)
-		// }
+    var a = [];
+    var b = [];
 
-		// if (data[i]["condition"]){
-		// 	r += " if " + data[i]["condition"].trim();
-		// 	console.log(r)
-		// }
-		str = email + "," + grp + "," + validity;
+    for (var i = 0; i <= data.length - 1; i++) {
 
-	}
+        // console.log(data[i]);
+        validity = get_validity(i)
+        // $('#txtBoxGrp_' + i).val()
+        // console.log("Gpot",tokenVal,typeof (tokenVal));
+        // console.log(tokenVal === "undefined")//false
 
-	getGroups();
-	// getPolicy()
-	// $EXPORT_GRP.text("Added group "+grp+ " for consumer email " +email + " valid-till :"+validity);
-	// $EXPORT_GRP.text("Groups are::: " + grp);
+        email = data[i]["email-id"].trim();
+        grp = data[i]["group"].trim();
+        console.log(email, grp, validity)
+
+
+        // if (tokenVal) {
+        // console.log("i m here")
+        // 	r += " for " + tokenVal.trim() + " " + tokenPeriod.trim();
+        // 	console.log(r)
+        // }
+
+        // if (data[i]["condition"]){
+        // 	r += " if " + data[i]["condition"].trim();
+        // 	console.log(r)
+        // }
+        str = email + "," + grp + "," + validity;
+
+    }
+
+    getGroups();
+    // getPolicy()
+    // $EXPORT_GRP.text("Added group "+grp+ " for consumer email " +email + " valid-till :"+validity);
+    // $EXPORT_GRP.text("Groups are::: " + grp);
 });
 
 
@@ -280,7 +281,7 @@ function setPolicy(rule) {
 
     $.ajax({
 
-        url: cat_conf['auth_base_URL']+'/acl/set',
+        url: cat_conf['auth_base_URL'] + '/acl/set',
 
         type: 'POST',
 
@@ -289,16 +290,16 @@ function setPolicy(rule) {
         data: JSON.stringify(json_rule),
         success: function (data, textStatus, jQxhr) {
             // alert("Success! \nPolicies Set ")
-            toast_alert('Policies Set!!','success','#248c5a')
+            toast_alert('Policies Set!!', 'success', '#248c5a')
             // console.log(data, textStatus, jQxhr);
         },
         error: function (jqXhr, StatusText, errorThrown) {
             // console.log(errorThrown, jqXhr, StatusText);
-            toast_alert('Policies Not Set','error','#248c5a')
+            toast_alert('Policies Not Set', 'error', '#248c5a')
 
         }
     });
-   }
+}
 
 
 function addPolicy() {
@@ -343,43 +344,60 @@ function addPolicy() {
 
 function getPolicy() {
 
-        $.ajax({
+    $.ajax({
 
-            url: cat_conf['auth_base_URL']+'/acl',
-    
-            type: 'POST',
-    
-            //      dataType: "json",
-            contentType: 'application/json',
-            
-            success: function (data, textStatus, jQxhr) {
-                
-                // console.log(data, textStatus, jQxhr);
-                 policy = [];
-                 console.log(data)
-                policies_arr = data.policy.split(";");
-                  console.log(policies_arr)
-                $("#tbody").html("")
-                for (i = 0; i < policies_arr.length; i++) {
-                    // console.log(policies_arr[i])
-       
-                    $("#tbody").append(parse_p(policies_arr[i]));
-                    get_token_validiy(i);
-       
-                }
-                
-            },
-            // error: function (jqXhr, StatusText, errorThrown) {
-            //     // console.log(errorThrown, jqXhr, StatusText);
-            //     alert("Error!\n" + StatusText)
-    
+        url: cat_conf['auth_base_URL'] + '/acl',
+
+        type: 'POST',
+
+        //      dataType: "json",
+        contentType: 'application/json',
+
+        success: function (data, textStatus, jQxhr) {
+
+            // console.log(data, textStatus, jQxhr);
+            //  policy = [];
+            console.log(data)
+            //   for (i = 0; i < policies_arr.length; i++) {
+            //     
+            // policies_arr = data.policy.split(";");
+            //   console.log(policies_arr)
+            // $("#tbody").append(parse_p(policies_arr[i]));
+            // get_token_validiy(i);
             // }
-        });
-    
+
+
+            $("#tbody").html("")
+            console.log(data.policy.length)
+            for (i = 0; i < data.policy.length; i++) {
+                // console.log(policies_arr[i])
+                // fruits.join(";");
+
+                $("#tbody").append(parse_p(data.policy[i]));
+                get_token_validiy(i);
+
+
+
+                //   console.log(policies_arr)
+
+
+
+
+
+            }
+
+        },
+        // error: function (jqXhr, StatusText, errorThrown) {
+        //     // console.log(errorThrown, jqXhr, StatusText);
+        //     alert("Error!\n" + StatusText)
+
+        // }
+    });
+
 }
 
 function parse_p(_data) {
-     console.log(_data)
+    console.log(_data)
     var arr_res = [];
     _resVal = _data.split("can access");
     // console.log(_resVal[0]);
@@ -534,9 +552,9 @@ FOr Managing & Setting Groups
 
 function addGroups() {
 
-    $("#plus_add").click(function(){
+    $("#plus_add").click(function () {
         $("#step-6-card").css("position", "fixed");
-      });
+    });
     // getGroups();
     // console.log("Adding ", row_count_grp);
 
@@ -567,7 +585,7 @@ function setGroups(grp, email, validity) {
     var json_rule = { "group": grp, "consumer": email, "valid-till": validity };
     $.ajax({
 
-        url: cat_conf['auth_base_URL']+'/group/add',
+        url: cat_conf['auth_base_URL'] + '/group/add',
 
         type: 'POST',
 
@@ -576,13 +594,13 @@ function setGroups(grp, email, validity) {
         data: JSON.stringify(json_rule),
         success: function (data, textStatus, jQxhr) {
             //alert("Success! \nGroups Added successfully ")
-            toast_alert( 'Groups Added successfully', 'success', '#248c5a')
+            toast_alert('Groups Added successfully', 'success', '#248c5a')
             // console.log(data, textStatus, jQxhr);
         },
         error: function (jqXhr, StatusText, errorThrown) {
             console.log(errorThrown, jqXhr, StatusText);
             // alert("Error!\n" + StatusText)
-            toast_alert(  'Error!\n '  , 'error','#dc3545');
+            toast_alert('Error!\n ', 'error', '#dc3545');
 
         }
     });
@@ -595,7 +613,7 @@ function getGroups() {
 
     $.ajax({
 
-        url: cat_conf['auth_base_URL']+'/group/list',
+        url: cat_conf['auth_base_URL'] + '/group/list',
 
         type: 'POST',
 
@@ -641,7 +659,7 @@ function getGroups() {
         },
         error: function (jqXhr, StatusText, errorThrown) {
             // console.log(errorThrown, jqXhr, StatusText);
-            toast_alert(  'Error!\n '  , 'error','#dc3545');
+            toast_alert('Error!\n ', 'error', '#dc3545');
 
         }
     });
@@ -654,20 +672,20 @@ function deleteGroups(grp, email) {
 
     json_rule = { "group": grp, "consumer": email }
     $.ajax({
-        url: cat_conf['auth_base_URL']+'/group/delete',
+        url: cat_conf['auth_base_URL'] + '/group/delete',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(json_rule),
         success: function (data, textStatus, jQxhr) {
             // alert("Success! \nGroup(s) Deleted successfully ")
-            toast_alert( 'Group(s) Deleted successfully', 'success', '##dc3545');
+            toast_alert('Group(s) Deleted successfully', 'success', '##dc3545');
             // console.log(data, textStatus, jQxhr);
             $(this).parents('tr').detach();
         },
         error: function (jqXhr, StatusText, errorThrown) {
             // console.log(errorThrown, jqXhr, StatusText);
             alert("Error!\n" + errorThrown)
-            toast_alert(  'Error!\n '+ errorThrown  , 'error','#dc3545');
+            toast_alert('Error!\n ' + errorThrown, 'error', '#dc3545');
 
         }
 
@@ -726,7 +744,7 @@ function request_access_token() {
 
 
     $.ajax({
-        url:  cat_conf['auth_base_URL']+'/token',
+        url: cat_conf['auth_base_URL'] + '/token',
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
@@ -760,8 +778,8 @@ function request_access_token() {
         },
         error: function (jqXHR, exception) {
             // alert("Unauthorized access! Please get a token.");
-            toast_alert(  'Unauthorized access! Please get a token.'  , 'error','#dc3545');
-            
+            toast_alert('Unauthorized access! Please get a token.', 'error', '#dc3545');
+
         }
     });
 }
@@ -789,20 +807,28 @@ function get_data_from_token() {
     });
 }
 
-function audit_tokens(__time){
+function audit_tokens(__time) {
     $.ajax({
-        // url: cat_conf['auth_base_URL']+'/audit/tokens',
-        url:'https://api.myjson.com/bins/afncy',
-        // type: 'POST',
-        type:'GET',
+        url: cat_conf['auth_base_URL'] + '/audit/tokens',
+        // url:'https://api.myjson.com/bins/afncy',
+        type: 'POST',
+        // type:'GET',
         contentType: 'application/json',
-        // data: JSON.stringify({"hours": __time}),
+        data: JSON.stringify({ "hours": __time }),
         success: function (data, textStatus, jQxhr) {
-             alert("Success! \nGroup(s) Deleted successfully ")
-            //toast_alert( 'Group(s) Deleted successfully', 'success', '##dc3545');
             console.log(data, textStatus, jQxhr);
-            $('#display-audit-tokens').html(displayAuditTokens(data));
-            
+            if (data['as-consumer'] == "" && data['as-provider'] == "") {
+                toast_alert('There is no Data', 'error', '#dc3545');
+            }
+            else {
+                $('#display-audit-tokens').html(
+                    `
+        <span ><button type="button" class="btn btn-danger btn-rounded btn-sm my-0">RevokeAll</button></span>
+        `)
+                $('#display-audit-tokens-consumer').html(displayAuditTokens_consumer(data['as-consumer']));
+                $('#display-audit-tokens-provider').html(displayAuditTokens_provider(data['as-provider']));
+
+            }
         },
         error: function (jqXhr, StatusText, errorThrown) {
             // console.log(errorThrown, jqXhr, StatusText);
@@ -813,108 +839,110 @@ function audit_tokens(__time){
     });
 }
 
-$("#audit_submit").click(function(){
-    var _time= $("#audit_input").val();
+$("#audit_submit").click(function () {
+    var _time = $("#audit_input").val();
     audit_tokens(_time);
 });
 
-function displayAuditTokens(__data){
-    console.log(__data)
-    console.log(__data.length);
+function displayAuditTokens_consumer(__data) {
+    // console.log(typeof(__data));
+    // console.log(Object.keys(__data)[0]);
     // for(index=0;index<__data.length;index++)
-    console.log(__data['as-consumer'])
+    // console.log(__data['as-consumer'].length)
     // console.log(__data['as-producer']['0'])
     // $("#audit").hide();
-    return `
+    count = 0;
+    for (var i = 0; i < __data.length; i++) {
+        $("#display-audit-tokens-consumer").append(`
    
-    <div class="card" >
+        <div class="card_`+ count + `" >
   <div class="card-header font-weight-bold text-uppercase">
     As Consumer
   </div>
   <table class="card-table table">
-    
-    <tbody>
+        <tbody>
       <tr>
         <td>token-issued-at:</td>
-        <td>`+__data["as-consumer"]["0"]["token-issued-at"]+`</td>
+        <td>introspected:</td>
+        <td>revoked:</td>
+        <td>expiry:</td>
+        <td>certificate-serial-number:</td>
+        <td>certificate-fingerprint:</td>
+        <td>resource-id</td>
+        </tr>
+         
+      <tr>
+        <td>`+ __data[i]["token-issued-at"] + `</td>
+        <td>`+ __data[i]["introspected"] + `</td>
+        <td>`+ __data[i]["revoked"] + `</td>
+        <td>`+ __data[i]["expiry"] + `</td>
+        <td>`+ __data[i]["certificate-serial-number"] + `</td>
+        <td>`+ __data[i]["certificate-fingerprint"] + `</td>
+        <td>`+ __data[i].request["0"]["id"] + `</td>
       </tr>
       <tr>
-      <td>introspected:</td>
-      <td>`+__data["as-consumer"]["0"]["introspected"]+`</td>
+      <td><span ><button type="button" class="btn btn-danger btn-rounded btn-sm my-0">Revoke</button></span>
     </tr>
-    <tr>
-    <td>revoked:</td>
-    <td>`+__data["as-consumer"]["0"]["revoked"]+`</td>
-  </tr>
-  <tr>
-    <td>expiry:</td>
-    <td>`+__data["as-consumer"]["0"]["expiry"]+`</td>
-  </tr>
-  <tr>
-    <td>certificate-serial-number:</td>
-    <td>`+__data["as-consumer"]["0"]["certificate-serial-number"]+`</td>
-  </tr>
-  <tr>
-    <td>certificate-fingerprint:</td>
-    <td>`+__data["as-consumer"]["0"]["certificate-fingerprint"]+`</td>
-  </tr>
-  <tr>
-  <td>resource-id</td>
-  <td>`+__data["as-consumer"]["0"].request["0"]["id"]+`</td>
-</tr>
     </tbody>
   </table>
 </div>
+` );
 
+        count = count + 1;
 
-    <div class="card"">
-  <div class="card-header card-header font-weight-bold text-uppercase">
-    As producer
-  </div>
-  <table class="card-table table">
-  <tbody>
-  <tr>
-    <td>consumer:</td>
-    <td>`+__data["as-provider"]["0"]["consumer"]+`</td>
-  </tr>
-  <tr>
-  <td>token-hash:</td>
-  <td>`+__data["as-provider"]["0"]["token-hash"]+`</td>
-</tr>
-<tr>
-<td>token-issued-at:</td>
-<td>`+__data["as-provider"]["0"]["token-issued-at"]+`</td>
-</tr>
-<tr>
-<td>introspected:</td>
-<td>`+__data["as-provider"]["0"]["introspected"]+`</td>
-</tr>
-<tr>
-<td>revoked:</td>
-<td>`+__data["as-provider"]["0"]["revoked"]+`</td>
-</tr>
-<tr>
-<td>expiry:</td>
-<td>`+__data["as-provider"]["0"]["expiry"]+`</td>
-</tr>
-<tr>
-<td>certificate-serial-number:</td>
-<td>`+__data["as-provider"]["0"]["certificate-serial-number"]+`</td>
-</tr>
-<tr>
-<td>certificate-fingerprint:</td>
-<td>`+__data["as-provider"]["0"]["certificate-fingerprint"]+`</td>
-</tr>
-<tr>
-<td>resource-id:</td>
-<td>`+__data["as-provider"]["0"].request["0"]["id"]+`</td>
-</tr>
-</tbody>
-  </table>
-</div>
+    }
 
+}
 
-    `
-    
-    
+function displayAuditTokens_provider(__data) {
+    // console.log(typeof(__data));
+    // console.log(Object.keys(__data)[0]);
+    // for(index=0;index<__data.length;index++)
+    // console.log(__data['as-consumer'].length)
+    // console.log(__data['as-producer']['0'])
+    // $("#audit").hide();
+    count = 0;
+    for (var i = 0; i < __data.length; i++) {
+        $("#display-audit-tokens-provider").append(`
+   
+        <div class="card`+ count + `">
+          <div class="card-header card-header font-weight-bold text-uppercase">
+            As provider
+          </div>
+          <table class="card-table table">
+          <tbody>
+          <tr>
+            <td>consumer:</td>
+            <td>token-hash:</td>
+            <td>token-issued-at:</td>
+            <td>introspected:</td>
+            <td>revoked:</td>
+            <td>expiry:</td>
+            <td>certificate-serial-number:</td>
+            <td>certificate-fingerprint:</td>
+            <td>resource-id:</td>
+        </tr>
+        <tr>
+            <td>`+ __data[i]["consumer"] + `</td>
+            <td>`+ __data[i]["token-hash"] + `</td>
+            <td>`+ __data[i]["token-issued-at"] + `</td>
+            <td>`+ __data[i]["introspected"] + `</td>
+            <td>`+ __data[i]["revoked"] + `</td>
+            <td>`+ __data[i]["expiry"] + `</td>
+            <td>`+ __data[i]["certificate-serial-number"] + `</td>
+            <td>`+ __data[i]["certificate-fingerprint"] + `</td>
+            <td>`+ __data[i].request["0"]["id"] + `</td>
+        </tr>
+        <tr>
+            <td><span ><button type="button" class="btn btn-danger btn-rounded btn-sm my-0">Revoke</button></span>
+        </tr>
+        </tbody>
+          </table>
+        </div>
+` );
+
+        count = count + 1;
+
+    }
+
 }

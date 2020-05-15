@@ -279,12 +279,18 @@
                         </div>  
                     </div>
                 </div>
-                
+<!--                 
+                <br> -->
                 <br>
+                <div class="text-center" id="display-audit-tokens"></div>
                 <br>
-                <div id="display-audit-tokens">
+                <div id="display-audit-tokens-consumer">
 
                 </div>
+                <div id="display-audit-tokens-provider">
+
+                </div>
+                <div class="text-center" id="display-no-tokens"></div>
             
             </section>
 
@@ -419,6 +425,7 @@
               redirect_to_with_msg("/", "Please use a valid certificate. Redirecting to home page.")
             }
         });
+
         /*$(window).load(function() {
             var homeUrl = 'https://localhost.iudx.org.in:8443/p/dashboard#';
             // console.log("Reload ")

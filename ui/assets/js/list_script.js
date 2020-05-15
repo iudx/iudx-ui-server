@@ -36,6 +36,7 @@ function display_search_section(){
 	$(".section").fadeOut(200);
 	$("body").css("background-image","none");
 	$("#search_section").fadeIn(1500);
+	$('#_value').focus();
 }
 
 /*
@@ -61,35 +62,61 @@ function _get_item_count(__url){
 */
 
 function get_items(_attr_name,_attr_value){
-	var _temp_a_v;
+	// var _temp_a_v;
 
 	if(is_attr_empty(_attr_name,_attr_value)){
 		return;
 	
 	}
 
-	_temp_a_v = replace_whiteSpace(_attr_value);
+	
 
 	if(!first_get_item_call_done){
 		first_get_item_call_done=true;
 		display_search_section();
 	}
 
-	// var _temp_a_v = _attr_value
+	 var _temp_a_v = _attr_value
 
-	if(_attr_name=="resourceServerGroup"){
-		_attr_value=cat_conf['resource_server_group_head']+_attr_value
-	}else if(_attr_name=="provider"){
-		_attr_value=cat_conf['provider_head']+_attr_value
-	}
+	//  if(/\s/g.test(_attr_value)) {
+	// 	 _attr_value = replace_whiteSpace(_attr_value)
+	//  }
+
+
+	 if(/\s/g.test(_attr_value)){
+		_attr_value = replace_whiteSpace(_attr_value);
+	 }
+
+		else if((/\s/g.test(_attr_value)) && _attr_name=="resourceServerGroup"){
+			console.log(/\s/g.test(_attr_value))
+
+		_attr_value = cat_conf['resource_server_group_head']+ replace_whiteSpace(_attr_value);
+		
+		}
+		else if((/\s/g.test(_attr_value)) && _attr_name=="provider"){
+
+			_attr_value = cat_conf['provider_head'] + replace_whiteSpace(_attr_value);
+			
+			}
+	    else if(_attr_name=="resourceServerGroup"){
+	 	_attr_value=cat_conf['resource_server_group_head']+_attr_value
+	 }else if(_attr_name=="provider"){
+	 	_attr_value=cat_conf['provider_head']+_attr_value
+	 }
 	
 	$(".se-pre-con").fadeIn("slow");
 	
-	$.get(cat_conf["cat_base_URL"] + "/search?attribute-name=("+_attr_name+")&attribute-value=(("+_temp_a_v+"))", function(data) {
+	$.get(cat_conf["cat_base_URL"] + "/search?attribute-name=("+_attr_name+")&attribute-value=(("+_attr_value+"))", function(data) {
             // $("#searched_items").text(data);
 		data=JSON.parse(data)
 		set_data_globally(data);
-		$("#retrieved_items_count").html("About " + get_item_count(data) + " results for " + _temp_a_v + " (Attribute: " + _attr_name + ") | Go to <a href='/c/map'>Map View</a>/<a href='/status'>Status View</a>/<a href='/c'>HomePage</a>/<a href='https://www.iudx.org.in/overview-of-iudx/'>Overview Of IUDX</a>");
+		if(legends !== "#"){
+			$("#retrieved_items_count").html("About " + get_item_count(data) + " results for " + _temp_a_v + " (Attribute: " + _attr_name + ") | Go to <a href='/c/map'>Map View</a>/<a href='/status'>Status View</a>/<a href='/c'>HomePage</a>/<a href='https://www.iudx.org.in/overview-of-iudx/'>Overview Of IUDX</a>");
+		  }
+		  else {
+			$("#retrieved_items_count").html("About " + get_item_count(data) + " results for " + _temp_a_v + " (Attribute: " + _attr_name + ") | Go to <a href='/c'>HomePage</a>/<a href='https://www.iudx.org.in/overview-of-iudx/'>Overview Of IUDX</a>");
+		  }
+		
 		$("#searched_items").html(`<div class="container"></div>`);
 		for (var i = 0; i < data.length; i++) {
 			$("#searched_items").append(json_to_htmlcard(data[i]));
@@ -109,8 +136,9 @@ function get_items(_attr_name,_attr_value){
 }
 
 function set_attr_value(__attr_name,__attr_value) {
-    // ////console.log("v:",$( "#value" ).is(':visible'))
-    // ////console.log("_v:",$( "#_value" ).is(':visible'))
+	
+    // console.log("v:",$( "#value" ).is(':visible'))
+    // console.log("_v:",$( "#_value" ).is(':visible'))
     if($( "#value" ).is(':visible')){
             $( "#value" ).autocomplete({
                 source: __attr_value,
@@ -127,11 +155,11 @@ function set_attr_value(__attr_name,__attr_value) {
             });
         }
 
-    if($( "#_value" ).is(':visible')){
+    if(($( "#_value" ).is(':visible')|| $( "#_attribute" ).val() == "tags")){
 			$( "#_value" ).autocomplete({
             source: __attr_value,
             select: function( event, ui ) {
-				console.log(event,ui)
+				
                 get_items(__attr_name, ui["item"]['label'])
             }
         });

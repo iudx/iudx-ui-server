@@ -724,11 +724,11 @@ $(document).ready(function () {
     $(".se-pre-con").fadeIn("slow");
     $.get(cat_conf['cat_base_URL']+"/search", function (data, status) {
         // $.get("/list/catalogue/resource-item", function(data, status){
-        ////console.log("Data: " + data + "\nStatus: " + status);
+        // console.log("Data: " + data + "\nStatus: " + status);
         ////console.log("Rohina");
         data = JSON.parse(data)
         for (var i = data.length - 1; i >= 0; i--) {
-            // //console.log(data[i])
+            console.log(data[i])
             // //console.log(data[i]["location"]["value"]["geometry"])
             // if(data[i].hasOwnProperty('location')){
             //     // myLayer.addData(data[i]['geoJsonLocation']);
